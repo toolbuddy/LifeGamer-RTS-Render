@@ -91,12 +91,14 @@ Contains build, destory, move, and home button
 
 ## Directory
 
-- /source
-    - /img
-    - /media
-- /mainMap
-- /miniMap
-- /status
-- /room
-- /menu
-- main.js - integrate all modules
+- /src - putting front-end file here
+    - /source
+        - /img
+        - /media
+    - /mainMap
+    - /miniMap
+    - /status
+    - /room
+    - /menu
+- /backend - putting back-end file here
+- app.js - server enter point

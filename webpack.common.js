@@ -35,6 +35,10 @@ module.exports = {
                 }
             },
             {
+                test: /\.html$/,
+                use: ['html-loader']
+            },
+            {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
             },
@@ -45,6 +49,10 @@ module.exports = {
             {
                 test: /\.(.woff|woff2|eot|ttf|otf)$/,
                 use: ['file-loader']
+            },
+            {
+                test: /\.json$/,
+                use: ['json-loader']
             }
         ]
     }
