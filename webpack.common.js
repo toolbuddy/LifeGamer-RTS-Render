@@ -10,7 +10,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: './src/index.pug',
             filename: 'index.html'
         })
     ],
@@ -33,6 +33,10 @@ module.exports = {
                         presets: ['es2015']
                     }
                 }
+            },
+            {
+                test: /\.pug$/,
+                use: ['html-loader', 'pug-html-loader']
             },
             {
                 test: /\.html$/,
