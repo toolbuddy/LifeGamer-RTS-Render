@@ -1,4 +1,4 @@
-import { BaseBuilding } from './BaseBuilding'
+import BaseBuilding from './BaseBuilding'
 
 /**
  * spa class, one building of earning money building type
@@ -11,16 +11,18 @@ class SPA extends BaseBuilding {
      *
      * @param {Object} chunk - the chunk this build located at, an array contains two value, x(col) and y(row)
      * @param {Object} position - the position this build located at in chunk, an array contains two value, x(col) and y(row)
+     * @param {Object} size - the size of the building, an array contains two value, x and y
      * @param {string} imgUrl - the image url
      */
-    constructor (chunk, position, imgUrl) {
+    constructor (chunk, position, size, imgUrl) {
         super(chunk, position)
-            this.imgUrl = imgUrl
-            this.levelUpEnable = true
-            // object init
-            this.objectInit()
+        this.size = size
+        this.imgUrl = imgUrl
+        this.levelUpEnable = true
+        // object init
+        this.objectInit()
     }
 }
 
-module.exports = { SPA }
+export default SPA
 

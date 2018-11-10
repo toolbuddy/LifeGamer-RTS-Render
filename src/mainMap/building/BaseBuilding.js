@@ -9,10 +9,11 @@ class BaseBuilding {
     /**
      * @constructor
      */
-    constructor (chunk, position, imgUrl = null) {
+    constructor (chunk, position, size, imgUrl = null) {
         this.chunk = chunk
-        this.imgUrl = imgUrl
         this.position = position
+        this.size = size
+        this.imgUrl = imgUrl
         this.level = 1
         this.levelUpEnable = false
     }
@@ -22,11 +23,11 @@ class BaseBuilding {
      * @function
      */
     objectInit () {
-        this.object = PIXI.Sprite.fromImage(this.imgUrl)
+        this.object = new PIXI.Sprite.fromImage(this.imgUrl)
         this.object.x = this.position[0]
         this.object.y = this.position[1]
     }
 }
 
-module.exports = { BaseBuilding }
+export default BaseBuilding
 
