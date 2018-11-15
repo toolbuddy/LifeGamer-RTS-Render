@@ -5,7 +5,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
     entry: {
-        app: './src/index.js'
+        app: './src/index.js',
+		room: './src/room/chatRoom.js'
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),

@@ -1,14 +1,15 @@
 .ChatRoom {
+	box-sizing:border-box;
     font-family: Arial;
     height: 100%;
     width: 100%;
 }
 
+
 /* Style the tab */
 .tab {
     overflow: hidden;
 }
-
 /* Style the buttons inside the tab */
 .tab button {
     background-color: inherit;
@@ -17,7 +18,6 @@
     width: 50%;
     height: 2.5rem;
 
-    box-sizing:border-box;
     border: 0.05rem solid #ccc;
     border-bottom: none;
     border-top-left-radius:0.5rem;
@@ -32,11 +32,11 @@
 }
 
 
+
 /* Style the tab content */
 .tabcontent {
     display: none;
 
-    box-sizing:border-box;
     border: 0.05rem solid #ccc;
     height: calc(100% - 2.5rem);
     width:100%;
@@ -52,6 +52,8 @@
     width: 100%;
 }
 
+
+
 /* Style the Message input line*/
 #input{
     background-color: #ccc;
@@ -65,21 +67,18 @@
 }
 .tabcontent #content{
     width: 80%;
-
-    box-sizing:border-box;
     border: 0.1rem solid #ccc;
     border-radius: 0.25rem;
     padding-left: 0.3rem
 }
 .tabcontent #btn{
     width: 16%;
-
-    box-sizing:border-box;
     border: 0.1rem solid #ccc;
     border-radius: 0.25rem;
-    padding-left:0.3rem;
     padding-right:0.3rem;
 }
+
+
 
 
 /* Style the chat Message */
@@ -92,37 +91,47 @@
 }
 #Chat #show div span{
     background:rgb(245,242,242);
+    position: relative;
+    top: -10px;
 
-    box-sizing:border-box;
     border: 0.05rem solid #ccc;
     border-radius:0.6rem;
     padding: 0.35rem;
     
-    max-width: 100%;
+    max-width: calc(100% - 45px);
     display:inline-block; 
     word-wrap:break-word;
+    word-break: break-all;
+}
+#Chat #show div img{
+    width: 40px;
+    /*border: 0.03rem solid black;*/
+    border-radius:100%;
+    background:rgb(245,242,242);
 }
 
-#Chat #show .user{
+#Chat #show div.user{
     text-align:right;
     margin-left:30%;
     margin-right:0.4rem;
 }
-#Chat #show .user span{
+#Chat #show div.user span{
     background:rgb(53,120,229);
     color:white;
+    max-width:100%
 }
+
 
 
 /* Style the server Message */
 #ServerMsg #show div{  
     background:rgb(245,242,242);
+
     width: 90%;
     margin:0.3rem auto;
-    word-break: break-all;
-
-    box-sizing:border-box;
     border: 0.05rem solid #ccc;
     border-radius:0.6rem;
     padding: 0.35rem;
+
+    word-break: break-all;
 }

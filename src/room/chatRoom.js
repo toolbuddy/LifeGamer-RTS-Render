@@ -1,3 +1,5 @@
+import chatCSS from './style.css' 
+
 document.getElementById("Chat").style.display = "block";  //init
 document.getElementById("chatTab").className += " active";//init
 
@@ -28,54 +30,86 @@ function TabClick(evt, type) {
 }
 
 
+/*write msg from client*/
+document.querySelector("#btn").onclick = write;
 const msgInput = document.querySelector("#content");
-document.querySelector("#content").addEventListener("keypress", function(e){
+msgInput.addEventListener("keypress", function(e){
     if(e.keyCode == 13){
         write();
     }
 });
-
-document.querySelector("#btn").onclick = write();
-function write(){
+function write(){  
     var msg = msgInput.value;
-
     msg = msg.replace(/</g,"&lt");
     msg = msg.replace(/>/g,"&gt");
 
     if(msg!=""){
-        $("#Chat #show").append("<div class='user'><span>"+msg+"</span></div>");
+        var time = get_TIME();
+        $("#Chat #show").append("\
+            <div class='user'>\
+                <span title='" + time + "'>" + msg + "</span> \
+            </div>");
         $("#Chat #show").scrollTop($("#Chat #show")[0].scrollHeight);
         console.log("Message "+ msg);
         msgInput.value = "";
+
+        send_ChatMsg();
     }
 }
 
-function write_ChatMsg(msg){
-    $("#Chat #show").append("<div><span>"+msg+"</span></div>");
-    $("#Chat #show").scrollTop($("#Chat #show")[0].scrollHeight);
+/*send the msg to the server*/
+function send_ChatMsg(){
+    console.log("send");
 }
 
-function write_ServerMsg(msg){
-    $("#ServerMsg #show").append("<div>"+msg+"</div>");
+
+
+/*write msg from server*/
+function write_ChatMsg(url,sender,time,msg){    
+    var tit = sender+"  "+time
+    $("#Chat #show").append(" \
+        <div> \
+            <img src='" + url + "' title='" + tit + "'>\
+            <span>" + msg + "</span> \
+        </div>");
+    $("#Chat #show").scrollTop($("#Chat #show")[0].scrollHeight);
+}
+function write_ServerMsg(time,msg){
+    $("#ServerMsg #show").append(" \
+        <div title='" + time + "'>" + msg + "</div>");
     $("#ServerMsg #show").scrollTop($("#ServerMsg #show")[0].scrollHeight);
 }
 
-write_ChatMsg("1111111111");
 
-/*
-write_ChatMsg("1111111111111111111111111111111111111111111111");
-write_ChatMsg("1111111111");
-write_ChatMsg("1111111111");
-write_ChatMsg("1111111111111111111111111111111111111111111111");
-write_ChatMsg("1111111111111111111111111111111111111111111111");
-write_ChatMsg("1111111111111111111111111111111111111111111111");
-write_ChatMsg("1111111111111111111111111111111111111111111111");
+/*get the msg from the server*/ 
+function get_Msg(){
 
-write_ServerMsg("1111111111111111111111111111111111111111111111");
-write_ServerMsg("1111111111");
-write_ServerMsg("1111111111");
-write_ServerMsg("1111111111111111111111111111111111111111111111");
-write_ServerMsg("1111111111111111111111111111111111111111111111");
-write_ServerMsg("1111111111111111111111111111111111111111111111");
-write_ServerMsg("1111111111111111111111111111111111111111111111");
-*/
+}
+/*decode the msg from the server*/ 
+function decode_Msg(){
+
+}
+
+
+
+function get_TIME(){
+    var date = new Date();
+    var Y = date.getFullYear();
+    var M = (date.getMonth()<10)? '0'+date.getMonth() : date.getMonth();
+    var D = (date.getDate()<10)? '0'+date.getDate() : date.getDate();
+    var h = (date.getHours()<10)? '0'+date.getHours() : date.getHours();
+    var m = (date.getMinutes()<10)? '0'+date.getMinutes() : date.getMinutes();
+    var s = (date.getSeconds()<10)? '0'+date.getSeconds() : date.getSeconds();
+     
+    return Y + "/" + M + "/" + D + " " + h + ':' + m + ':' + s;
+}
+
+
+
+write_ChatMsg('https://imgur.com/MTBIqnn.png','123',get_TIME(),"111");
+write_ChatMsg('https://imgur.com/MTBIqnn.png','123',get_TIME(),"111");
+write_ChatMsg('https://imgur.com/MTBIqnn.png','456',get_TIME(),"22222222211111111111111112");
+write_ChatMsg('https://imgur.com/MTBIqnn.png','789',get_TIME(),"1111111111111111111111111111111111111111111111111111111111");
+
+write_ServerMsg(get_TIME(),"11111111111111111111111111111111");
+write_ServerMsg(get_TIME(),"11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");

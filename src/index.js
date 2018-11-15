@@ -1,8 +1,5 @@
 import index from './index.css'
 
-import chatCSS from './room/style.css'
-import chatJS from './room/chatRoom.js'
-
 const dat = require('dat.gui')
 
 var FizzyText = function() {
