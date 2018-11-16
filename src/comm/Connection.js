@@ -1,5 +1,6 @@
-import msgType from './msgType'
-import playerData from './playerData'
+import MsgType from './MsgType'
+import * as API from './API'
+const GameData = require('./GameData')
 
 /**
  * The connection function offer websocket connection to backend game engine
@@ -7,7 +8,7 @@ import playerData from './playerData'
  * @class
  */
 
-class conn {
+class Conn {
     /**
      * @constructor
      *
@@ -28,11 +29,12 @@ class conn {
      *
      */
     async init () {
-        this.playerData = new playerData()          // initialize playerdata
-        this.connection = await this.connect()      // websocket connect
-        this.connection.parent = this               // setting connection parent
-        this.connection.onmessage = this.msgHandler // setting onmessage function, msgHandler
-        this.register()                             // register
+        this.playerData = new GameData.PlayerData()             // initialize playerdata
+        this.mapData = new GameData.MapData()                   // initialize mapdata
+        this.connection = await this.connect()                  // websocket connect
+        this.connection.parent = this                           // setting connection parent
+        this.connection.onmessage = this.msgHandler             // setting onmessage function, msgHandler
+        this.register()                                         // register
     }
     /**
      * using promise to await websocket creating successful
@@ -65,26 +67,32 @@ class conn {
     /**
      * the function handling websocket message
      *
+     * @async
      * @function
      *
      * @param {Event} e - websocket event
      */
-    msgHandler (e) {
+    async msgHandler (e) {
         let msg = JSON.parse(e.data)
+        console.log(msg)
         switch (msg.Msg_type) {
-            case msgType['LogoutRequest']:
+            case MsgType['LogoutRequest']:
                 break
-            case msgType['HomePointRequest']:
-                this.parent.msgSender('HomePointResponse', this.parent.playerData.Username, {'home': {'x': 3, 'y': 3}})
+            // first play, ask for selecting one chunk to become home point
+            case MsgType['HomePointRequest']:
+                API.HomePointRegister(this.parent, {'x': 3, 'y': 3})
                 break
-            case msgType['LoginResponse']:
+            case MsgType['LoginResponse']:
                 console.log(`Welcome, ${msg.Username}`)
                 this.parent.playerData.setUsername(msg.Username) // setting username in userdata
                 break
-            case msgType['PlayerDataResponse']:
+            case MsgType['PlayerDataResponse']:
                 this.parent.playerData.updateUserData(msg) // updating userdata
+                let viewRange = await API.miniMap.calculateViewRange({'X': 3, 'Y': 4})
+                console.log(viewRange)
                 break
-            case msgType['MapDataResponse']:
+            case MsgType['MapDataResponse']:
+                this.parent.mapData.updateMapData(msg)
                 break
             default: break
         }
@@ -100,7 +108,7 @@ class conn {
      */
     msgSender (Msg_type, username, param) {
         let data = {
-            'Msg_type': msgType[Msg_type],
+            'Msg_type': MsgType[Msg_type],
             'Username': username
         }
         switch (Msg_type) {
@@ -108,10 +116,12 @@ class conn {
                 data['Home'] = { 'X': param.home.x, 'Y': param.home.y }
                 this.connection.send(JSON.stringify(data))
                 break
+            case 'MapDataRequest':
+                break
             default: break
         }
     }
 }
 
-export default conn
+export default Conn
 

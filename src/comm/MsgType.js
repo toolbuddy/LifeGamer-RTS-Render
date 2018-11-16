@@ -2,7 +2,7 @@
  * Offer msgType pair correspond to backend game engine
  */
 
-var msgType = {
+var MsgType = {
     "LoginRequest": 0,
     "PlayerDataRequest": 1,
     "MapDataRequest": 2,
@@ -14,5 +14,5 @@ var msgType = {
     "HomePointResponse": 8
 }
 
-export default msgType
+export default MsgType
 
