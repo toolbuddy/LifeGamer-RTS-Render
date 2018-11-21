@@ -38,3 +38,7 @@ html, body {
 .row-6 { height: 75%; }
 .row-7 { height: 87.5%; }
 .row-8 { height: 100%; }
+
+#menu{
+    position:relative;
+}

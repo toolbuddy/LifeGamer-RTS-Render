@@ -1,28 +1,16 @@
 import menu from './style.css'
+import img000 from './src/000.jpg'
+import img001 from './src/001.jpg'
+import img002 from './src/002.jpg'
+import img003 from './src/003.jpg'
+import img004 from './src/004.jpg'
+import img005 from './src/005.jpg'
 
-function get_data(url, cFunction){
-	var xhttp=new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			cFunction(this);
-		}
-	};
-	xhttp.open("GET", url, true);
-	xhttp.send(); 
+var img_list = {
+    img:[img000, img001, img002, img003, img004, img005], 
+    tag:['img1', 'img2', 'img3', 'img4', 'img5', 'img6'], 
 }
 
-function post_json(url, content, cFunction) {
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-            var json = JSON.parse(this.responseText);
-			cFunction(json);
-		}
-	};
-	xhttp.open("POST", url, true);
-	xhttp.setRequestHeader("Content-type", "application/json");
-	xhttp.send(JSON.stringify(content));
-}
 
 function build_click(){
 
@@ -40,43 +28,31 @@ function build_click(){
 }
 
 
-function item_click(){
+function item_click(item){
 	build_click();
-    post_json('/construct', {
-        r:99, 
-        c:99,
-    },function(res){
-        if(res.status)
-            alert('there are something at the position');
-        else
-            alert('success');
-    });
+    console.log(item);
+    
 }
 
 
 
 function destroy_click(){
-
+    console.log('destroy');
+    
 }
 function move_click(){
-
+    console.log('move');
 }
 function home_click(){
-	get_data('/home_pos', function(res){ 
-    
-    var obj = JSON.parse(res.responseText);
-    console.log(obj.r, obj.c); 
-    
-    });
-
+    console.log('home');
 }
 
-function load_items(tag_name){
+function load_items(img_list){
 
 	var item;
 
 	var build_items = document.getElementById('build_items');
-	for(var i =0; i<tag_name.length; i+=1){
+	for(var i =0; i<img_list.img.length; i+=1){
 		item = document.createElement('div');
 		item.className = 'item';
 		var c_div1 = document.createElement('div');
@@ -91,23 +67,23 @@ function load_items(tag_name){
 			num = '0'+num;
 		}
 		c_div1.setAttribute('id', 'img'+num);
-		document.getElementById('img'+num).style.backgroundImage = `url('./src/${num}.jpg')`;
+		document.getElementById('img'+num).style.backgroundImage = `url(${img_list.img[i]})`;
 		c_div1.className = 'img';
 
 		c_div2.setAttribute('id', 'tag'+num);
-		document.getElementById('tag'+num).innerHTML = `${tag_name[i]}`;
+		document.getElementById('tag'+num).innerHTML = img_list.tag[i];
 		c_div2.className = 'tag';
 
-		item.onclick = function(){item_click()};
+		item.onclick = function(){item_click(this)};
 
 	}
 }
 
 
+load_items(img_list);
 
+document.querySelector('#menu_list > div:first-child').onclick = function(){ build_click() };
+document.querySelector('#menu_list > div:nth-child(2)').onclick = function(){ destroy_click() };
+document.querySelector('#menu_list > div:nth-child(3)').onclick = function(){ move_click() };
+document.querySelector('#menu_list > div:last-child').onclick = function(){ home_click() };
 
-var tag = ['001', '002', '003', '004', '005', '006'];
-load_items(tag);
-
-document.querySelector('#menu > div:first-child').onclick = function(){ build_click() };
-document.querySelector('#menu > div:last-child').onclick = function(){ home_click() };

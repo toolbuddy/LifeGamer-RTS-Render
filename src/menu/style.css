@@ -8,22 +8,7 @@
     transform:scale(1.2, 1.2);
 }
 
-#container{
-    position:relative;
-    width:70vw;
-    height:80vh;
-    background:pink;
-}
-
-#menu_container{
-    position:absolute;
-    left:60%;
-    top:80%;
-    height:20%;
-    width:40%;
-}
-
-#menu{
+#menu_list{
 
     height:100%;
     display:flex;
@@ -35,7 +20,7 @@
 
 }
 
-#menu > .btn{
+#menu_list > .btn{
 
     display: block;
 	background: #4CAF50;
@@ -45,7 +30,7 @@
 
 }
 
-#menu > .btn:hover{
+#menu_list > .btn:hover{
     transform:scale(1.1, 1.1);
 }
 
