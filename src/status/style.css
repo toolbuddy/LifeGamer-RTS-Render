@@ -1,0 +1,83 @@
+.Status {
+    /*background-image: url(./img/background.jpg) ;*/
+    /*background:rgb(245,242,242);*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-sizing:border-box;
+    font-family: Arial;
+    height: 100%;
+    width: 100%;
+
+    border: 0.05rem solid #ccc;
+    border-radius: 30px;
+}
+
+.Status div{
+    position: relative;;
+    float: left;
+    width: 25%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* Style the character data*/
+.Status div .Container{
+    background:rgb(245,242,242);
+
+    width: 95%;
+    height: 25%;
+
+    border: 0.05rem solid #ccc;
+    border-radius: 30px;
+}
+.Status #Character .Container{
+    height: 70%;
+}
+.Status #Character .Container .Pic{
+    /*background-image: url(https://imgur.com/MTBIqnn.png);*/
+    /*background: yellow;*/
+    background-position: center ;
+    background-repeat: no-repeat;
+    background-size:  100%;  
+    border-radius: 50%;
+    height: 140px;
+    width: 140px;
+}
+
+/* Style the resource data*/
+.Status .Data .Container .icon{
+    height: 100%;
+    width: 20%;
+    left:5px;
+}
+.Status #Power .Container .icon{
+    background-image: url(../source/img/power.png) ;  
+    background-position: center ;
+    background-repeat: no-repeat;
+    background-size:  100%;  
+}
+.Status #People .Container .icon{
+    background-image: url(../source/img/people.png) ;  
+    background-position: center ;
+    background-repeat: no-repeat;
+    background-size:  100%;
+}
+.Status #Money .Container .icon{
+    background-image: url(../source/img/money.png) ;  
+    background-position: center ;
+    background-repeat: no-repeat;
+    background-size:  100%;
+}
+.Status .Data .Container .Data{  
+    height: 50%;
+    width: 75%; 
+}
+.Status .Data .Container .Data p{
+    width: 85%;
+    text-align:right;
+    /*color: rgb(rgb(109, 160, 13), green, blue)*/
+    /*background:yellow;*/
+}
