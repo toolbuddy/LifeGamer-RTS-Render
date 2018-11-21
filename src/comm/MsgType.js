@@ -12,7 +12,8 @@ var MsgType = {
     "LoginResponse": 6,
     "PlayerDataResponse": 7,
     "MapDataResponse": 8,
-    "HomePointResponse": 9
+    "MinimapDataResponse": 9,
+    "HomePointResponse": 10
 }
 
 export default MsgType

@@ -18,7 +18,7 @@ class MainMapData {
      */
     updateData (MapData) {
         this.data = MapData.sort((a, b) => {
-            return a.Chunk.Pos.Y - b.Chunk.Pos.Y || a.Chunk.Pos.X - b.Chunk.Pos.X
+            return a.Pos.Y - b.Pos.Y || a.Pos.X - b.Pos.X
         })
     }
     /**

@@ -1,5 +1,5 @@
 import MsgType from './MsgType'
-import * as API from './API'
+import * as API from '../API'
 const GameData = require('./GameData')
 
 /**
@@ -8,7 +8,7 @@ const GameData = require('./GameData')
  * @class
  */
 
-class Conn {
+class WebsocketConnection {
     /**
      * @constructor
      *
@@ -31,6 +31,7 @@ class Conn {
     async init () {
         this.playerData = new GameData.PlayerData()             // initialize playerdata
         this.mainMapData = new GameData.MainMapData()           // initialize mapdata
+        this.miniMapData = new GameData.MiniMapData()           // initialize minimapdata
         this.connection = await this.connect()                  // websocket connect
         this.connection.parent = this                           // setting connection parent
         this.connection.onmessage = this.msgHandler             // setting onmessage function, msgHandler
@@ -80,7 +81,7 @@ class Conn {
                 break
             // first play, ask for selecting one chunk to become home point
             case MsgType['HomePointRequest']:
-                API.HomePointRegister(this.parent, {'x': 3, 'y': 3})
+                API.HomePointRegister(this.parent, {'X': 3, 'Y': 3})
                 break
             case MsgType['LoginResponse']:
                 console.log(`Welcome, ${msg.Username}`)
@@ -88,11 +89,14 @@ class Conn {
                 break
             case MsgType['PlayerDataResponse']:
                 this.parent.playerData.updateUserData(msg) // updating userdata
-                let viewRange = await API.miniMap.calculateViewRange({'X': 3, 'Y': 4})
-                console.log(viewRange)
+                // API.mainMap.BuildOperRequest(this.parent, 'Upgrade', 5, {'X': 3, 'Y': 3}, {'X': 5, 'Y': 5})
+                // API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 3, 'Y': 4})
                 break
             case MsgType['MapDataResponse']:
-                this.parent.mainMapData.updateData(msg)
+                this.parent.mainMapData.updateData(msg.Chunks)
+                break
+            case MsgType['MinimapDataResponse']:
+                await this.parent.miniMapData.updateData(msg)
                 break
             default: break
         }
@@ -114,10 +118,12 @@ class Conn {
         }
         switch (Msg_type) {
             case 'HomePointResponse': // send home point response to backend server, home.x, home.y needed
-                data['Home'] = { 'X': param.home.x, 'Y': param.home.y }
+                data['Home'] = param.home
                 this.connection.send(JSON.stringify(data))
                 break
             case 'MapDataRequest':
+                data['ChunkPos'] = param.ChunkPos
+                this.connection.send(JSON.stringify(data))
                 break
             case 'BuildRequest':
                 data['Action'] = param.action // action contains Build, Upgrade, Destruct, and Repair
@@ -133,5 +139,5 @@ class Conn {
     }
 }
 
-export default Conn
+export default WebsocketConnection
 
