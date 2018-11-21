@@ -5,7 +5,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
     entry: {
-        app: './src/index.js'
+        app: './src/index.js',
+        menu: './src/menu/index.js'
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
