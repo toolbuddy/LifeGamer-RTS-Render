@@ -30,7 +30,7 @@ class Conn {
      */
     async init () {
         this.playerData = new GameData.PlayerData()             // initialize playerdata
-        this.mapData = new GameData.MapData()                   // initialize mapdata
+        this.mainMapData = new GameData.MainMapData()           // initialize mapdata
         this.connection = await this.connect()                  // websocket connect
         this.connection.parent = this                           // setting connection parent
         this.connection.onmessage = this.msgHandler             // setting onmessage function, msgHandler
@@ -92,7 +92,7 @@ class Conn {
                 console.log(viewRange)
                 break
             case MsgType['MapDataResponse']:
-                this.parent.mapData.updateMapData(msg)
+                this.parent.mainMapData.updateData(msg)
                 break
             default: break
         }
@@ -107,16 +107,26 @@ class Conn {
      * @param {Object} param - parameter for data
      */
     msgSender (Msg_type, username, param) {
+        // comm payload
         let data = {
             'Msg_type': MsgType[Msg_type],
             'Username': username
         }
         switch (Msg_type) {
-            case 'HomePointResponse':
+            case 'HomePointResponse': // send home point response to backend server, home.x, home.y needed
                 data['Home'] = { 'X': param.home.x, 'Y': param.home.y }
                 this.connection.send(JSON.stringify(data))
                 break
             case 'MapDataRequest':
+                break
+            case 'BuildRequest':
+                data['Action'] = param.action // action contains Build, Upgrade, Destruct, and Repair
+                data['Structure'] = {
+                    ID: param.structureID,
+                    Chunk: param.structureChunk,
+                    Pos: param.structurePos
+                }
+                this.connection.send(JSON.stringify(data))
                 break
             default: break
         }

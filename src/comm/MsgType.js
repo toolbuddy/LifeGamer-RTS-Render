@@ -7,11 +7,12 @@ var MsgType = {
     "PlayerDataRequest": 1,
     "MapDataRequest": 2,
     "LogoutRequest": 3,
-    "HomePointRequest": 4,
-    "LoginResponse": 5,
-    "PlayerDataResponse": 6,
-    "MapDataResponse": 7,
-    "HomePointResponse": 8
+    "BuildRequest": 4,
+    "HomePointRequest": 5,
+    "LoginResponse": 6,
+    "PlayerDataResponse": 7,
+    "MapDataResponse": 8,
+    "HomePointResponse": 9
 }
 
 export default MsgType

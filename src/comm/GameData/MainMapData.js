@@ -1,14 +1,14 @@
 /**
- * MapData: using for saving mapdata getting from backend server
+ * MainMapData: using for saving mapdata getting from backend server
  *
  * @class
  */
-class MapData {
+class MainMapData {
     /**
      * @constructor
      */
     constructor () {
-        this.mapData = []
+        this.data = []
     }
     /**
      * updating mapdata and sorting them according to their chunk position
@@ -16,8 +16,8 @@ class MapData {
      *
      * @param {Object} MapData - mapdata of the game, using for rendering on mainMap
      */
-    updateMapData (MapData) {
-        this.mapData = MapData.sort((a, b) => {
+    updateData (MapData) {
+        this.data = MapData.sort((a, b) => {
             return a.Chunk.Pos.Y - b.Chunk.Pos.Y || a.Chunk.Pos.X - b.Chunk.Pos.X
         })
     }
@@ -28,10 +28,10 @@ class MapData {
      *
      * @returns {Object} MapData - mapdata of the game
      */
-    getMapData () {
-        return this.mapData
+    getData () {
+        return this.data
     }
 }
 
-export default MapData
+export default MainMapData
 

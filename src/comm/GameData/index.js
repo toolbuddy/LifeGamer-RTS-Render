@@ -1,5 +1,5 @@
 import PlayerData from './PlayerData'
-import MapData from './MapData'
+import MainMapData from './MainMapData'
 
-module.exports = { PlayerData, MapData }
+module.exports = { PlayerData, MainMapData }
 
