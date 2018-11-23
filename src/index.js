@@ -1,5 +1,4 @@
 import index from './index.css'
-import comm from './comm/connection'
+import WebsocketConnection from './comm/Connection'
 
-const dat = require('dat.gui')
 
