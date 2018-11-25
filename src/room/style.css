@@ -83,7 +83,7 @@
 
 /* Style the chat Message */
 #Chat #show div{
-    margin-top:0.3rem;
+    margin-top:0.4rem;
     margin-bottom: 0.3rem;
 
     margin-left:0.4rem;
@@ -91,8 +91,6 @@
 }
 #Chat #show div span{
     background:rgb(245,242,242);
-    position: relative;
-    top: -10px;
 
     border: 0.05rem solid #ccc;
     border-radius:0.6rem;
@@ -105,9 +103,12 @@
 }
 #Chat #show div img{
     width: 40px;
-    /*border: 0.03rem solid black;*/
+    border: 0.03rem solid #ccc;
     border-radius:100%;
-    background:rgb(245,242,242);
+    background:rgb(190, 182, 182);
+
+    position: relative;
+    vertical-align : middle;
 }
 
 #Chat #show div.user{
@@ -118,7 +119,7 @@
 #Chat #show div.user span{
     background:rgb(53,120,229);
     color:white;
-    max-width:100%
+    max-width:100%;
 }
 
 

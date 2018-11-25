@@ -1,9 +1,128 @@
 import chatCSS from './style.css' 
 
-document.getElementById("Chat").style.display = "block";  //init
-document.getElementById("chatTab").className += " active";//init
+/** 
+ * @class Msg_Obj
+ * @type {Object}
+ * 
+ * @property {string} url - the picture of the sender
+ * @property {string} name - the name who send the message
+ * @property {string} time - the time when the message send
+ * @property {string} message - the message which user type
+ * @property {string} type - the message type (client or server msg)
+ */
+function Msg_Obj(url, name, time, msg, type) {
+    return {
+        url: url,
+        name: name,
+        time: time,
+        message : msg,
+        type : type
+    };
+}
+
+/**
+ * Send the msg to the server (Call to Server)
+ *  - the "url" parm in line42 should change to get the right data
+ *  - the "name" parm in line43 should change to get the right data
+ * 
+ * @function
+ * 
+ * @returns {Msg_Obj} - the data of the message
+ */
+document.querySelector("#btn").onclick = send_ChatMsg;
+const msgInput = document.querySelector("#content");
+msgInput.addEventListener("keypress", function(e){
+    if(e.keyCode == 13){
+        send_ChatMsg();
+    }
+});
+function send_ChatMsg(){
+    console.log("Send");
+
+    var url = 'https://imgur.com/MTBIqnn.png';                  // should change
+    var name = "123";                                           // should change
+
+    var msg = msgInput.value;
+    msg = msg.replace(/</g,"&lt");
+    msg = msg.replace(/>/g,"&gt");
+
+    if(msg!=""){
+        var time = get_TIME();
+        msgInput.value = "";
+
+        //console.log("Name : " + name + "\nTime : " + time + "\nMsg : " + msg);
+        //Show_msg(new Msg_Obj(url, name, time, msg, "client"));
+        return new Msg_Obj(url, name, time, msg, "client");
+    }
+}
 
 
+/**
+ * Show the message data get from Server (call by Server)
+ *  - the "name" parm in line79 should change to get the right condition judgement
+ * 
+ * @function
+ * 
+ * @param {object} msg_obj - the message object
+ */
+function Show_msg(msg_obj){
+
+    var url = msg_obj.url;
+    var name = msg_obj.name;
+    var time = msg_obj.time;
+    var msg = msg_obj.message;
+
+    console.log("Name : " + name + 
+                "\nTime : " + time + 
+                "\nMsg : " + msg);
+
+    if (msg_obj.type == "client"){
+        if(name == "123"){                          // should change
+            write_ChatMsg_self(time, msg);
+        }else{
+            write_ChatMsg_other(url, name, time, msg);
+        }
+    } else if (msg_obj.type == "server"){
+        write_ServerMsg(time, msg);
+    }
+}
+
+/*------------------- The following are not used for the server--------------------------*/
+
+
+
+/**
+ * write msg to webpage
+ * 
+ * @function write_ChatMsg_self - the message show in client room (right blue side)
+ * @function write_ChatMsg_other - the message show in client room (left gray side)
+ * @function write_ServerMsg - the message show in server room
+ */
+function write_ChatMsg_self(time, msg){    
+    $("#Chat #show").append("\
+        <div class='user'>\
+            <span title='" + time + "'>" + msg + "</span> \
+        </div>");
+    $("#Chat #show").scrollTop($("#Chat #show")[0].scrollHeight);
+}
+function write_ChatMsg_other(url,sender,time,msg){    
+    var tit = sender+"  "+time
+    $("#Chat #show").append(" \
+        <div> \
+            <img src='" + url + "' title='" + tit + "'>\
+            <span>" + msg + "</span> \
+        </div>");
+    $("#Chat #show").scrollTop($("#Chat #show")[0].scrollHeight);
+}
+function write_ServerMsg(time,msg){
+    $("#ServerMsg #show").append(" \
+        <div title='" + time + "'>" + msg + "</div>");
+    $("#ServerMsg #show").scrollTop($("#ServerMsg #show")[0].scrollHeight);
+}
+
+/**
+ * Show the message room which user select 
+ */
 document.querySelector("#chatTab").addEventListener("click",function(e){
     TabClick(e,"Chat");
 });
@@ -29,69 +148,11 @@ function TabClick(evt, type) {
     $("#ServerMsg #show").scrollTop($("#ServerMsg #show")[0].scrollHeight);
 }
 
-
-/*write msg from client*/
-document.querySelector("#btn").onclick = write;
-const msgInput = document.querySelector("#content");
-msgInput.addEventListener("keypress", function(e){
-    if(e.keyCode == 13){
-        write();
-    }
-});
-function write(){  
-    var msg = msgInput.value;
-    msg = msg.replace(/</g,"&lt");
-    msg = msg.replace(/>/g,"&gt");
-
-    if(msg!=""){
-        var time = get_TIME();
-        $("#Chat #show").append("\
-            <div class='user'>\
-                <span title='" + time + "'>" + msg + "</span> \
-            </div>");
-        $("#Chat #show").scrollTop($("#Chat #show")[0].scrollHeight);
-        console.log("Message "+ msg);
-        msgInput.value = "";
-
-        send_ChatMsg();
-    }
-}
-
-/*send the msg to the server*/
-function send_ChatMsg(){
-    console.log("send");
-}
-
-
-
-/*write msg from server*/
-function write_ChatMsg(url,sender,time,msg){    
-    var tit = sender+"  "+time
-    $("#Chat #show").append(" \
-        <div> \
-            <img src='" + url + "' title='" + tit + "'>\
-            <span>" + msg + "</span> \
-        </div>");
-    $("#Chat #show").scrollTop($("#Chat #show")[0].scrollHeight);
-}
-function write_ServerMsg(time,msg){
-    $("#ServerMsg #show").append(" \
-        <div title='" + time + "'>" + msg + "</div>");
-    $("#ServerMsg #show").scrollTop($("#ServerMsg #show")[0].scrollHeight);
-}
-
-
-/*get the msg from the server*/ 
-function get_Msg(){
-
-}
-/*decode the msg from the server*/ 
-function decode_Msg(){
-
-}
-
-
-
+/**
+ * Get the time when the message is send
+ * 
+ * @returns {string} - the time when the message is send
+ */
 function get_TIME(){
     var date = new Date();
     var Y = date.getFullYear();
@@ -104,12 +165,18 @@ function get_TIME(){
     return Y + "/" + M + "/" + D + " " + h + ':' + m + ':' + s;
 }
 
+document.getElementById("Chat").style.display = "block";  //init
+document.getElementById("chatTab").className += " active";//init
 
 
-write_ChatMsg('https://imgur.com/MTBIqnn.png','123',get_TIME(),"111");
-write_ChatMsg('https://imgur.com/MTBIqnn.png','123',get_TIME(),"111");
-write_ChatMsg('https://imgur.com/MTBIqnn.png','456',get_TIME(),"22222222211111111111111112");
-write_ChatMsg('https://imgur.com/MTBIqnn.png','789',get_TIME(),"1111111111111111111111111111111111111111111111111111111111");
-
-write_ServerMsg(get_TIME(),"11111111111111111111111111111111");
-write_ServerMsg(get_TIME(),"11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+/*
+// The test for render
+var test = Msg_Obj('https://imgur.com/MTBIqnn.png', "1234", get_TIME() , "哈哈哈", "client");
+var test2 = Msg_Obj('https://imgur.com/MTBIqnn.png', "123", get_TIME() , "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", "client");
+var test3 = Msg_Obj('https://imgur.com/MTBIqnn.png', "123", get_TIME() , "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", "server");
+var test4 = Msg_Obj('https://imgur.com/MTBIqnn.png', "1243", get_TIME() , "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", "client");
+Show_msg(test);
+Show_msg(test2);
+Show_msg(test3);
+Show_msg(test4);
+*/
