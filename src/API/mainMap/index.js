@@ -1,4 +1,6 @@
 import BuildOperRequest from './BuildOperRequest'
+import ChunkBuildingsInit from './ChunkBuildingsInit'
 
-module.exports = { BuildOperRequest }
+
+module.exports = { BuildOperRequest, ChunkBuildingsInit }
 

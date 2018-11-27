@@ -17,16 +17,6 @@ class BaseBuilding {
         this.chunkIndex = chunkIndex
     }
     /**
-     * The function update building status and data
-     *
-     * @param {Object} info - The newest structure data
-     */
-    objectUpdate (info) {
-        this.info = info
-        this.object.x = ((this.chunkIndex % 2) * 384) + this.info.Pos.X * 24
-        this.object.y = ((this.chunkIndex / 2) * 384) + this.info.Pos.Y * 24
-    }
-    /**
      * Init the object as PIXI.Sprite object
      *
      * @function

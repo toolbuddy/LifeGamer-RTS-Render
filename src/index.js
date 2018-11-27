@@ -1,8 +1,9 @@
 import index from './index.css'
 import WebsocketConnection from './comm/Connection'
-import mainMap from './mainMap/container'
+import MainMap from './mainMap/container'
 
-import * as Building from './mainMap/building/Building'
+import * as API from './API'
+import * as Building from './building'
 
 // container width auto setting
 
@@ -16,5 +17,6 @@ resize();
 
 // render part
 
-document.querySelector('section#mainMap').appendChild(mainMap.view)
+document.querySelector('section#mainMap').appendChild(MainMap.view)
+
 
