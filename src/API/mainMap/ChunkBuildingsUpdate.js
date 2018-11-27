@@ -9,14 +9,13 @@ import BuildingType from './BuildingType'
  * @param {Object} container - the chunk pixi container
  * @param {number} chunkIndex - the index of chunk, from 0 to 3
  * @param {Object} chunkData - the chunk map data getting from backend server
- * @returns {Promise<Object>} a promise contains chunk building data list
- * @resolve {Object} chunk building data list
  */
-export default function ChunkBuildingsInit(container, chunkIndex, chunkData) {
+export default function ChunkBuildingsUpdate(container, chunkIndex, chunkData) {
     return new Promise(async resolve => {
-        let chunkBuildings = await ListInit(chunkIndex, chunkData)
-        await ObjectInit(container, chunkBuildings)
-        resolve(chunkBuildings)
+        await ClearContainer(container)                                 // clear all objects inside container
+        let chunkBuildings = await ListInit(chunkIndex, chunkData)      // create chunk building data list
+        await ObjectInit(container, chunkBuildings)                     // insert object into container
+        resolve()
     })
 }
 
@@ -85,6 +84,21 @@ function ListInit(chunkIndex, chunkData) {
         resolve(chunkBuildings)
     })
 }
+
+/**
+ * The function clear all objects inside container
+ *
+ * @function
+ *
+ * @param {Object} container - the pixi container
+ */
+function ClearContainer(container) {
+    return new Promise(resolve => {
+        for (var i = container.children.length - 1; i >= 0; i--) { container.removeChild(container.children[i]) }
+        resolve()
+    })
+}
+
 
 /**
  * Insert all pixi sprite object into pixi container
