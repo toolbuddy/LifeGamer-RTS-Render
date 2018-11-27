@@ -1,4 +1,5 @@
 import index from './index.css'
+import WebsocketConnection from './comm/Connection'
 import mainMap from './mainMap/container'
 
 import * as Building from './mainMap/building/Building'
@@ -16,3 +17,4 @@ resize();
 // render part
 
 document.querySelector('section#mainMap').appendChild(mainMap.view)
+
