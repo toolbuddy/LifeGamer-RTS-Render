@@ -23,7 +23,7 @@ const resizeHandler = () => {
 
 // set canvas as auto resize render
 app = new PIXI.Application(width, height, {
-    backgroundColor: 0x061639,
+    backgroundColor: 0xffffff,
     autoResize: true,
     resolution: devicePixelRatio
 })
@@ -31,6 +31,7 @@ app = new PIXI.Application(width, height, {
 mainContainer = new PIXI.Container()
 
 app.stage.addChild(mainContainer)
+app.container = mainContainer
 
 // add event listener to resize renderer
 window.addEventListener('resize', resizeHandler, false)

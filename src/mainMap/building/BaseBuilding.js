@@ -8,14 +8,23 @@ import * as PIXI from 'pixi.js'
 class BaseBuilding {
     /**
      * @constructor
+     *
+     * @param {Object} info - The structure data
+     * @param {number} chunkIndex - which chunk the structure belongs to
      */
-    constructor (chunk, position, size, imgUrl = null) {
-        this.chunk = chunk
-        this.position = position
-        this.size = size
-        this.imgUrl = imgUrl
-        this.level = 1
-        this.levelUpEnable = false
+    constructor (info, chunkIndex) {
+        this.info = info
+        this.chunkIndex = chunkIndex
+    }
+    /**
+     * The function update building status and data
+     *
+     * @param {Object} info - The newest structure data
+     */
+    objectUpdate (info) {
+        this.info = info
+        this.object.x = ((this.chunkIndex % 2) * 384) + this.info.Pos.X * 24
+        this.object.y = ((this.chunkIndex / 2) * 384) + this.info.Pos.Y * 24
     }
     /**
      * Init the object as PIXI.Sprite object
@@ -24,8 +33,8 @@ class BaseBuilding {
      */
     objectInit () {
         this.object = new PIXI.Sprite.fromImage(this.imgUrl)
-        this.object.x = this.position[0]
-        this.object.y = this.position[1]
+        this.object.x = ((this.chunkIndex % 2) * 384) + this.info.Pos.X * 24
+        this.object.y = ((this.chunkIndex / 2) * 384) + this.info.Pos.Y * 24
     }
 }
 
