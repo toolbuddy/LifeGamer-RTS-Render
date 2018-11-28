@@ -1,6 +1,22 @@
 import index from './index.css'
-const dat = require('dat.gui')
+import WebsocketConnection from './comm/Connection'
+import MainMap from './mainMap/container'
 
-import mainMap from './mainMap/container'
+import * as API from './API'
+import * as Building from './building'
 
-document.querySelector('section#mainMap').appendChild(mainMap.view)
+// container width auto setting
+
+window.onresize = resize
+
+function resize() {
+    document.querySelector('.container').style.width = `${document.querySelector('#mainMap').offsetWidth + document.querySelector('.aside').offsetWidth + 1 }px`
+}
+
+resize();
+
+// render part
+
+document.querySelector('section#mainMap').appendChild(MainMap.view)
+
+
