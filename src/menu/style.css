@@ -24,9 +24,9 @@
 
     display: block;
 	background: #4CAF50;
-    width: 7vh;
-    height: 7vh;
-    margin:10px;
+    width: 10vh;
+    height: 10vh;
+    margin: 5vh;
 
 }
 
@@ -46,6 +46,8 @@
     align-items:center;
 
     overflow:scroll;
+    width: 70%;
+    left: 7vw;
 }
 
 ::-webkit-scrollbar {

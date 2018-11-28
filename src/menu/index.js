@@ -5,10 +5,16 @@ import img002 from './src/002.jpg'
 import img003 from './src/003.jpg'
 import img004 from './src/004.jpg'
 import img005 from './src/005.jpg'
+import img006 from './src/000.jpg'
+import img007 from './src/001.jpg'
+import img008 from './src/002.jpg'
+import img009 from './src/003.jpg'
+import img010 from './src/004.jpg'
+import img011 from './src/005.jpg'
 
 var img_list = {
-    img:[img000, img001, img002, img003, img004, img005], 
-    tag:['img1', 'img2', 'img3', 'img4', 'img5', 'img6'], 
+    img:[img000, img001, img002, img003, img004, img005, img006, img007, img008, img009, img010, img011], 
+    tag:['img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8', 'img9', 'img10', 'img11'], 
 }
 
 
@@ -35,11 +41,6 @@ function item_click(item){
 }
 
 
-
-function destroy_click(){
-    console.log('destroy');
-    
-}
 function move_click(){
     console.log('move');
 }
@@ -83,7 +84,6 @@ function load_items(img_list){
 load_items(img_list);
 
 document.querySelector('#menu_list > div:first-child').onclick = function(){ build_click() };
-document.querySelector('#menu_list > div:nth-child(2)').onclick = function(){ destroy_click() };
-document.querySelector('#menu_list > div:nth-child(3)').onclick = function(){ move_click() };
+document.querySelector('#menu_list > div:nth-child(2)').onclick = function(){ move_click() };
 document.querySelector('#menu_list > div:last-child').onclick = function(){ home_click() };
 
