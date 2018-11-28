@@ -30,6 +30,6 @@ html, body {
 .aside {
     height: 100vh;
     width: calc(100vw - 100vh);
-    min-width: 300px;
+    min-width: 350px;
     float: left;
 }
