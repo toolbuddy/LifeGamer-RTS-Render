@@ -3,12 +3,15 @@ html
     head
         meta(charset="utf-8" name="viewport" content="width=device-width")
         title WEB-RTS-Game
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
     body
         div.container
             div.col-6
                 section#mainMap.row-6
                 section#statusBar.row-2
+                    include status/status.pug
             div.col-4
                 section#miniMap.row-2
                 section#room.row-4
+                    include room/chatRoom.pug
                 section#menu.row-2
