@@ -9,12 +9,13 @@ import BuildingType from './BuildingType'
  * @param {Object} container - the chunk pixi container
  * @param {number} chunkIndex - the index of chunk, from 0 to 3
  * @param {Object} chunkData - the chunk map data getting from backend server
+ * @param {WebsocketConnection} conn - the websocket connection
  */
-export default function ChunkBuildingsUpdate(container, chunkIndex, chunkData) {
+export default function ChunkBuildingsUpdate(container, chunkIndex, chunkData, conn) {
     return new Promise(async resolve => {
-        await ClearContainer(container)                                 // clear all objects inside container
-        let chunkBuildings = await ListInit(chunkIndex, chunkData)      // create chunk building data list
-        await ObjectInit(container, chunkBuildings)                     // insert object into container
+        await ClearContainer(container)                                     // clear all objects inside container
+        let chunkBuildings = await ListInit(chunkIndex, chunkData, conn)    // create chunk building data list
+        await ObjectInit(container, chunkBuildings)                         // insert object into container
         resolve()
     })
 }
@@ -26,44 +27,45 @@ export default function ChunkBuildingsUpdate(container, chunkIndex, chunkData) {
  *
  * @param {number} chunkIndex - the index of chunk, from 0 to 3
  * @param {Object} chunkData - the chunk map data getting from backend server
+ * @param {WebsocketConnection} conn - the websocket connection
  * @returns {Promise<Object>} a promise contains chunk building data list
  * @resolve {Object} chunk building data list
  */
 
-function ListInit(chunkIndex, chunkData) {
+function ListInit(chunkIndex, chunkData, conn) {
     var chunkBuildings = {'buildings': []}
     return new Promise(resolve => {
         for (let building of chunkData) {
             switch (building.ID) {
                 case BuildingType['ThermalPowerPlant']:
                     chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.ThermalPowerPlant(building, chunkIndex)
+                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.ThermalPowerPlant(building, chunkIndex, conn)
                     break
                 case BuildingType['WaterPowerPlant']:
                     break
                 case BuildingType['WindPowerPlant']:
                     chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.WindPowerPlant(building, chunkIndex)
+                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.WindPowerPlant(building, chunkIndex, conn)
                     break
                 case BuildingType['TidalPowerPlant']:
                     break
                 case BuildingType['SolarPowerPlant']:
                     chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.SolarPowerPlant(building, chunkIndex)
+                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.SolarPowerPlant(building, chunkIndex, conn)
                     break
                 case BuildingType['GeoThermalPowerPlant']:
                     chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.GeoThermalPowerPlant(building, chunkIndex)
+                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.GeoThermalPowerPlant(building, chunkIndex, conn)
                     break
                 case BuildingType['BitCoinMiner']:
                     chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.BitCoinMiner(building, chunkIndex)
+                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.BitCoinMiner(building, chunkIndex, conn)
                     break
                 case BuildingType['Sawmill']:
                     break
                 case BuildingType['FishFarm']:
                     chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.FishFarm(building, chunkIndex)
+                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.FishFarm(building, chunkIndex, conn)
                     break
                 case BuildingType['ICFab']:
                     break
