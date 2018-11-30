@@ -1,9 +1,9 @@
 /**
- * The function return 9-elements array contains map chunk data request
+ * The function return 4-elements array contains map chunk data request
  *
  * @function
  *
- * @param {Object} viewPoint - contains X and Y
+ * @param {Object} viewPoint - contains X and Y, remember to give the top-left corner point
  * @returns {Promise<Object>} a promise contains 4-elements array
  * @resolve {Object} a 4-elements array
  */
@@ -12,7 +12,7 @@ function calculateViewRange (ViewPoint) {
     return new Promise((resolve, reject) => {
         let viewRange = []
         for (let i = 0; i < 4; i++) {
-            viewRange.push({ 'X': ViewPoint.X + (i%2 - 1), 'Y': ViewPoint.Y + Math.floor((i/2) - 1) })
+            viewRange.push({ 'X': ViewPoint.X + (i%2), 'Y': ViewPoint.Y + Math.floor((i/2)) })
         }
         resolve(viewRange)
     })
