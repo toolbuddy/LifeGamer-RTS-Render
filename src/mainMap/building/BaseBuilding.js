@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import * as API from '../API'
+import * as API from '../../API'
 
 /* import button Icon svg */
 import cancelIcon from './static/buttonIcon/cancel.svg'

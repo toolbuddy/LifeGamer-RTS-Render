@@ -1,4 +1,4 @@
-import * as Building from '../../building'
+import * as Building from '../../mainMap/building'
 import BuildingType from './BuildingType'
 
 /**
@@ -6,17 +6,19 @@ import BuildingType from './BuildingType'
  *
  * @function
  *
- * @param {Object} container - the chunk pixi container
+ * @param {PIXI.Container} container - the chunk pixi container
  * @param {number} chunkIndex - the index of chunk, from 0 to 3
  * @param {Object} chunkData - the chunk map data getting from backend server
  * @param {WebsocketConnection} conn - the websocket connection
+ * @returns {Promise<Object>} a promise contains chunk building list
+ * @resolve {Object} chunk building list
  */
 export default function ChunkBuildingsUpdate(container, chunkIndex, chunkData, conn) {
     return new Promise(async resolve => {
         await ClearContainer(container)                                     // clear all objects inside container
         let chunkBuildings = await ListInit(chunkIndex, chunkData, conn)    // create chunk building data list
         await ObjectInit(container, chunkBuildings)                         // insert object into container
-        resolve()
+        resolve(chunkBuildings)
     })
 }
 
@@ -92,7 +94,7 @@ function ListInit(chunkIndex, chunkData, conn) {
  *
  * @function
  *
- * @param {Object} container - the pixi container
+ * @param {PIXI.Container} container - the pixi container
  */
 function ClearContainer(container) {
     return new Promise(resolve => {
@@ -107,7 +109,7 @@ function ClearContainer(container) {
  *
  * @function
  *
- * @param {Object} container - the chunk pixi container
+ * @param {PIXI.Container} container - the chunk pixi container
  * @param {Object} chunkBuildings - chunk building data list
  */
 
