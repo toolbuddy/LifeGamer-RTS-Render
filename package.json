@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/toolbuddy/LifeGamer-RTS-Render#readme",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "dat.gui": "^0.7.3",
     "express": "^4.16.4",
     "pixi.js": "^4.8.2"

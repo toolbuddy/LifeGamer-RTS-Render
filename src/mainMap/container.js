@@ -38,3 +38,4 @@ window.addEventListener('resize', resizeHandler, false)
 resizeHandler()
 
 export default app
+
