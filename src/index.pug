@@ -6,12 +6,9 @@ html
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
     body
         div.container
-            div.col-6
-                section#mainMap.row-6
-                section#statusBar.row-2
-                    include status/status.pug
-            div.col-4
-                section#miniMap.row-2
-                section#room.row-4
-                    include room/chatRoom.pug
-                section#menu.row-2
+            section#mainMap
+            div.aside
+                section#statusBar.row-1
+                section#miniMap.row-3
+                section#room.row-3
+                section#menu.row-1
