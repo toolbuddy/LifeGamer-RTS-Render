@@ -3,7 +3,7 @@ import WebsocketConnection from './comm/Connection'
 import MainMap from './mainMap/container'
 
 import * as API from './API'
-import * as Building from './building'
+//import * as Building from './mainMap/building'
 
 // container width auto setting
 
