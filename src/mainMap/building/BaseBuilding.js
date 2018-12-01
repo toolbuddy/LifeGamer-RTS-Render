@@ -43,31 +43,40 @@ class BaseBuilding {
     async objectInit () {
         this.object = new PIXI.Sprite.fromImage(this.imgUrl)
         this.object.x = ((this.chunkIndex % 2) * 384) + this.info.Pos.X * 24
-        this.object.y = ((this.chunkIndex / 2) * 384) + this.info.Pos.Y * 24
+        this.object.y = (Math.floor(this.chunkIndex / 2) * 384) + this.info.Pos.Y * 24
 
         this.object._parent = this
         this.object.interactive = true
 
+        // setting building zindex
+        this.object.zIndex = 10
+
         this.tooltip = await this.tooltipCreate()
+
+        // setting tooltip zindex
+        this.tooltip.zIndex = 99
 
         this.buttonList = await this.buttonListCreate()
         await this.modifyButtonPosition()
+
+        // setting buttonList zindex
+        this.buttonList.zIndex = 99
 
         // mouse over function setting
         this.object.mouseover = function(mouseData) {
             this._parent.isHover = true
             if (!this._parent.isClicked) {
                 this.parent.addChild(this._parent.tooltip)
-                this._parent.tooltip.x = mouseData.data.global.x + 20
-                this._parent.tooltip.y = mouseData.data.global.y - 20
+                this._parent.tooltip.x = (mouseData.data.global.x + this._parent.tooltip.width < (756 - 20)) ? mouseData.data.global.x + 20 : mouseData.data.global.x - 20 - this._parent.tooltip.width
+                this._parent.tooltip.y = (mouseData.data.global.y + this._parent.tooltip.height < (756 - 20)) ? mouseData.data.global.y + 20 : mouseData.data.global.y - this._parent.tooltip.height + 20
             }
         }
 
         // mouse move function setting
         this.object.mousemove = function(mouseData) {
             if (this._parent.isHover && !this._parent.isClicked) {
-                this._parent.tooltip.x = mouseData.data.global.x + 20
-                this._parent.tooltip.y = mouseData.data.global.y - 20
+                this._parent.tooltip.x = (mouseData.data.global.x + this._parent.tooltip.width < (756 - 20)) ? mouseData.data.global.x + 20 : mouseData.data.global.x - 20 - this._parent.tooltip.width
+                this._parent.tooltip.y = (mouseData.data.global.y + this._parent.tooltip.height < (756 - 20)) ? mouseData.data.global.y + 20 : mouseData.data.global.y - this._parent.tooltip.height + 20
             }
         }
 
@@ -86,8 +95,8 @@ class BaseBuilding {
                 this.parent.removeChild(this._parent.tooltip)
             }
             this.parent.addChild(this._parent.buttonList)
-            this._parent.buttonList.x = mouseData.data.global.x + 20
-            this._parent.buttonList.y = mouseData.data.global.y - 20
+            this._parent.buttonList.x = (mouseData.data.global.x + this._parent.buttonList.width < (756 - 20)) ? mouseData.data.global.x + 20 : mouseData.data.global.x - 20 - this._parent.buttonList.width
+            this._parent.buttonList.y = (mouseData.data.global.y + this._parent.buttonList.height < (756 - 20)) ? mouseData.data.global.y + 20 : mouseData.data.global.y - this._parent.buttonList.height + 20
         })
     }
     /**

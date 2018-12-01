@@ -97,15 +97,13 @@ class WebsocketConnection {
                 break
             case MsgType['PlayerDataResponse']:
                 this.parent.playerData.updateUserData(msg) // updating userdata
-                // API.mainMap.BuildOperRequest(this.parent, 'Upgrade', 5, {'X': 3, 'Y': 3}, {'X': 5, 'Y': 5})
-                API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 1, 'Y': 0})
+                // API.mainMap.BuildOperRequest(this.parent, 'Build', 10, {'X': 1, 'Y': 1}, {'X': 12, 'Y': 12})
+                // API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': Math.floor(Math.random() * 10), 'Y': 0})
                 break
             case MsgType['MapDataResponse']:
                 await this.parent.mainMapData.updateData(msg.Chunks)
-                for (let i = 0; i < this.parent.mainMapData.data.length; ++i) {
-                    await API.mainMap.ChunkEnvUpdate(this.parent.mainMap.children[i].children[0], i, this.parent.mainMapData.data[i].Blocks)
-                    await API.mainMap.ChunkBuildingsUpdate(this.parent.mainMap.children[i].children[1], i, this.parent.mainMapData.data[i].Structures, this.parent)
-                }
+                await API.mainMap.ChunkEnvUpdate(this.parent.mainMap.children[0], this.parent.mainMapData.data)
+                await API.mainMap.ChunkBuildingsUpdate(this.parent.mainMap.children[1], this.parent.mainMapData.data, this.parent)
                 break
             case MsgType['MinimapDataResponse']:
                 await this.parent.miniMapData.updateData(msg)

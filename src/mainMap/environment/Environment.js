@@ -38,6 +38,9 @@ class Environment {
         // set position
         this.object.x = (this.chunkIndex%2) * 384 + this.x * spaceSize
         this.object.y = Math.floor((this.chunkIndex/2)) * 384 + this.y * spaceSize
+
+        // set zindex
+        this.object.zIndex = 0
     }
 }
 

@@ -8,15 +8,14 @@ import Environment from '../../mainMap/environment/Environment'
  * @function
  *
  * @param {PIXI.Container} container - the env pixi container
- * @param {number} chunkIndex - the index of chunk, from 0 to 3
- * @param {Object} env - the env data, its inside the chunk
+ * @param {Object} MapData - the map data getting from backend
  */
 
-export default function ChunkEnvUpdate(container, chunkIndex, env) {
+export default function ChunkEnvUpdate(container, MapData) {
     return new Promise(async resolve => {
         await ClearContainer(container)
-        let environment = await ListInit(chunkIndex, env)
-        await ObjectInit(chunkIndex, container, environment)
+        let environment = await ListInit(MapData)
+        await ObjectInit(container, environment)
         resolve()
     })
 }
@@ -42,17 +41,18 @@ function ClearContainer(container) {
  *
  * @function
  *
- * @param {number} chunkIndex - the index of chunk, from 0 to 3
- * @param {Object} env - env type, 2-d 16*16 array
+ * @param {Object} MapData - map data, getting from backend
  * @returns {Promise<Object>} a promise contains environment list
  * @resolve {Object} environment list
  */
-function ListInit(chunkIndex, env) {
+function ListInit(MapData) {
     var chunkEnv = []
     return new Promise(resolve => {
-        for (let i = 0; i < 16; ++i) {
-            for (let j = 0; j < 16; ++j) {
-                chunkEnv.push(new Environment(EnvType[env[i][j].Terrain], chunkIndex, i, j))
+        for (let n = 0; n < MapData.length; ++n) {
+            for (let i = 0; i < 16; ++i) {
+                for (let j = 0; j < 16; ++j) {
+                    chunkEnv.push(new Environment(EnvType[MapData[n].Blocks[i][j].Terrain], n, i, j))
+                }
             }
         }
         resolve(chunkEnv)
@@ -65,16 +65,15 @@ function ListInit(chunkIndex, env) {
  * @async
  * @function
  *
- * @param {number} chunkIndex - the index of chunk, from 0 to 3
  * @param {PIXI.Container} container - the env pixi container
  * @param {Object} environmentList - env list, 1-d array
  */
-function ObjectInit(chunkIndex, container, environmentList) {
+function ObjectInit(container, environmentList) {
     return new Promise(async resolve => {
         for (let env of environmentList) {
             container.addChild(env.object)
         }
-        let border = await BorderCreate(chunkIndex)
+        let border = await BorderCreate()
         container.addChild(border)
         resolve()
     })
@@ -85,38 +84,39 @@ function ObjectInit(chunkIndex, container, environmentList) {
  *
  * @function
  *
- * @param {number} chunkIndex - the index of chunk, from 0 to 3
  * @returns {Promise<PIXI.Graphics>} a promise contains border PIXI.Graphics object
  * @resolve {PIXI.Graphics} border PIXI.Graphics object
  */
-function BorderCreate(chunkIndex) {
+function BorderCreate() {
     return new Promise(resolve => {
         let border = new PIXI.Graphics()
         // draw pos border
         border.nativeLines = true
         border.lineStyle(1, 0x000000, 0.1)
-        for (let i = 1; i < 16; ++i) {
+        for (let i = 0; i < 32; ++i) {
             border.moveTo(0, 24 * i)
-            border.lineTo(384, 24 * i)
-        }
-
-        for (let i = 1; i < 16; ++i) {
+            border.lineTo(768, 24 * i)
             border.moveTo(24 * i, 0)
-            border.lineTo(24 * i, 384)
+            border.lineTo(24 * i, 768)
         }
 
         // draw chunk border
         border.lineStyle(1, 0x000000, 0.7)
         border.nativeLines = false
         border.moveTo(0, 0)
-        border.lineTo(384, 0)
-        border.lineTo(384, 384)
-        border.lineTo(0, 384)
+        border.lineTo(768, 0)
+        border.lineTo(768, 768)
+        border.lineTo(0, 768)
         border.lineTo(0, 0)
 
-        // position setting
-        border.x = (chunkIndex % 2) * 384
-        border.y = Math.floor(chunkIndex / 2) * 384
+        border.moveTo(384, 0)
+        border.lineTo(384, 768)
+        border.moveTo(0, 384)
+        border.lineTo(768, 384)
+
+        // set zindex
+        border.zIndex = 1
+
         resolve(border)
     })
 }

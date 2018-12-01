@@ -7,17 +7,17 @@ import BuildingType from './BuildingType'
  * @function
  *
  * @param {PIXI.Container} container - the chunk pixi container
- * @param {number} chunkIndex - the index of chunk, from 0 to 3
- * @param {Object} chunkData - the chunk map data getting from backend server
+ * @param {Object} MapData - the map data getting from backend server
  * @param {WebsocketConnection} conn - the websocket connection
  * @returns {Promise<Object>} a promise contains chunk building list
  * @resolve {Object} chunk building list
  */
-export default function ChunkBuildingsUpdate(container, chunkIndex, chunkData, conn) {
+export default function ChunkBuildingsUpdate(container, MapData, conn) {
     return new Promise(async resolve => {
         await ClearContainer(container)                                     // clear all objects inside container
-        let chunkBuildings = await ListInit(chunkIndex, chunkData, conn)    // create chunk building data list
+        let chunkBuildings = await ListInit(MapData, conn)                  // create chunk building data list
         await ObjectInit(container, chunkBuildings)                         // insert object into container
+        container.zIndex = 10                                               // setting buildings layer zindex
         resolve(chunkBuildings)
     })
 }
@@ -27,62 +27,64 @@ export default function ChunkBuildingsUpdate(container, chunkIndex, chunkData, c
  *
  * @function
  *
- * @param {number} chunkIndex - the index of chunk, from 0 to 3
- * @param {Object} chunkData - the chunk map data getting from backend server
+ * @param {Object} MapData - the map data getting from backend server
  * @param {WebsocketConnection} conn - the websocket connection
  * @returns {Promise<Object>} a promise contains chunk building data list
  * @resolve {Object} chunk building data list
  */
 
-function ListInit(chunkIndex, chunkData, conn) {
-    var chunkBuildings = {'buildings': []}
+function ListInit(MapData, conn) {
+    var chunkBuildings = []
+    for (let i = 0; i < MapData.length; ++i) chunkBuildings.push({ 'buildings': [] })
     return new Promise(resolve => {
-        for (let building of chunkData) {
-            switch (building.ID) {
-                case BuildingType['ThermalPowerPlant']:
-                    chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.ThermalPowerPlant(building, chunkIndex, conn)
-                    break
-                case BuildingType['WaterPowerPlant']:
-                    break
-                case BuildingType['WindPowerPlant']:
-                    chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.WindPowerPlant(building, chunkIndex, conn)
-                    break
-                case BuildingType['TidalPowerPlant']:
-                    break
-                case BuildingType['SolarPowerPlant']:
-                    chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.SolarPowerPlant(building, chunkIndex, conn)
-                    break
-                case BuildingType['GeoThermalPowerPlant']:
-                    chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.GeoThermalPowerPlant(building, chunkIndex, conn)
-                    break
-                case BuildingType['BitCoinMiner']:
-                    chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.BitCoinMiner(building, chunkIndex, conn)
-                    break
-                case BuildingType['Sawmill']:
-                    break
-                case BuildingType['FishFarm']:
-                    chunkBuildings.buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                    chunkBuildings[`(${building.Pos.X},${building.Pos.Y})`] = new Building.FishFarm(building, chunkIndex, conn)
-                    break
-                case BuildingType['ICFab']:
-                    break
-                case BuildingType['Pasture']:
-                    break
-                case BuildingType['Hotspring']:
-                    break
-                case BuildingType['SmallMilitaryCamp']:
-                    break
-                case BuildingType['MediumMilitaryCamp']:
-                    break
-                case BuildingType['LargeMilitaryCamp']:
-                    break
-                case BuildingType['Observatory']:
-                    break
+        for (let i = 0; i < MapData.length; ++i) {
+            for (let building of MapData[i].Structures) {
+                switch (building.ID) {
+                    case BuildingType['ThermalPowerPlant']:
+                        chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.ThermalPowerPlant(building, i, conn)
+                        break
+                    case BuildingType['WaterPowerPlant']:
+                        break
+                    case BuildingType['WindPowerPlant']:
+                        chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.WindPowerPlant(building, i, conn)
+                        break
+                    case BuildingType['TidalPowerPlant']:
+                        break
+                    case BuildingType['SolarPowerPlant']:
+                        chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.SolarPowerPlant(building, i, conn)
+                        break
+                    case BuildingType['GeoThermalPowerPlant']:
+                        chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.GeoThermalPowerPlant(building, i, conn)
+                        break
+                    case BuildingType['BitCoinMiner']:
+                        chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.BitCoinMiner(building, i, conn)
+                        break
+                    case BuildingType['Sawmill']:
+                        break
+                    case BuildingType['FishFarm']:
+                        chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.FishFarm(building, i, conn)
+                        break
+                    case BuildingType['ICFab']:
+                        break
+                    case BuildingType['Pasture']:
+                        break
+                    case BuildingType['Hotspring']:
+                        break
+                    case BuildingType['SmallMilitaryCamp']:
+                        break
+                    case BuildingType['MediumMilitaryCamp']:
+                        break
+                    case BuildingType['LargeMilitaryCamp']:
+                        break
+                    case BuildingType['Observatory']:
+                        break
+                    }
             }
         }
         resolve(chunkBuildings)
@@ -115,8 +117,10 @@ function ClearContainer(container) {
 
 function ObjectInit(container, chunkBuildings) {
     return new Promise(resolve => {
-        for (let building of chunkBuildings.buildings) {
-            container.addChild(chunkBuildings[building].object)
+        for (let i = 0; i < chunkBuildings.length; ++i) {
+            for (let building of chunkBuildings[i].buildings) {
+                container.addChild(chunkBuildings[i][building].object)
+            }
         }
         resolve()
     })
