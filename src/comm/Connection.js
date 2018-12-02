@@ -89,7 +89,7 @@ class WebsocketConnection {
                 break
             // first play, ask for selecting one chunk to become home point
             case MsgType['HomePointRequest']:
-                API.HomePointRegister(this.parent, {'X': 3, 'Y': 3})
+                API.HomePointRegister(this.parent, {'X': 0, 'Y': 0})
                 break
             case MsgType['LoginResponse']:
                 console.log(`Welcome, ${msg.Username}`)
@@ -98,7 +98,8 @@ class WebsocketConnection {
             case MsgType['PlayerDataResponse']:
                 this.parent.playerData.updateUserData(msg) // updating userdata
                 // API.mainMap.BuildOperRequest(this.parent, 'Build', 10, {'X': 1, 'Y': 1}, {'X': 12, 'Y': 12})
-                // API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': Math.floor(Math.random() * 10), 'Y': 0})
+                API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 0, 'Y': 0})
+                // console.log(await API.mainMap.CalcAllowBuildPoint(this.parent.mainMapData.data, 'BitCoinMiner'))
                 break
             case MsgType['MapDataResponse']:
                 await this.parent.mainMapData.updateData(msg.Chunks)

@@ -77,7 +77,7 @@ var structures = {
         "Power" : -2000,
         "Human" : -1,
         "Money" : 5000,
-        "Size" : 2
+        "Size" : 4
     },
     'Sawmill': {
         "ID" : 11,
