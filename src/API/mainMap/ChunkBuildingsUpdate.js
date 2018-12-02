@@ -1,5 +1,5 @@
 import * as Building from '../../mainMap/building'
-import BuildingType from './BuildingType'
+import structures from './Structure'
 
 /**
  * The function creating all building objects by given data inside the chunk and return chunk building data list
@@ -40,49 +40,49 @@ function ListInit(MapData, conn) {
         for (let i = 0; i < MapData.length; ++i) {
             for (let building of MapData[i].Structures) {
                 switch (building.ID) {
-                    case BuildingType['ThermalPowerPlant']:
+                    case structures['ThermalPowerPlant'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
                         chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.ThermalPowerPlant(building, i, conn)
                         break
-                    case BuildingType['WaterPowerPlant']:
+                    case structures['WaterPowerPlant'].ID:
                         break
-                    case BuildingType['WindPowerPlant']:
+                    case structures['WindPowerPlant'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
                         chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.WindPowerPlant(building, i, conn)
                         break
-                    case BuildingType['TidalPowerPlant']:
+                    case structures['TidalPowerPlant'].ID:
                         break
-                    case BuildingType['SolarPowerPlant']:
+                    case structures['SolarPowerPlant'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
                         chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.SolarPowerPlant(building, i, conn)
                         break
-                    case BuildingType['GeoThermalPowerPlant']:
+                    case structures['GeoThermalPowerPlant'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
                         chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.GeoThermalPowerPlant(building, i, conn)
                         break
-                    case BuildingType['BitCoinMiner']:
+                    case structures['BitCoinMiner'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
                         chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.BitCoinMiner(building, i, conn)
                         break
-                    case BuildingType['Sawmill']:
+                    case structures['Sawmill'].ID:
                         break
-                    case BuildingType['FishFarm']:
+                    case structures['FishFarm'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
                         chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.FishFarm(building, i, conn)
                         break
-                    case BuildingType['ICFab']:
+                    case structures['ICFab'].ID:
                         break
-                    case BuildingType['Pasture']:
+                    case structures['Pasture'].ID:
                         break
-                    case BuildingType['Hotspring']:
+                    case structures['Hotspring'].ID:
                         break
-                    case BuildingType['SmallMilitaryCamp']:
+                    case structures['SmallMilitaryCamp'].ID:
                         break
-                    case BuildingType['MediumMilitaryCamp']:
+                    case structures['MediumMilitaryCamp'].ID:
                         break
-                    case BuildingType['LargeMilitaryCamp']:
+                    case structures['LargeMilitaryCamp'].ID:
                         break
-                    case BuildingType['Observatory']:
+                    case structures['Observatory'].ID:
                         break
                     }
             }
