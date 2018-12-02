@@ -10,13 +10,11 @@ const p_Money = document.querySelector("#Money .Data p");
  * 
  * @function
  * 
- * @param {string} CharUrl - the character picture
- * @param {string} CharName - the character name
  * @param {string | int} Power - the value of Power
  * @param {string | int} People - the value of People
  * @param {string | int} Money - the value of Money
  */
-function writeData(CharUrl, CharName, Power, People, Money){
+export default function writeData(Power, People, Money){
 
     //CharPic.style.backgroundImage = "url(" + CharUrl + ")";
     //CharPic.title = CharName;
@@ -27,5 +25,3 @@ function writeData(CharUrl, CharName, Power, People, Money){
 
 }
 
-// The test for render
-writeData("https://imgur.com/MTBIqnn.png", "Thrive", "123456", 456, 7890)

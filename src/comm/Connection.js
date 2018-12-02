@@ -2,6 +2,10 @@ import MsgType from './MsgType'
 import * as API from '../API'
 const GameData = require('./GameData')
 
+import UpdateStatus from '../status/status'
+
+var flag = false
+
 /**
  * The connection function offer websocket connection to backend game engine
  *
@@ -98,7 +102,11 @@ class WebsocketConnection {
             case MsgType['PlayerDataResponse']:
                 this.parent.playerData.updateUserData(msg) // updating userdata
                 // API.mainMap.BuildOperRequest(this.parent, 'Build', 10, {'X': 1, 'Y': 1}, {'X': 12, 'Y': 12})
-                // API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': Math.floor(Math.random() * 10), 'Y': 0})
+                UpdateStatus(msg.Power, msg.Human, msg.Money)
+                if(!flag) {
+                    API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 1, 'Y': 0})
+                    flag = true
+                }
                 break
             case MsgType['MapDataResponse']:
                 await this.parent.mainMapData.updateData(msg.Chunks)
