@@ -6,7 +6,7 @@
 }
 
 
-/* Style the tab */
+/* Style the tab container*/
 .tab {
     overflow: hidden;
 }
@@ -20,8 +20,6 @@
 
     border: 0.05rem solid #ccc;
     border-bottom: none;
-    border-top-left-radius:0.5rem;
-    border-top-right-radius:0.5rem;
     padding: 0.5rem 0.6rem;
     transition: 0.3s;
     font-size: 17px;
@@ -33,10 +31,9 @@
 
 
 
-/* Style the tab content */
+/* Style the tab content (messagebox container) */
 .tabcontent {
     display: none;
-
     border: 0.05rem solid #ccc;
     height: calc(100% - 2.5rem);
     width:100%;
