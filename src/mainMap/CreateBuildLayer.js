@@ -54,10 +54,12 @@ export default function CreateBuildLayer (conn, MapData, building) {
         }
 
         layer.on('pointerdown', function(mouseData) {
+            this.isHover = false
             let chunkIndex = Math.floor(mouseData.data.global.x / (layerSize / chunkCoor)) + Math.floor(mouseData.data.global.y / (layerSize / chunkCoor)) * chunkCoor
             let x = Math.floor(mouseData.data.global.x / spaceSize) % spaceCoor
             let y = Math.floor(mouseData.data.global.y / spaceSize) % spaceCoor
             API.mainMap.BuildOperRequest(conn, 'Build', Structures[building].ID, mapData[chunkIndex].Pos, {'X': x, 'Y': y})
+            this.parent.removeChild(this)
             API.miniMap.ViewRangeMapdataRequest(conn, {'X': 0, 'Y': 0})
         })
 
