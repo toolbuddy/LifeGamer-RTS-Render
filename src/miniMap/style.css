@@ -1,0 +1,50 @@
+body{
+  background-color: gray;
+}
+#test{
+  position: absolute;
+  left: 32px;
+  top: 32px;
+  width: 32px;
+  height: 32px;
+  background-color: #FFFFFF;
+}
+#testDsp1{
+  position: absolute;
+  left: 128px;
+  top: 32px;
+  width: 400px;
+  height: 32px;
+  background-color: #FFFFFF;
+}
+#testDsp2{
+  position: absolute;
+  left: 550px;
+  top: 32px;
+  width: 400px;
+  height: 32px;
+  background-color: #FFFFFF;
+}
+#testDsp3{
+  position: absolute;
+  left: 128px;
+  top: 70px;
+  width: 400px;
+  height: 32px;
+  background-color: #FFFFFF;
+}
+#testDsp4{
+  position: absolute;
+  left: 32px;
+  top: 128px;
+  width: 224px;
+  height: 80px;
+  background-color: #FFFFFF;
+}
+#miniMap{
+  position: absolute;
+  left: 280px;
+  top: 128px;
+  width: 640px;
+  height: 640px;
+}
