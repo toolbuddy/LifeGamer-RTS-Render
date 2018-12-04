@@ -101,6 +101,22 @@ function drawMiniMap() {
   app.stage.addChild(miniMapTmp);
 }
 
+function searchTerrain(x, y) {
+  $.getJSON("./mapData.json", (json) => {
+    var data = json;
+    for (var i = 0; i < mapSize; ++i)
+    {
+      if (data[i].x == x)
+      {
+        if (data[i].y == y)
+        {
+          document.getElementById("dsp_5").innerHTML = "terrain: " + data[i].terrain;
+        }
+      }
+    }
+  });
+}
+
 /* main function start*/
 
 // first load
@@ -143,6 +159,8 @@ dspCan.addEventListener("mouseover", () => {
     var focusX = dspXcen + coutClub(dstX);
     var focusY = dspYcen + coutClub(dstY);
     document.getElementById("dsp_3").innerHTML = "focusX: " + focusX + " focusY: " + focusY;
+    searchTerrain(focusX, focusY);
+
     if (Math.abs(dstX) > Math.abs(dstY))
     {
       if (Math.abs(dstX) > 160)
@@ -203,4 +221,5 @@ dspCan.addEventListener("mouseout", () => {
   clearInterval(dspTimer);
   document.getElementById("dsp_2").innerHTML = "dstX: dstY:";
   document.getElementById("dsp_3").innerHTML = "focusX: focusY:";
+  document.getElementById("dsp_5").innerHTML = "terrain: ";
 })
