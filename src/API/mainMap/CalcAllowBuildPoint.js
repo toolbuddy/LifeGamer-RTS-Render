@@ -8,14 +8,13 @@ import structures from './Structure'
  * @param {Object} MapData - mainMap data getting from backend, 4-elements array type
  * @param {string} building - building name
  * @returns {Promise<Object>} a promise contains 4-elements array contains chunk allow points
- * @resolve {Object} 4-elements array contains allow points
+ * @resolve {Object} array contains 1024 elements from left-top to right-down, 0 means cannot, 1 means allow
  */
 export default function CalcAllowBuildPoint(MapData, building) {
     var AllowPoint = []
     return new Promise(resolve => {
         for (let chunk of MapData) {
-            // Init chunk allow point with terrain allowed
-            var ChunkAllowPoint = []
+            var ChunkAllowPoint = new Array(256).fill(0)
             for (let y = 0; y <= 16 - structures[building].Size; ++y) {
                 for (let x = 0; x <= 16 - structures[building].Size; ++x) {
                     // check terrain
@@ -27,15 +26,14 @@ export default function CalcAllowBuildPoint(MapData, building) {
                             break
                         }
                     }
-                    if (TerrainAllow) ChunkAllowPoint.push(`${x},${y}`)
+                    if (TerrainAllow) ChunkAllowPoint[y*16+x] = 1
                 }
             }
             // Remove the point that building already existed
             for (let ExistBuilding of chunk.Structures) {
-                for (let y = ExistBuilding.Pos.Y - structures[building].Size + 1; y <= ExistBuilding.Pos.Y; ++y) {
-                    for (let x = ExistBuilding.Pos.X - structures[building].Size + 1; x <= ExistBuilding.Pos.X; ++x) {
-                        var index = ChunkAllowPoint.indexOf(`${x},${y}`)
-                        if (index !== -1) ChunkAllowPoint.splice(index, 1)
+                for (let y = ExistBuilding.Pos.Y - structures[building].Size + 1; y <= ExistBuilding.Pos.Y + structures[building].Size - 1; ++y) {
+                    for (let x = ExistBuilding.Pos.X - structures[building].Size + 1; x <= ExistBuilding.Pos.X + structures[building].Size - 1; ++x) {
+                        ChunkAllowPoint[y*16+x] = 0
                     }
                 }
             }

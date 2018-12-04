@@ -29,11 +29,15 @@ class BaseBuilding {
      * @param {Object} info - The structure data
      * @param {number} chunkIndex - which chunk the structure belongs to
      * @param {WebsocketConnection} conn - the websocket connection
+     * @param {PIXI.Texture} building - the PIXI.Texture with image
+     * @param {Object} buttons - a json contains PIXI.Texture value (buttons)
      */
-    constructor (info, chunkIndex, conn) {
+    constructor (info, chunkIndex, conn, building, buttons) {
         this.info = info
         this.chunkIndex = chunkIndex
         this.conn = conn
+        this.buildingTexture = building
+        this.buttonsTexture = buttons
     }
     /**
      * Init the object as PIXI.Sprite object
@@ -41,9 +45,14 @@ class BaseBuilding {
      * @function
      */
     async objectInit () {
-        this.object = new PIXI.Sprite.fromImage(this.imgUrl)
+        this.object = new PIXI.Sprite(this.buildingTexture)
+
         this.object.x = ((this.chunkIndex % 2) * 384) + this.info.Pos.X * 24
         this.object.y = (Math.floor(this.chunkIndex / 2) * 384) + this.info.Pos.Y * 24
+
+        // scale
+        this.object.scale.x = (this.info.Size.W * 24) / this.object.width
+        this.object.scale.y = (this.info.Size.H * 24) / this.object.height
 
         this.object._parent = this
         this.object.interactive = true
@@ -98,6 +107,7 @@ class BaseBuilding {
             this._parent.buttonList.x = (mouseData.data.global.x + this._parent.buttonList.width < (756 - 20)) ? mouseData.data.global.x + 20 : mouseData.data.global.x - 20 - this._parent.buttonList.width
             this._parent.buttonList.y = (mouseData.data.global.y + this._parent.buttonList.height < (756 - 20)) ? mouseData.data.global.y + 20 : mouseData.data.global.y - this._parent.buttonList.height + 20
         })
+
     }
     /**
      * Mouse hover tooltip object setting
@@ -153,7 +163,7 @@ class BaseBuilding {
      * @function
      *
      * @param {string} name - button name
-     * @param {string} icon - the icon svg file url
+     * @param {PIXI.Texture} icon - the PIXI.Texture contains image
      * @param {function} func - the function when the button clicked will call
      * @returns {Promise<PIXI.Container>} a promise contains button PIXI.Container
      * @resolve {PIXI.Container} button
@@ -170,9 +180,9 @@ class BaseBuilding {
             buttonBackground.endFill()
 
             // button icon
-            const buttonIcon = new PIXI.Sprite.fromImage(icon)
-            buttonIcon.scale.x = ( 18 / 512 )                   // scale button width  to 18
-            buttonIcon.scale.y = ( 18 / 512 )                   // scale button height to 18
+            var buttonIcon = new PIXI.Sprite(icon)
+            buttonIcon.scale.x = ( 18 / icon.width )                    // scale button width  to 18
+            buttonIcon.scale.y = ( 18 / icon.height )                   // scale button height to 18
             buttonIcon.anchor.y = 0.5
             buttonIcon.y = buttonBackground.height / 2
             buttonIcon.x = 10
@@ -210,17 +220,17 @@ class BaseBuilding {
             var buttonList = new PIXI.Container()
             var funcButton = null   // funcButton: repair, restart, upgrade, or null
             if (this.info.SStatus === 'Destroyed') {
-                funcButton = await this.buttonCreate('Repair', repairIcon, this.repair.bind(null, this))
+                funcButton = await this.buttonCreate('Repair', this.buttonsTexture.repairIcon, this.repair.bind(null, this))
             } else if (this.info.SStatus === 'Halted') {
-                funcButton = await this.buttonCreate('Restart', restartIcon, this.restart.bind(null, this))
+                funcButton = await this.buttonCreate('Restart', this.buttonsTexture.restartIcon, this.restart.bind(null, this))
             } else if (this.info.SStatus === 'Running' && this.info.Level < this.info.MaxLevel) {
-                funcButton = await this.buttonCreate('Upgrade', upgradeIcon, this.upgrade.bind(null, this))
+                funcButton = await this.buttonCreate('Upgrade', this.buttonsTexture.upgradeIcon, this.upgrade.bind(null, this))
             }
             var destructButton = null
             if (this.info.SStatus !== 'Building') {
-                destructButton = await this.buttonCreate('Destruct', destructIcon, this.destruct.bind(null, this))
+                destructButton = await this.buttonCreate('Destruct', this.buttonsTexture.destructIcon, this.destruct.bind(null, this))
             }
-            var cancelButton = await this.buttonCreate('Cancel', cancelIcon, this.cancel.bind(null, this))
+            var cancelButton = await this.buttonCreate('Cancel', this.buttonsTexture.cancelIcon, this.cancel.bind(null, this))
 
             if (funcButton) buttonList.addChild(funcButton)
             if (destructButton) buttonList.addChild(destructButton)

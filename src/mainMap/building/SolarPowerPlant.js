@@ -1,10 +1,8 @@
 import BaseBuilding from './BaseBuilding'
-import imgUrl from './static/SolarPowerPlant.png'
 
 class SolarPowerPlant extends BaseBuilding {
-    constructor (info, chunkIndex, conn) {
-        super(info, chunkIndex, conn)
-        this.imgUrl = imgUrl
+    constructor (info, chunkIndex, conn, building, buttons) {
+        super(info, chunkIndex, conn, building, buttons)
         this.objectInit() // create new object
     }
 }
