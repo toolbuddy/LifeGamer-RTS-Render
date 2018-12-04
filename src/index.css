@@ -44,3 +44,7 @@ html, body {
     width: 600px;
     float: left;
 }
+
+#menu{
+    position:relative;
+}

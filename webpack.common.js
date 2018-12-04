@@ -7,7 +7,8 @@ module.exports = {
     entry: {
         app: ['babel-polyfill', './src/index.js'],
 		room: './src/room/chatRoom.js',
-		status: './src/status/status.js'
+		status: './src/status/status.js',
+        menu: './src/menu/index.js'
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
