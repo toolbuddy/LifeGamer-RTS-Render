@@ -29,11 +29,15 @@ class BaseBuilding {
      * @param {Object} info - The structure data
      * @param {number} chunkIndex - which chunk the structure belongs to
      * @param {WebsocketConnection} conn - the websocket connection
+     * @param {PIXI.Sprite} building - the PIXI.Sprite object
+     * @param {Object} buttons - a json contains PIXI.Sprite value (buttons)
      */
-    constructor (info, chunkIndex, conn) {
+    constructor (info, chunkIndex, conn, building, buttons) {
         this.info = info
         this.chunkIndex = chunkIndex
         this.conn = conn
+        this.object = building
+        this.buttons = buttons
     }
     /**
      * Init the object as PIXI.Sprite object
@@ -41,9 +45,12 @@ class BaseBuilding {
      * @function
      */
     async objectInit () {
-        this.object = new PIXI.Sprite.fromImage(this.imgUrl)
         this.object.x = ((this.chunkIndex % 2) * 384) + this.info.Pos.X * 24
         this.object.y = (Math.floor(this.chunkIndex / 2) * 384) + this.info.Pos.Y * 24
+
+        // scale
+        this.object.scale.x = (this.info.Size.W * 24) / this.object.width
+        this.object.scale.y = (this.info.Size.H * 24) / this.object.height
 
         this.object._parent = this
         this.object.interactive = true
@@ -170,9 +177,9 @@ class BaseBuilding {
             buttonBackground.endFill()
 
             // button icon
-            const buttonIcon = new PIXI.Sprite.fromImage(icon)
-            buttonIcon.scale.x = ( 18 / 512 )                   // scale button width  to 18
-            buttonIcon.scale.y = ( 18 / 512 )                   // scale button height to 18
+            var buttonIcon = icon
+            buttonIcon.scale.x = ( 18 / icon.width )                    // scale button width  to 18
+            buttonIcon.scale.y = ( 18 / icon.height )                   // scale button height to 18
             buttonIcon.anchor.y = 0.5
             buttonIcon.y = buttonBackground.height / 2
             buttonIcon.x = 10
@@ -208,19 +215,20 @@ class BaseBuilding {
     buttonListCreate () {
         return new Promise(async resolve => {
             var buttonList = new PIXI.Container()
+            console.log(this)
             var funcButton = null   // funcButton: repair, restart, upgrade, or null
             if (this.info.SStatus === 'Destroyed') {
-                funcButton = await this.buttonCreate('Repair', repairIcon, this.repair.bind(null, this))
+                funcButton = await this.buttonCreate('Repair', this.buttons.repairIcon, this.repair.bind(null, this))
             } else if (this.info.SStatus === 'Halted') {
-                funcButton = await this.buttonCreate('Restart', restartIcon, this.restart.bind(null, this))
+                funcButton = await this.buttonCreate('Restart', this.buttons.restartIcon, this.restart.bind(null, this))
             } else if (this.info.SStatus === 'Running' && this.info.Level < this.info.MaxLevel) {
-                funcButton = await this.buttonCreate('Upgrade', upgradeIcon, this.upgrade.bind(null, this))
+                funcButton = await this.buttonCreate('Upgrade', this.buttons.upgradeIcon, this.upgrade.bind(null, this))
             }
             var destructButton = null
             if (this.info.SStatus !== 'Building') {
-                destructButton = await this.buttonCreate('Destruct', destructIcon, this.destruct.bind(null, this))
+                destructButton = await this.buttonCreate('Destruct', this.buttons.destructIcon, this.destruct.bind(null, this))
             }
-            var cancelButton = await this.buttonCreate('Cancel', cancelIcon, this.cancel.bind(null, this))
+            var cancelButton = await this.buttonCreate('Cancel', this.buttons.cancelIcon, this.cancel.bind(null, this))
 
             if (funcButton) buttonList.addChild(funcButton)
             if (destructButton) buttonList.addChild(destructButton)

@@ -77,6 +77,9 @@ class WebsocketConnection {
     setMiniMap (MiniMap) {
         this.miniMap.MiniMap
     }
+    setSprites (sprites) {
+        this.sprites = sprites
+    }
     /**
      * the function handling websocket message
      *
@@ -93,15 +96,15 @@ class WebsocketConnection {
                 break
             // first play, ask for selecting one chunk to become home point
             case MsgType['HomePointRequest']:
-                API.HomePointRegister(this.parent, {'X': 0, 'Y': 0})
+                API.HomePointRegister(this.parent, {'X': 1, 'Y': 1})
                 break
             case MsgType['LoginResponse']:
                 console.log(`Welcome, ${msg.Username}`)
-                this.parent.playerData.setUsername(msg.Username) // setting username in userdata
+                this.parent.playerData.setUsername(msg.Username)    // setting username in userdata
                 break
             case MsgType['PlayerDataResponse']:
                 this.parent.playerData.updateUserData(msg) // updating userdata
-                // API.mainMap.BuildOperRequest(this.parent, 'Build', 10, {'X': 1, 'Y': 1}, {'X': 12, 'Y': 12})
+                API.mainMap.BuildOperRequest(this.parent, 'Build', 10, {'X': 1, 'Y': 1}, {'X': 12, 'Y': 12})
                 UpdateStatus(msg.Power, msg.Human, msg.Money)
                 if(!flag) {
                     API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 0, 'Y': 0})
@@ -112,7 +115,7 @@ class WebsocketConnection {
             case MsgType['MapDataResponse']:
                 await this.parent.mainMapData.updateData(msg.Chunks)
                 await API.mainMap.ChunkEnvUpdate(this.parent.mainMap.children[0], this.parent.mainMapData.data)
-                await API.mainMap.ChunkBuildingsUpdate(this.parent.mainMap.children[1], this.parent.mainMapData.data, this.parent)
+                await API.mainMap.ChunkBuildingsUpdate(this.parent.mainMap.children[1], this.parent.mainMapData.data, this.parent, this.parent.sprites)
                 break
             case MsgType['MinimapDataResponse']:
                 await this.parent.miniMapData.updateData(msg)

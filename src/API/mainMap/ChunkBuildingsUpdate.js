@@ -12,10 +12,10 @@ import structures from './Structure'
  * @returns {Promise<Object>} a promise contains chunk building list
  * @resolve {Object} chunk building list
  */
-export default function ChunkBuildingsUpdate(container, MapData, conn) {
+export default function ChunkBuildingsUpdate(container, MapData, conn, sprites) {
     return new Promise(async resolve => {
         await ClearContainer(container)                                     // clear all objects inside container
-        let chunkBuildings = await ListInit(MapData, conn)                  // create chunk building data list
+        let chunkBuildings = await ListInit(MapData, conn, sprites)         // create chunk building data list
         await ObjectInit(container, chunkBuildings)                         // insert object into container
         container.zIndex = 10                                               // setting buildings layer zindex
         resolve(chunkBuildings)
@@ -33,7 +33,7 @@ export default function ChunkBuildingsUpdate(container, MapData, conn) {
  * @resolve {Object} chunk building data list
  */
 
-function ListInit(MapData, conn) {
+function ListInit(MapData, conn, sprites) {
     var chunkBuildings = []
     for (let i = 0; i < MapData.length; ++i) chunkBuildings.push({ 'buildings': [] })
     return new Promise(resolve => {
@@ -42,33 +42,33 @@ function ListInit(MapData, conn) {
                 switch (building.ID) {
                     case structures['ThermalPowerPlant'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.ThermalPowerPlant(building, i, conn)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.ThermalPowerPlant(building, i, conn, sprites.ThermalPowerPlant, sprites.buttons)
                         break
                     case structures['WaterPowerPlant'].ID:
                         break
                     case structures['WindPowerPlant'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.WindPowerPlant(building, i, conn)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.WindPowerPlant(building, i, conn, sprites.WindPowerPlant, sprites.buttons)
                         break
                     case structures['TidalPowerPlant'].ID:
                         break
                     case structures['SolarPowerPlant'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.SolarPowerPlant(building, i, conn)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.SolarPowerPlant(building, i, conn, sprites.SolarPowerPlant, sprites.buttons)
                         break
                     case structures['GeoThermalPowerPlant'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.GeoThermalPowerPlant(building, i, conn)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.GeoThermalPowerPlant(building, i, conn, sprites.GeoThermalPowerPlant, sprites.buttons)
                         break
                     case structures['BitCoinMiner'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.BitCoinMiner(building, i, conn)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.BitCoinMiner(building, i, conn, sprites.BitCoinMiner, sprites.buttons)
                         break
                     case structures['Sawmill'].ID:
                         break
                     case structures['FishFarm'].ID:
                         chunkBuildings[i].buildings.push(`(${building.Pos.X},${building.Pos.Y})`)
-                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.FishFarm(building, i, conn)
+                        chunkBuildings[i][`(${building.Pos.X},${building.Pos.Y})`] = new Building.FishFarm(building, i, conn, sprites.FishFarm, sprites.buttons)
                         break
                     case structures['ICFab'].ID:
                         break
