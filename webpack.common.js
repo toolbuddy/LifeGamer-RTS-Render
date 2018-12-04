@@ -5,7 +5,9 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
     entry: {
-        app: ['babel-polyfill', './src/index.js']
+        app: ['babel-polyfill', './src/index.js'],
+		room: './src/room/chatRoom.js',
+		status: './src/status/status.js'
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),

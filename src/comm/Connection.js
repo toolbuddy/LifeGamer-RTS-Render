@@ -16,10 +16,12 @@ class WebsocketConnection {
      * @param {number} port - port
      * @param {string} token - gitlab access token for registering
      */
-    constructor (host, port, token) {
+    constructor (host, port, token, mainMap, miniMap) {
         this.webUrl = `ws://${host}:${port}`
         this.token = token
         this.connection = null
+        this.mainMap = null
+        this.miniMap = null
     }
     /**
      * websocket and playerdata object init
@@ -65,6 +67,12 @@ class WebsocketConnection {
     register () {
         this.connection.send(JSON.stringify({'Token': this.token}))
     }
+    setMainMap (MainMap) {
+        this.mainMap = MainMap
+    }
+    setMiniMap (MiniMap) {
+        this.miniMap.MiniMap
+    }
     /**
      * the function handling websocket message
      *
@@ -81,7 +89,7 @@ class WebsocketConnection {
                 break
             // first play, ask for selecting one chunk to become home point
             case MsgType['HomePointRequest']:
-                API.HomePointRegister(this.parent, {'X': 3, 'Y': 3})
+                API.HomePointRegister(this.parent, {'X': 0, 'Y': 0})
                 break
             case MsgType['LoginResponse']:
                 console.log(`Welcome, ${msg.Username}`)
@@ -89,11 +97,14 @@ class WebsocketConnection {
                 break
             case MsgType['PlayerDataResponse']:
                 this.parent.playerData.updateUserData(msg) // updating userdata
-                // API.mainMap.BuildOperRequest(this.parent, 'Upgrade', 5, {'X': 3, 'Y': 3}, {'X': 5, 'Y': 5})
-                // API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 3, 'Y': 4})
+                // API.mainMap.BuildOperRequest(this.parent, 'Build', 10, {'X': 1, 'Y': 1}, {'X': 12, 'Y': 12})
+                API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 0, 'Y': 0})
+                // console.log(await API.mainMap.CalcAllowBuildPoint(this.parent.mainMapData.data, 'BitCoinMiner'))
                 break
             case MsgType['MapDataResponse']:
-                this.parent.mainMapData.updateData(msg.Chunks)
+                await this.parent.mainMapData.updateData(msg.Chunks)
+                await API.mainMap.ChunkEnvUpdate(this.parent.mainMap.children[0], this.parent.mainMapData.data)
+                await API.mainMap.ChunkBuildingsUpdate(this.parent.mainMap.children[1], this.parent.mainMapData.data, this.parent)
                 break
             case MsgType['MinimapDataResponse']:
                 await this.parent.miniMapData.updateData(msg)
