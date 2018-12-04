@@ -15,27 +15,33 @@
 
     flex-direction:row;
 
-    justify-content:center;
+    justify-content:space-around;
     align-items:center;
 
 }
 
 #menu_list > .btn{
 
-    display: block;
-	background: #4CAF50;
-    width: 10vh;
-    height: 10vh;
-    margin: 5vh;
+    display: flex;
+	background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 70%;
+    margin: 5%;
 
 }
 
 #menu_list > .btn:hover{
     transform:scale(1.1, 1.1);
+    cursor: pointer;
 }
 
 #build_items{
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid #000;
     display:none;
     position:absolute;
     bottom:100%;
@@ -44,10 +50,10 @@
     flex-direction:row;
     flex-wrap:wrap;
     align-items:center;
+    justify-content: space-around;
 
     overflow:scroll;
-    width: 70%;
-    left: 7vw;
+    width: 100%;
 }
 
 ::-webkit-scrollbar {
@@ -60,9 +66,8 @@
 
 
 .item{
-    margin:15px;
-    width:15vh;
-    height:20vh;
+    width:30%;
+    height:30%;
 }
 
 .item:hover{
@@ -71,7 +76,7 @@
 
 .img{
     width:100%;
-    height:80%;
+    height:100%;
     background-size:cover;
     background-position:center;
 }

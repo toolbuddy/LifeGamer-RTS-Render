@@ -1,20 +1,15 @@
 import menu from './style.css'
-import img000 from './src/000.jpg'
-import img001 from './src/001.jpg'
-import img002 from './src/002.jpg'
-import img003 from './src/003.jpg'
-import img004 from './src/004.jpg'
-import img005 from './src/005.jpg'
-import img006 from './src/000.jpg'
-import img007 from './src/001.jpg'
-import img008 from './src/002.jpg'
-import img009 from './src/003.jpg'
-import img010 from './src/004.jpg'
-import img011 from './src/005.jpg'
+
+import BitCoinMiner from '../mainMap/building/static/BitCoinMiner.png'
+import FishFarm from '../mainMap/building/static/FishFarm.png'
+import GeoThermalPowerPlant from '../mainMap/building/static/GeoThermalPowerPlant.png'
+import SolarPowerPlant from '../mainMap/building/static/SolarPowerPlant.png'
+import ThermalPowerPlant from '../mainMap/building/static/ThermalPowerPlant.png'
+import WindPowerPlant from '../mainMap/building/static/WindPowerPlant.png'
 
 var img_list = {
-    img:[img000, img001, img002, img003, img004, img005, img006, img007, img008, img009, img010, img011], 
-    tag:['img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8', 'img9', 'img10', 'img11'], 
+    img:[BitCoinMiner, FishFarm, GeoThermalPowerPlant, SolarPowerPlant, ThermalPowerPlant, WindPowerPlant],
+    tag:['BitCoinMiner', 'FishFarm', 'GeoThermalPowerPlant', 'SolarPowerPlant', 'ThermalPowerPlant', 'WindPowerPlant']
 }
 
 
