@@ -21,7 +21,7 @@ import ThermalPowerPlantImg from './mainMap/building/static/ThermalPowerPlant.pn
 import WindPowerPlantImg from './mainMap/building/static/WindPowerPlant.png'
 
 // loader setting, make sure all image loaded
-var sprites = {}
+var textures = {}
 var loader = new PIXI.loaders.Loader()
 loader.add('cancelIcon', cancelIcon).add('restartIcon', restartIcon).add('repairIcon', repairIcon)
         .add('destructIcon', destructIcon).add('upgradeIcon', upgradeIcon).add('BitCoinMinerImg', BitCoinMinerImg)
@@ -30,23 +30,23 @@ loader.add('cancelIcon', cancelIcon).add('restartIcon', restartIcon).add('repair
         .add('SolarPowerPlantImg', SolarPowerPlantImg)
 
 loader.load((loader, resources) => {
-    sprites.buttons = {
-        cancelIcon: new PIXI.Sprite(resources.cancelIcon.texture),
-        restartIcon: new PIXI.Sprite(resources.restartIcon.texture),
-        destructIcon: new PIXI.Sprite(resources.destructIcon.texture),
-        upgradeIcon: new PIXI.Sprite(resources.upgradeIcon.texture),
-        repairIcon: new PIXI.Sprite(resources.repairIcon.texture)
+    textures.buttons = {
+        cancelIcon: resources.cancelIcon.texture,
+        restartIcon: resources.restartIcon.texture,
+        destructIcon: resources.destructIcon.texture,
+        upgradeIcon: resources.upgradeIcon.texture,
+        repairIcon: resources.repairIcon.texture
     }
-    sprites.BitCoinMiner = new PIXI.Sprite(resources.BitCoinMinerImg.texture)
-    sprites.FishFarm = new PIXI.Sprite(resources.FishFarmImg.texture)
-    sprites.GeoThermalPowerPlant = new PIXI.Sprite(resources.GeoThermalPowerPlantImg.texture)
-    sprites.ThermalPowerPlant = new PIXI.Sprite(resources.ThermalPowerPlantImg.texture)
-    sprites.WindPowerPlant = new PIXI.Sprite(resources.WindPowerPlantImg.texture)
-    sprites.SolarPowerPlant = new PIXI.Sprite(resources.SolarPowerPlantImg.texture)
+    textures.BitCoinMiner = resources.BitCoinMinerImg.texture
+    textures.FishFarm = resources.FishFarmImg.texture
+    textures.GeoThermalPowerPlant = resources.GeoThermalPowerPlantImg.texture
+    textures.ThermalPowerPlant = resources.ThermalPowerPlantImg.texture
+    textures.WindPowerPlant = resources.WindPowerPlantImg.texture
+    textures.SolarPowerPlant = resources.SolarPowerPlantImg.texture
 })
 
 loader.onComplete.add(() => {
-    Init(connect, MainMap.container, sprites)
+    Init(connect, MainMap.container, textures)
 })
 
 // container width auto setting
@@ -64,13 +64,13 @@ resize();
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
 // websocket connection
-// var connect = new WebsocketConnection('host', 'port', 'token)
+// var connect = new WebsocketConnection('host', 'port', 'token')
 
 
-async function Init(conn, mainMapContainer, sprites) {
+async function Init(conn, mainMapContainer, textures) {
     connect.init()
     await MainMapInit(mainMapContainer)
     conn.setMainMap(mainMapContainer)
-    conn.setSprites(sprites)
+    conn.setTextures(textures)
 }
 

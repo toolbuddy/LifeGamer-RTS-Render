@@ -3,6 +3,8 @@ import * as API from '../API'
 const GameData = require('./GameData')
 
 import UpdateStatus from '../status/status'
+// import CreateBuildLayer from '../mainMap/CreateBuildLayer'
+
 
 var flag = false
 
@@ -77,8 +79,8 @@ class WebsocketConnection {
     setMiniMap (MiniMap) {
         this.miniMap.MiniMap
     }
-    setSprites (sprites) {
-        this.sprites = sprites
+    setTextures (textures) {
+        this.textures = textures
     }
     /**
      * the function handling websocket message
@@ -104,18 +106,16 @@ class WebsocketConnection {
                 break
             case MsgType['PlayerDataResponse']:
                 this.parent.playerData.updateUserData(msg) // updating userdata
-                API.mainMap.BuildOperRequest(this.parent, 'Build', 10, {'X': 1, 'Y': 1}, {'X': 12, 'Y': 12})
+                // let layer = await CreateBuildLayer(this.parent, this.parent.mainMapData.data, 'BitCoinMiner')
+                API.mainMap.BuildOperRequest(this.parent, 'Build', 10, {'X': 1, 'Y': 1}, {'X': Math.floor(Math.random() * 15), 'Y': Math.floor(Math.random() * 15)})
                 UpdateStatus(msg.Power, msg.Human, msg.Money)
-                if(!flag) {
-                    API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 0, 'Y': 0})
-                    flag = true
-                }
+                API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 0, 'Y': 0})
                 // console.log(await API.mainMap.CalcAllowBuildPoint(this.parent.mainMapData.data, 'BitCoinMiner'))
                 break
             case MsgType['MapDataResponse']:
                 await this.parent.mainMapData.updateData(msg.Chunks)
                 await API.mainMap.ChunkEnvUpdate(this.parent.mainMap.children[0], this.parent.mainMapData.data)
-                await API.mainMap.ChunkBuildingsUpdate(this.parent.mainMap.children[1], this.parent.mainMapData.data, this.parent, this.parent.sprites)
+                await API.mainMap.ChunkBuildingsUpdate(this.parent.mainMap.children[1], this.parent.mainMapData.data, this.parent, this.parent.textures)
                 break
             case MsgType['MinimapDataResponse']:
                 await this.parent.miniMapData.updateData(msg)
