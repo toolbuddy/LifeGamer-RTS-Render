@@ -40,7 +40,7 @@ function move_click(){
     console.log('move');
 }
 function home_click(){
-    console.log('home');
+    API.miniMap.ViewRangeMapdataRequest(window.conn, window.conn.playerData.Home)
 }
 
 function load_items(img_list){
