@@ -3,8 +3,7 @@ import * as API from '../API'
 const GameData = require('./GameData')
 
 import UpdateStatus from '../status/status'
-// import CreateBuildLayer from '../mainMap/CreateBuildLayer'
-
+import CreateBuildLayer from '../mainMap/CreateBuildLayer'
 
 var flag = false
 
@@ -106,11 +105,11 @@ class WebsocketConnection {
                 break
             case MsgType['PlayerDataResponse']:
                 this.parent.playerData.updateUserData(msg) // updating userdata
-                // let layer = await CreateBuildLayer(this.parent, this.parent.mainMapData.data, 'BitCoinMiner')
-                API.mainMap.BuildOperRequest(this.parent, 'Build', 10, {'X': 1, 'Y': 1}, {'X': Math.floor(Math.random() * 15), 'Y': Math.floor(Math.random() * 15)})
+                if (!flag) {
+                    flag = true
+                    API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 0, 'Y': 0})
+                }
                 UpdateStatus(msg.Power, msg.Human, msg.Money)
-                API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 0, 'Y': 0})
-                // console.log(await API.mainMap.CalcAllowBuildPoint(this.parent.mainMapData.data, 'BitCoinMiner'))
                 break
             case MsgType['MapDataResponse']:
                 await this.parent.mainMapData.updateData(msg.Chunks)

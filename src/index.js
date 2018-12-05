@@ -68,9 +68,9 @@ document.querySelector('section#mainMap').appendChild(MainMap.view)
 
 
 async function Init(conn, mainMapContainer, textures) {
-    connect.init()
+    conn.init()
     await MainMapInit(mainMapContainer)
     conn.setMainMap(mainMapContainer)
     conn.setTextures(textures)
+    window.conn = conn                      // binding websocketConnection object to window
 }
-

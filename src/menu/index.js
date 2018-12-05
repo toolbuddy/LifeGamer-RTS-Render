@@ -1,5 +1,7 @@
 import menu from './style.css'
 
+import * as API from '../API'
+
 import BitCoinMiner from '../mainMap/building/static/BitCoinMiner.png'
 import FishFarm from '../mainMap/building/static/FishFarm.png'
 import GeoThermalPowerPlant from '../mainMap/building/static/GeoThermalPowerPlant.png'
@@ -28,11 +30,9 @@ function build_click(){
 
 }
 
-
 function item_click(item){
 	build_click();
-    console.log(item);
-    
+    API.menu.BuildRequest(window.conn, window.conn.mainMapData.data, item._data)
 }
 
 
@@ -70,8 +70,8 @@ function load_items(img_list){
 		document.getElementById('tag'+num).innerHTML = img_list.tag[i];
 		c_div2.className = 'tag';
 
-		item.onclick = function(){item_click(this)};
-
+		item.onclick = function() { item_click(this) };
+        item._data = img_list.tag[i]
 	}
 }
 
