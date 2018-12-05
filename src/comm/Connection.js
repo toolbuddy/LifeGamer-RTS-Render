@@ -43,6 +43,19 @@ class WebsocketConnection {
         this.connection.parent = this                           // setting connection parent
         this.connection.onmessage = this.msgHandler             // setting onmessage function, msgHandler
         this.register()                                         // register
+
+        window.addEventListener('keydown', function(event) {
+            const key = event.keyCode
+            if (key == 37) {
+                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.conn.mainMapData.data[0].Pos.X - 1, 'Y': window.conn.mainMapData.data[0].Pos.Y})
+            }else if(key == 38) {
+                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.conn.mainMapData.data[0].Pos.X, 'Y': window.conn.mainMapData.data[0].Pos.Y - 1})
+            }else if(key == 39) {
+                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.conn.mainMapData.data[0].Pos.X + 1, 'Y': window.conn.mainMapData.data[0].Pos.Y})
+            }else if(key == 40) {
+                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.conn.mainMapData.data[0].Pos.X, 'Y': window.conn.mainMapData.data[0].Pos.Y + 1})
+            }
+        })
     }
     /**
      * using promise to await websocket creating successful
@@ -91,7 +104,6 @@ class WebsocketConnection {
      */
     async msgHandler (e) {
         let msg = JSON.parse(e.data)
-        console.log(msg)
         switch (msg.Msg_type) {
             case MsgType['LogoutRequest']:
                 break
@@ -107,9 +119,9 @@ class WebsocketConnection {
                 this.parent.playerData.updateUserData(msg) // updating userdata
                 if (!flag) {
                     flag = true
-                    API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': 0, 'Y': 0})
+                    API.miniMap.ViewRangeMapdataRequest(this.parent, this.parent.playerData.Home)
                 }
-                UpdateStatus(msg.Power, msg.Human, msg.Money)
+                UpdateStatus(`${msg.Power} / ${msg.PowerMax}`, msg.Human, msg.Money)
                 break
             case MsgType['MapDataResponse']:
                 await this.parent.mainMapData.updateData(msg.Chunks)
