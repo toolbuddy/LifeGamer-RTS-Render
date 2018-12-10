@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import * as API from '../../API'
+import * as API from '../API'
 
 /* import button Icon svg */
 import cancelIcon from './static/buttonIcon/cancel.svg'
@@ -28,16 +28,10 @@ class BaseBuilding {
      *
      * @param {Object} info - The structure data
      * @param {number} chunkIndex - which chunk the structure belongs to
-     * @param {WebsocketConnection} conn - the websocket connection
-     * @param {PIXI.Texture} building - the PIXI.Texture with image
-     * @param {Object} buttons - a json contains PIXI.Texture value (buttons)
      */
-    constructor (info, chunkIndex, conn, building, buttons) {
+    constructor (info, chunkIndex) {
         this.info = info
         this.chunkIndex = chunkIndex
-        this.conn = conn
-        this.buildingTexture = building
-        this.buttonsTexture = buttons
     }
     /**
      * Init the object as PIXI.Sprite object
@@ -216,21 +210,22 @@ class BaseBuilding {
      * @resolve {PIXI.Container} the buttonlist contains all buttons
      */
     buttonListCreate () {
+        console.log(window.textures)
         return new Promise(async resolve => {
             var buttonList = new PIXI.Container()
             var funcButton = null   // funcButton: repair, restart, upgrade, or null
             if (this.info.SStatus === 'Destroyed') {
-                funcButton = await this.buttonCreate('Repair', this.buttonsTexture.repairIcon, this.repair.bind(null, this))
+                funcButton = await this.buttonCreate('Repair', window.textures.buttons.repairIcon, this.repair.bind(null, this))
             } else if (this.info.SStatus === 'Halted') {
-                funcButton = await this.buttonCreate('Restart', this.buttonsTexture.restartIcon, this.restart.bind(null, this))
+                funcButton = await this.buttonCreate('Restart', window.textures.buttons.restartIcon, this.restart.bind(null, this))
             } else if (this.info.SStatus === 'Running' && this.info.Level < this.info.MaxLevel) {
-                funcButton = await this.buttonCreate('Upgrade', this.buttonsTexture.upgradeIcon, this.upgrade.bind(null, this))
+                funcButton = await this.buttonCreate('Upgrade', window.textures.buttons.upgradeIcon, this.upgrade.bind(null, this))
             }
             var destructButton = null
             if (this.info.SStatus !== 'Building') {
-                destructButton = await this.buttonCreate('Destruct', this.buttonsTexture.destructIcon, this.destruct.bind(null, this))
+                destructButton = await this.buttonCreate('Destruct', window.textures.buttons.destructIcon, this.destruct.bind(null, this))
             }
-            var cancelButton = await this.buttonCreate('Cancel', this.buttonsTexture.cancelIcon, this.cancel.bind(null, this))
+            var cancelButton = await this.buttonCreate('Cancel', window.textures.buttons.cancelIcon, this.cancel.bind(null, this))
 
             if (funcButton) buttonList.addChild(funcButton)
             if (destructButton) buttonList.addChild(destructButton)
@@ -260,7 +255,7 @@ class BaseBuilding {
      * @param {Building} building - the building object
      */
     repair (building) {
-        API.mainMap.BuildOperRequest(building.conn, 'Repair', building.info.ID, building.info.Chunk, building.info.Pos)
+        API.mainMap.BuildOperRequest(window.conn, 'Repair', building.info.ID, building.info.Chunk, building.info.Pos)
         building.object.parent.removeChild(building.buttonList)
         building.isClicked = false
     }
@@ -272,7 +267,7 @@ class BaseBuilding {
      * @param {Building} building - the building object
      */
     restart (building) {
-        API.mainMap.BuildOperRequest(building.conn, 'Restart', building.info.ID, building.info.Chunk, building.info.Pos)
+        API.mainMap.BuildOperRequest(window.conn, 'Restart', building.info.ID, building.info.Chunk, building.info.Pos)
         building.object.parent.removeChild(building.buttonList)
         building.isClicked = false
     }
@@ -284,7 +279,7 @@ class BaseBuilding {
      * @param {Building} building - the building object
      */
     upgrade (building) {
-        API.mainMap.BuildOperRequest(building.conn, 'Upgrade', building.info.ID, building.info.Chunk, building.info.Pos)
+        API.mainMap.BuildOperRequest(window.conn, 'Upgrade', building.info.ID, building.info.Chunk, building.info.Pos)
         building.object.parent.removeChild(building.buttonList)
         building.isClicked = false
     }
@@ -296,7 +291,7 @@ class BaseBuilding {
      * @param {Building} building - the building object
      */
     destruct (building) {
-        API.mainMap.BuildOperRequest(building.conn, 'Destruct', building.info.ID, building.info.Chunk, building.info.Pos)
+        API.mainMap.BuildOperRequest(window.conn, 'Destruct', building.info.ID, building.info.Chunk, building.info.Pos)
         building.object.parent.removeChild(building.buttonList)
         building.isClicked = false
     }

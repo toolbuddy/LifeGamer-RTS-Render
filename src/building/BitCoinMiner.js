@@ -1,8 +1,9 @@
 import BaseBuilding from './BaseBuilding'
 
 class BitCoinMiner extends BaseBuilding {
-    constructor (info, chunkIndex, conn, building, buttons) {
-        super(info, chunkIndex, conn, building, buttons)
+    constructor (info, chunkIndex) {
+        super(info, chunkIndex)
+        this.buildingTexture = window.textures.buildings.BitCoinMiner
         this.objectInit()
     }
 }

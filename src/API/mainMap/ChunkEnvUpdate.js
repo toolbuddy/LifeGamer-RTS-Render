@@ -29,7 +29,7 @@ export default function ChunkEnvUpdate(container, MapData) {
  */
 function ClearContainer(container) {
     return new Promise(resolve => {
-        for (var i = container.children.length - i; i >= 0; i--) {
+        for (var i = container.children.length - 1; i >= 0; i--) {
             container.removeChild(container.children[i])
         }
         resolve()
