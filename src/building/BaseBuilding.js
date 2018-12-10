@@ -1,13 +1,6 @@
 import * as PIXI from 'pixi.js'
 import * as API from '../API'
 
-/* import button Icon svg */
-import cancelIcon from './static/buttonIcon/cancel.svg'
-import repairIcon from './static/buttonIcon/repair.svg'
-import restartIcon from './static/buttonIcon/restart.svg'
-import upgradeIcon from './static/buttonIcon/upgrade.svg'
-import destructIcon from './static/buttonIcon/destruct.svg'
-
 const buttonWidth = 150, buttonHeight = 35
 
 /* tooltip style setting */
