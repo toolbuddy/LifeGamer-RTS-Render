@@ -30,6 +30,6 @@ function calculateViewRange (ViewPoint) {
  */
 export default async function ViewRangeMapdataRequest (WebsocketConnection, ViewPoint) {
     let viewRange = await calculateViewRange(ViewPoint)
-    WebsocketConnection.msgSender('MapDataRequest', WebsocketConnection.playerData.Username, { ChunkPos: viewRange })
+    WebsocketConnection.msgSender('MapDataRequest', window.playerData.Username, { ChunkPos: viewRange })
 }
 

@@ -2,12 +2,12 @@ import menu from './style.css'
 
 import * as API from '../API'
 
-import BitCoinMiner from '../mainMap/building/static/BitCoinMiner.png'
-import FishFarm from '../mainMap/building/static/FishFarm.png'
-import GeoThermalPowerPlant from '../mainMap/building/static/GeoThermalPowerPlant.png'
-import SolarPowerPlant from '../mainMap/building/static/SolarPowerPlant.png'
-import ThermalPowerPlant from '../mainMap/building/static/ThermalPowerPlant.png'
-import WindPowerPlant from '../mainMap/building/static/WindPowerPlant.png'
+import BitCoinMiner from '../source/img/building/BitCoinMiner.png'
+import FishFarm from '../source/img/building/FishFarm.png'
+import GeoThermalPowerPlant from '../source/img/building/GeoThermalPowerPlant.png'
+import SolarPowerPlant from '../source/img/building/SolarPowerPlant.png'
+import ThermalPowerPlant from '../source/img/building/ThermalPowerPlant.png'
+import WindPowerPlant from '../source/img/building/WindPowerPlant.png'
 
 var img_list = {
     img:[BitCoinMiner, FishFarm, GeoThermalPowerPlant, SolarPowerPlant, ThermalPowerPlant, WindPowerPlant],
@@ -32,7 +32,7 @@ function build_click(){
 
 function item_click(item){
 	build_click();
-    API.menu.BuildRequest(window.conn, window.conn.mainMapData.data, item._data)
+    API.menu.BuildRequest(window.conn, window.mainMap._data.data, item._data)
 }
 
 
@@ -40,7 +40,7 @@ function move_click(){
     console.log('move');
 }
 function home_click(){
-    API.miniMap.ViewRangeMapdataRequest(window.conn, window.conn.playerData.Home)
+    API.miniMap.ViewRangeMapdataRequest(window.conn, window.playerData.Home)
 }
 
 function load_items(img_list){

@@ -2,23 +2,25 @@ import index from './index.css'
 import WebsocketConnection from './comm/Connection'
 import MainMap from './mainMap/container'
 import MainMapInit from './mainMap/ContainerInit'
+import GameData from './GameData'
+
 
 import * as API from './API'
 import * as PIXI from 'pixi.js'
 
 // image import
-import cancelIcon from './mainMap/building/static/buttonIcon/cancel.svg'
-import restartIcon from './mainMap/building/static/buttonIcon/restart.svg'
-import repairIcon from './mainMap/building/static/buttonIcon/repair.svg'
-import destructIcon from './mainMap/building/static/buttonIcon/destruct.svg'
-import upgradeIcon from './mainMap/building/static/buttonIcon/upgrade.svg'
+import cancelIcon from './source/img/buttonIcon/cancel.svg'
+import restartIcon from './source/img/buttonIcon/restart.svg'
+import repairIcon from './source/img/buttonIcon/repair.svg'
+import destructIcon from './source/img/buttonIcon/destruct.svg'
+import upgradeIcon from './source/img/buttonIcon/upgrade.svg'
 
-import BitCoinMinerImg from './mainMap/building/static/BitCoinMiner.png'
-import FishFarmImg from './mainMap/building/static/FishFarm.png'
-import GeoThermalPowerPlantImg from './mainMap/building/static/GeoThermalPowerPlant.png'
-import SolarPowerPlantImg from './mainMap/building/static/SolarPowerPlant.png'
-import ThermalPowerPlantImg from './mainMap/building/static/ThermalPowerPlant.png'
-import WindPowerPlantImg from './mainMap/building/static/WindPowerPlant.png'
+import BitCoinMinerImg from './source/img/building/BitCoinMiner.png'
+import FishFarmImg from './source/img/building/FishFarm.png'
+import GeoThermalPowerPlantImg from './source/img/building/GeoThermalPowerPlant.png'
+import SolarPowerPlantImg from './source/img/building/SolarPowerPlant.png'
+import ThermalPowerPlantImg from './source/img/building/ThermalPowerPlant.png'
+import WindPowerPlantImg from './source/img/building/WindPowerPlant.png'
 
 // loader setting, make sure all image loaded
 var textures = {}
@@ -37,12 +39,14 @@ loader.load((loader, resources) => {
         upgradeIcon: resources.upgradeIcon.texture,
         repairIcon: resources.repairIcon.texture
     }
-    textures.BitCoinMiner = resources.BitCoinMinerImg.texture
-    textures.FishFarm = resources.FishFarmImg.texture
-    textures.GeoThermalPowerPlant = resources.GeoThermalPowerPlantImg.texture
-    textures.ThermalPowerPlant = resources.ThermalPowerPlantImg.texture
-    textures.WindPowerPlant = resources.WindPowerPlantImg.texture
-    textures.SolarPowerPlant = resources.SolarPowerPlantImg.texture
+    textures.buildings = {
+        BitCoinMiner: resources.BitCoinMinerImg.texture,
+        FishFarm: resources.FishFarmImg.texture,
+        GeoThermalPowerPlant: resources.GeoThermalPowerPlantImg.texture,
+        ThermalPowerPlant: resources.ThermalPowerPlantImg.texture,
+        WindPowerPlant: resources.WindPowerPlantImg.texture,
+        SolarPowerPlant: resources.SolarPowerPlantImg.texture
+    }
 })
 
 loader.onComplete.add(() => {
@@ -64,13 +68,15 @@ resize();
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
 // websocket connection
-// var connect = new WebsocketConnection('host', 'port', 'token')
+// var connect = new WebsocketConnection('host', port, 'token')
 
 
 async function Init(conn, mainMapContainer, textures) {
+    window.textures = textures                              // binding textures to window
+    window.playerData = new GameData.PlayerData()           // binding PlayerData object to window
+    window.mainMap = mainMapContainer                       // binding mainMap PIXI Container to window
+    await MainMapInit(mainMapContainer)                     // mainMap container init
+    window.mainMap._data = new GameData.MainMapData()       // setting PIXI mainMap object data
+    window.conn = conn                                      // binding websocketConnection object to window
     conn.init()
-    await MainMapInit(mainMapContainer)
-    conn.setMainMap(mainMapContainer)
-    conn.setTextures(textures)
-    window.conn = conn                      // binding websocketConnection object to window
 }
