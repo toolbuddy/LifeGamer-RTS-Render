@@ -2,6 +2,11 @@ import * as PIXI from 'pixi.js'
 import EnvType from './EnvType'
 import Environment from '../../mainMap/environment/Environment'
 
+const layerSize = 950
+const chunkCoor = 2
+const spaceCoor = 16
+const spaceSize = layerSize / chunkCoor / spaceCoor
+
 /**
  * The function creating all env objects by given data inside the chunk
  *
@@ -93,26 +98,26 @@ function BorderCreate() {
         // draw pos border
         border.nativeLines = true
         border.lineStyle(1, 0x000000, 0.1)
-        for (let i = 0; i < 32; ++i) {
-            border.moveTo(0, 24 * i)
-            border.lineTo(768, 24 * i)
-            border.moveTo(24 * i, 0)
-            border.lineTo(24 * i, 768)
+        for (let i = 0; i < spaceCoor * chunkCoor; ++i) {
+            border.moveTo(0, spaceSize * i)
+            border.lineTo(layerSize, spaceSize * i)
+            border.moveTo(spaceSize * i, 0)
+            border.lineTo(spaceSize * i, layerSize)
         }
 
         // draw chunk border
         border.lineStyle(1, 0x000000, 0.7)
         border.nativeLines = false
         border.moveTo(0, 0)
-        border.lineTo(768, 0)
-        border.lineTo(768, 768)
-        border.lineTo(0, 768)
+        border.lineTo(layerSize, 0)
+        border.lineTo(layerSize, layerSize)
+        border.lineTo(0, layerSize)
         border.lineTo(0, 0)
 
-        border.moveTo(384, 0)
-        border.lineTo(384, 768)
-        border.moveTo(0, 384)
-        border.lineTo(768, 384)
+        border.moveTo((layerSize / chunkCoor), 0)
+        border.lineTo((layerSize / chunkCoor), layerSize)
+        border.moveTo(0, (layerSize / chunkCoor))
+        border.lineTo(layerSize, (layerSize / chunkCoor))
 
         // set zindex
         border.zIndex = 1

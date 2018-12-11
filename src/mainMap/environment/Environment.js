@@ -1,6 +1,9 @@
 import EnvColor from './EnvColor'
 
-var spaceSize = 24
+const layerSize = 950
+const chunkCoor = 2
+const spaceCoor = 16
+const spaceSize = layerSize / chunkCoor / spaceCoor
 
 /**
  * The base class let other class inherit
@@ -36,8 +39,8 @@ class Environment {
 
 
         // set position
-        this.object.x = (this.chunkIndex%2) * 384 + this.x * spaceSize
-        this.object.y = Math.floor((this.chunkIndex/2)) * 384 + this.y * spaceSize
+        this.object.x = (this.chunkIndex%2) * (layerSize / chunkCoor) + this.x * spaceSize
+        this.object.y = Math.floor((this.chunkIndex/2)) * (layerSize / chunkCoor) + this.y * spaceSize
 
         // set zindex
         this.object.zIndex = 0

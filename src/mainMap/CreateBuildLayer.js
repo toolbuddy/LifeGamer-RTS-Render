@@ -3,15 +3,18 @@ import Structures from '../API/mainMap/Structure'
 import * as PIXI from 'pixi.js'
 import * as API from '../API'
 
-const layerSize = 768
+var layerSize = null
+var spaceSize = null
+var defaultLayerSize = 950
 const chunkCoor = 2
 const spaceCoor = 16
-const spaceSize = layerSize / chunkCoor / spaceCoor
 
 var allowPoints = null
 var mapData = null
 
 export default function CreateBuildLayer (conn, MapData, building) {
+    layerSize = window.innerHeight
+    spaceSize = layerSize / chunkCoor / spaceCoor
     return new Promise(async resolve => {
         // create layer
         var layer = new PIXI.Container()
@@ -65,6 +68,10 @@ export default function CreateBuildLayer (conn, MapData, building) {
 
         layer.zIndex = 99
         layer.alpha = 0.5
+
+        // setting scale
+        layer.scale.set(defaultLayerSize / layerSize)
+
         resolve(layer)
     })
 }

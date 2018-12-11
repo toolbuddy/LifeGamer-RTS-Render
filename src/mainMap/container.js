@@ -4,8 +4,8 @@ import * as PIXI from 'pixi.js'
 const wrapper = document.querySelector('section#mainMap')
 
 // canvas origin width, height setting
-const width = 768
-const height = 768
+const width = 950
+const height = 950
 
 // variable setting
 var app = null
