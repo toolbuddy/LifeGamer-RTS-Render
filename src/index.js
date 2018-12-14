@@ -22,6 +22,16 @@ import SolarPowerPlantImg from './source/img/building/SolarPowerPlant.png'
 import ThermalPowerPlantImg from './source/img/building/ThermalPowerPlant.png'
 import WindPowerPlantImg from './source/img/building/WindPowerPlant.png'
 
+import Forest from './source/img/environment/forest.png'
+import Grass from './source/img/environment/grass.png'
+import Lava from './source/img/environment/lava.png'
+import River from './source/img/environment/river.png'
+import Desert from './source/img/environment/desert.png'
+import Sea from './source/img/environment/sea.png'
+import Snow from './source/img/environment/snow.png'
+import Volcano from './source/img/environment/volcano.png'
+import Void from './source/img/environment/void.png'
+
 // loader setting, make sure all image loaded
 var textures = {}
 var loader = new PIXI.loaders.Loader()
@@ -30,6 +40,8 @@ loader.add('cancelIcon', cancelIcon).add('restartIcon', restartIcon).add('repair
         .add('FishFarmImg', FishFarmImg).add('GeoThermalPowerPlantImg', GeoThermalPowerPlantImg)
         .add('ThermalPowerPlantImg', ThermalPowerPlantImg).add('WindPowerPlantImg', WindPowerPlantImg)
         .add('SolarPowerPlantImg', SolarPowerPlantImg)
+        .add('Forest', Forest).add('Grass', Grass).add('Lava', Lava).add('River', River)
+        .add('Desert', Desert).add('Sea', Sea).add('Snow', Snow).add('Volcano', Volcano).add('Void', Void)
 
 loader.load((loader, resources) => {
     textures.buttons = {
@@ -46,6 +58,17 @@ loader.load((loader, resources) => {
         ThermalPowerPlant: resources.ThermalPowerPlantImg.texture,
         WindPowerPlant: resources.WindPowerPlantImg.texture,
         SolarPowerPlant: resources.SolarPowerPlantImg.texture
+    }
+    textures.environment = {
+        Forest: resources.Forest.texture,
+        Grass: resources.Grass.texture,
+        Lava: resources.Lava.texture,
+        River: resources.River.texture,
+        Desert: resources.Desert.texture,
+        Sea: resources.Sea.texture,
+        Snow: resources.Snow.texture,
+        Volcano: resources.Volcano.texture,
+        Void: resources.Void.texture
     }
 })
 
@@ -68,7 +91,7 @@ resize();
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
 // websocket connection
-// var connect = new WebsocketConnection('host', port, 'token')
+// var connect = new WebsocketConnection('host', 'port', 'token')
 
 
 async function Init(conn, mainMapContainer, textures) {

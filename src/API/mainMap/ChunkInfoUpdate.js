@@ -8,7 +8,7 @@ const spaceSize = layerSize / chunkCoor / spaceCoor
 
 const textStyle = {
     fill: "white",
-    fontFamily: "\"Courier New\"",
+    fontFamily: "cwTeXYen, sans-serif, \"Courier New\"",
     fontSize: 20
 }
 
@@ -94,7 +94,7 @@ function InfoUpdate(ChunkData, chunkIndex) {
 function TextGen(chunkData) {
     return new Promise(async resolve => {
         let textString = ''
-        textString += `Chunk Pos: X: ${chunkData.Pos.X}, Y: ${chunkData.Pos.Y}\n`
+        textString += `Chunk Pos: (${chunkData.Pos.X}, ${chunkData.Pos.Y})\n`
         textString += `Owner: ${chunkData.Owner !== '' ? chunkData.Owner : 'None'}\n`
         textString += `Environment: \n${await EnvCalculate(chunkData)}\n`
         textString += `Population: ${window.playerData.Username === chunkData.Owner ? chunkData.Human : '???'}`

@@ -6,6 +6,8 @@ const chunkCoor = 2
 const spaceCoor = 16
 const spaceSize = layerSize / chunkCoor / spaceCoor
 
+const padding = 10
+
 const buttonWidth = 150, buttonHeight = 35
 
 /* tooltip style setting */
@@ -40,12 +42,12 @@ class BaseBuilding {
 
         this.object = new PIXI.Sprite(this.buildingTexture)
 
-        this.object.x = ((this.chunkIndex % chunkCoor) * (layerSize / chunkCoor)) + this.info.Pos.X * spaceSize
-        this.object.y = (Math.floor(this.chunkIndex / chunkCoor) * (layerSize / chunkCoor)) + this.info.Pos.Y * spaceSize
+        this.object.x = ((this.chunkIndex % chunkCoor) * (layerSize / chunkCoor)) + this.info.Pos.X * spaceSize + (padding / 2)
+        this.object.y = (Math.floor(this.chunkIndex / chunkCoor) * (layerSize / chunkCoor)) + this.info.Pos.Y * spaceSize + (padding / 2)
 
         // scale
-        this.object.scale.x = (this.info.Size.W * spaceSize) / this.object.width
-        this.object.scale.y = (this.info.Size.H * spaceSize) / this.object.height
+        this.object.scale.x = (this.info.Size.W * spaceSize - padding) / this.object.width
+        this.object.scale.y = (this.info.Size.H * spaceSize - padding) / this.object.height
 
         this.object._parent = this
         this.object.interactive = true

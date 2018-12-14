@@ -9,9 +9,6 @@ var defaultLayerSize = 950
 const chunkCoor = 2
 const spaceCoor = 16
 
-var allowPoints = null
-var mapData = null
-
 export default function CreateBuildLayer (conn, MapData, building) {
     layerSize = window.innerHeight
     spaceSize = layerSize / chunkCoor / spaceCoor
@@ -24,14 +21,12 @@ export default function CreateBuildLayer (conn, MapData, building) {
         // select space create
         layer.selectSpace = await selectSpaceCreate(building)
 
-        allowPoints = await API.mainMap.CalcAllowBuildPoint(MapData, building)
-        mapData = MapData
+        let allowPoints = await API.mainMap.CalcAllowBuildPoint(MapData, building)
 
         // mouse event setting
         layer.interactive = true
 
         layer.mouseover = function(mouseData) {
-            console.log(mouseData.currentTarget)
             let chunkIndex = Math.floor(mouseData.data.global.x / (layerSize / chunkCoor)) + Math.floor(mouseData.data.global.y / (layerSize / chunkCoor)) * chunkCoor
             let index = Math.floor(mouseData.data.global.x / spaceSize) % spaceCoor + Math.floor(mouseData.data.global.y / spaceSize) % spaceCoor * spaceCoor
             this.isHover = true
@@ -61,9 +56,9 @@ export default function CreateBuildLayer (conn, MapData, building) {
             let chunkIndex = Math.floor(mouseData.data.global.x / (layerSize / chunkCoor)) + Math.floor(mouseData.data.global.y / (layerSize / chunkCoor)) * chunkCoor
             let x = Math.floor(mouseData.data.global.x / spaceSize) % spaceCoor
             let y = Math.floor(mouseData.data.global.y / spaceSize) % spaceCoor
-            API.mainMap.BuildOperRequest(conn, 'Build', Structures[building].ID, mapData[chunkIndex].Pos, {'X': x, 'Y': y})
+            API.mainMap.BuildOperRequest(conn, 'Build', Structures[building].ID, MapData[chunkIndex].Pos, {'X': x, 'Y': y})
             this.parent.removeChild(this)
-            API.miniMap.ViewRangeMapdataRequest(conn, mapData[0].Pos)
+            API.miniMap.ViewRangeMapdataRequest(conn, MapData[0].Pos)
         })
 
         layer.zIndex = 99

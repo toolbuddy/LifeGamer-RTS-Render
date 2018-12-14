@@ -1,5 +1,3 @@
-import EnvColor from './EnvColor'
-
 const layerSize = 950
 const chunkCoor = 2
 const spaceCoor = 16
@@ -14,7 +12,7 @@ class Environment {
     /**
      * @constructor
      *
-     * @param {string} env - environment type
+     * @param {PIXI.Texture} env - the texture of environment
      * @param {number} chunkIndex - the index of chunk, from 0 to 3
      * @param {number} x - the pos of x
      * @param {number} y - the pos of y
@@ -31,16 +29,16 @@ class Environment {
      * The function init the env object
      */
     objectInit () {
-        // draw rectangle and border
-        this.object = new PIXI.Graphics()
-        this.object.beginFill(EnvColor[this.env])
-        this.object.drawRect(0, 0, spaceSize, spaceSize)
-        this.object.endFill()
-
+        this.object = new PIXI.Sprite(this.env)
+        // scale
+        this.object.scale.x = spaceSize / this.object.width
+        this.object.scale.y = spaceSize / this.object.height
 
         // set position
-        this.object.x = (this.chunkIndex%2) * (layerSize / chunkCoor) + this.x * spaceSize
-        this.object.y = Math.floor((this.chunkIndex/2)) * (layerSize / chunkCoor) + this.y * spaceSize
+        this.object.x = (this.chunkIndex % chunkCoor) * (layerSize / chunkCoor) + this.x * spaceSize
+        this.object.y = Math.floor((this.chunkIndex / chunkCoor)) * (layerSize / chunkCoor) + this.y * spaceSize
+
+        this.object.alpha = 0.8
 
         // set zindex
         this.object.zIndex = 0

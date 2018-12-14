@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import EnvType from './EnvType'
-import Environment from '../../mainMap/environment/Environment'
+import Environment from '../../mainMap/Environment'
 
 const layerSize = 950
 const chunkCoor = 2
@@ -53,10 +53,11 @@ function ClearContainer(container) {
 function ListInit(MapData) {
     var chunkEnv = []
     return new Promise(resolve => {
-        for (let n = 0; n < MapData.length; ++n) {
-            for (let i = 0; i < 16; ++i) {
-                for (let j = 0; j < 16; ++j) {
-                    chunkEnv.push(new Environment(EnvType[MapData[n].Blocks[i][j].Terrain], n, i, j))
+        for (let chunkIndex = 0; chunkIndex < MapData.length; ++chunkIndex) {
+            for (let x = 0; x < 16; ++x) {
+                for (let y = 0; y < 16; ++y) {
+                    let texture = window.textures.environment[EnvType[MapData[chunkIndex].Blocks[x][y].Terrain]]
+                    chunkEnv.push(new Environment(texture, chunkIndex, x, y))
                 }
             }
         }
@@ -97,7 +98,7 @@ function BorderCreate() {
         let border = new PIXI.Graphics()
         // draw pos border
         border.nativeLines = true
-        border.lineStyle(1, 0x000000, 0.1)
+        border.lineStyle(1, 0x000000, 0.5)
         for (let i = 0; i < spaceCoor * chunkCoor; ++i) {
             border.moveTo(0, spaceSize * i)
             border.lineTo(layerSize, spaceSize * i)
@@ -106,7 +107,7 @@ function BorderCreate() {
         }
 
         // draw chunk border
-        border.lineStyle(1, 0x000000, 0.7)
+        border.lineStyle(3, 0x000000, 0.7)
         border.nativeLines = false
         border.moveTo(0, 0)
         border.lineTo(layerSize, 0)
