@@ -209,7 +209,6 @@ class BaseBuilding {
      * @resolve {PIXI.Container} the buttonlist contains all buttons
      */
     buttonListCreate () {
-        console.log(window.textures)
         return new Promise(async resolve => {
             var buttonList = new PIXI.Container()
             var funcButton = null   // funcButton: repair, restart, upgrade, or null

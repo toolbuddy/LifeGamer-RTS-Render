@@ -39,6 +39,7 @@ class WebsocketConnection {
         this.connection.onmessage = this.msgHandler             // setting onmessage function, msgHandler
         this.register()                                         // register
 
+        /*
         window.addEventListener('keydown', function(event) {
             const key = event.keyCode
             if (key == 37) {
@@ -51,6 +52,7 @@ class WebsocketConnection {
                 API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.mainMap._data.data[0].Pos.X, 'Y': window.mainMap._data.data[0].Pos.Y + 1})
             }
         })
+        */
     }
     /**
      * using promise to await websocket creating successful
@@ -113,6 +115,7 @@ class WebsocketConnection {
                 await window.mainMap._data.updateData(msg.Chunks)
                 await API.mainMap.ChunkEnvUpdate(window.mainMap.children[0], window.mainMap._data.data)
                 await API.mainMap.ChunkBuildingsUpdate(window.mainMap.children[1], window.mainMap._data.data)
+                await API.mainMap.ChunkInfoUpdate(window.mainMap.children[1], window.mainMap._data.data)
                 break
             case MsgType['MinimapDataResponse']:
                 await window.miniMap._data.updateData(msg)
