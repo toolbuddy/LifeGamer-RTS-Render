@@ -1,5 +1,7 @@
+const chunkCoor = 2
+
 /**
- * The function return 4-elements array contains map chunk data request
+ * The function return chunkCoor^2-elements array contains map chunk data request
  *
  * @function
  *
@@ -9,10 +11,11 @@
  */
 
 function calculateViewRange (ViewPoint) {
+    console.log(ViewPoint)
     return new Promise((resolve, reject) => {
         let viewRange = []
-        for (let i = 0; i < 4; i++) {
-            viewRange.push({ 'X': ViewPoint.X + (i%2), 'Y': ViewPoint.Y + Math.floor((i/2)) })
+        for (let i = 0; i < chunkCoor * chunkCoor; i++) {
+            viewRange.push({ 'X': ViewPoint.X + (i % chunkCoor), 'Y': ViewPoint.Y + Math.floor((i / chunkCoor)) })
         }
         resolve(viewRange)
     })

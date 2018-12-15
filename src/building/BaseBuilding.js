@@ -144,7 +144,7 @@ class BaseBuilding {
             let textstring = ''
             textstring += `Name: ${this.info.Name}\n`
             textstring += `Status: ${this.info.Status}\n`
-            textstring += `Human: ${this.info.Human}\n`
+            textstring += `Population: ${this.info.Population}\n`
             textstring += `Money: ${this.info.Money}\n`
             textstring += `Power: ${this.info.Power}\n`
             textstring += `Level: ${this.info.Level}`

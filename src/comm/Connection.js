@@ -92,6 +92,7 @@ class WebsocketConnection {
      */
     async msgHandler (e) {
         let msg = JSON.parse(e.data)
+        console.log(msg)
         switch (msg.Msg_type) {
             case MsgType['LogoutRequest']:
                 break
@@ -107,9 +108,10 @@ class WebsocketConnection {
                 window.playerData.updateUserData(msg) // updating userdata
                 if (!flag) {
                     flag = true
-                    API.miniMap.ViewRangeMapdataRequest(this.parent, window.playerData.Home)
+                    API.miniMap.ViewRangeMapdataRequest(this.parent, window.playerData.getHomePoint())
                 }
-                UpdateStatus(`${msg.Power} / ${msg.PowerMax}`, msg.Human, msg.Money)
+                let userData = window.playerData.getUserStatusData()
+                UpdateStatus(userData)
                 break
             case MsgType['MapDataResponse']:
                 await window.mainMap._data.updateData(msg.Chunks)

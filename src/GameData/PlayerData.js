@@ -9,12 +9,7 @@ class PlayerData {
      *
      */
     constructor () {
-        this.Username = 'none'                  // using for status and sending request
-        this.Human = 0                          // using for status
-        this.Money = 0                          // using for status
-        this.Power = 0                          // using for status
-        this.Initialized = false                // using for checking player first play or not
-        this.Home = null                        // using for menu -> Home button
+        this.data = null
     }
     /**
      * username setting
@@ -34,27 +29,33 @@ class PlayerData {
      * @param {Object} data - the data getting from backend server
      */
     updateUserData (data) {
-        this.Human = data.Human
-        this.Money = data.Money
-        this.Power = data.Power
-        this.Initialized = data.Initialized
-        this.Home = data.Home
+        this.data = data
     }
     /**
-     * getting userdata
+     * getting userdata to status
      *
      * @function
      *
-     * @returns {Object} playerdata - contains Username, Human,Money, and Power
+     * @returns {Object} playerdata - contains Population, PopulationCap, Money, Power and PowerMax
      */
-    getUserData () {
+    getUserStatusData () {
         return {
-            Username: this.Username,
-            Human: this.Human,
-            Money: this.Money,
-            Power: this.Power,
-            Home: this.Home
+            Population: this.data.Population,
+            PopulationCap: this.data.PopulationCap,
+            Money: this.data.Money,
+            Power: this.data.Power,
+            PowerMax: this.data.PowerMax
         }
+    }
+    /**
+     * The function getting user home point
+     *
+     * @function
+     *
+     * @returns {Object} homepoint - contains X and Y key-value
+     */
+    getHomePoint () {
+        return this.data.Home
     }
 }
 
