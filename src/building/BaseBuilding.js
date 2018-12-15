@@ -1,10 +1,16 @@
 import * as PIXI from 'pixi.js'
 import * as API from '../API'
 
+const width = 1683,
+      height = 864
+
 const layerSize = 950
-const chunkCoor = 2
+const chunkCoorX = 4
+const chunkCoorY = 2
 const spaceCoor = 16
-const spaceSize = layerSize / chunkCoor / spaceCoor
+const spaceSize = layerSize / chunkCoorY / spaceCoor
+const chunkSize = layerSize / chunkCoorY
+
 
 const padding = 10
 
@@ -42,8 +48,8 @@ class BaseBuilding {
 
         this.object = new PIXI.Sprite(this.buildingTexture)
 
-        this.object.x = ((this.chunkIndex % chunkCoor) * (layerSize / chunkCoor)) + this.info.Pos.X * spaceSize + (padding / 2)
-        this.object.y = (Math.floor(this.chunkIndex / chunkCoor) * (layerSize / chunkCoor)) + this.info.Pos.Y * spaceSize + (padding / 2)
+        this.object.x = ((this.chunkIndex % chunkCoorX) * chunkSize) + this.info.Pos.X * spaceSize + (padding / 2)
+        this.object.y = (Math.floor(this.chunkIndex / chunkCoorX) * chunkSize) + this.info.Pos.Y * spaceSize + (padding / 2)
 
         // scale
         this.object.scale.x = (this.info.Size.W * spaceSize - padding) / this.object.width
@@ -70,17 +76,21 @@ class BaseBuilding {
         this.object.mouseover = function(mouseData) {
             this._parent.isHover = true
             if (!this._parent.isClicked) {
+                let scaleW = width / window.innerWidth,
+                    scaleH = height / window.iennnerHeight
                 this.parent.addChild(this._parent.tooltip)
-                this._parent.tooltip.x = (mouseData.data.global.x + this._parent.tooltip.width < (layerSize - 20)) ? mouseData.data.global.x + 20 : mouseData.data.global.x - 20 - this._parent.tooltip.width
-                this._parent.tooltip.y = (mouseData.data.global.y + this._parent.tooltip.height < (layerSize - 20)) ? mouseData.data.global.y + 20 : mouseData.data.global.y - this._parent.tooltip.height + 20
+                this._parent.tooltip.x = ((mouseData.data.global.x + this._parent.tooltip.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.tooltip.width) * scaleW
+                this._parent.tooltip.y = ((mouseData.data.global.y + this._parent.tooltip.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.tooltip.height) * scaleH
             }
         }
 
         // mouse move function setting
         this.object.mousemove = function(mouseData) {
             if (this._parent.isHover && !this._parent.isClicked) {
-                this._parent.tooltip.x = (mouseData.data.global.x + this._parent.tooltip.width < (layerSize - 20)) ? mouseData.data.global.x + 20 : mouseData.data.global.x - 20 - this._parent.tooltip.width
-                this._parent.tooltip.y = (mouseData.data.global.y + this._parent.tooltip.height < (layerSize - 20)) ? mouseData.data.global.y + 20 : mouseData.data.global.y - this._parent.tooltip.height + 20
+                let scaleW = width / window.innerWidth,
+                    scaleH = height / window.innerHeight
+                this._parent.tooltip.x = ((mouseData.data.global.x + this._parent.tooltip.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.tooltip.width) * scaleW
+                this._parent.tooltip.y = ((mouseData.data.global.y + this._parent.tooltip.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.tooltip.height) * scaleH
             }
         }
 
@@ -98,9 +108,11 @@ class BaseBuilding {
             if (this._parent.isHover) {
                 this.parent.removeChild(this._parent.tooltip)
             }
+            let scaleW = width / window.innerWidth,
+                scaleH = height / window.innerHeight
             this.parent.addChild(this._parent.buttonList)
-            this._parent.buttonList.x = (mouseData.data.global.x + this._parent.buttonList.width < (layerSize - 20)) ? mouseData.data.global.x + 20 : mouseData.data.global.x - 20 - this._parent.buttonList.width
-            this._parent.buttonList.y = (mouseData.data.global.y + this._parent.buttonList.height < (layerSize - 20)) ? mouseData.data.global.y + 20 : mouseData.data.global.y - this._parent.buttonList.height + 20
+            this._parent.buttonList.x = ((mouseData.data.global.x + this._parent.buttonList.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.buttonList.width) * scaleW
+            this._parent.buttonList.y = ((mouseData.data.global.y + this._parent.buttonList.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.buttonList.height) * scaleH
         })
 
     }

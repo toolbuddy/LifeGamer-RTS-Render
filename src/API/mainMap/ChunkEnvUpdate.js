@@ -3,9 +3,11 @@ import EnvType from './EnvType'
 import Environment from '../../mainMap/Environment'
 
 const layerSize = 950
-const chunkCoor = 2
+const chunkCoorX = 4
+const chunkCoorY = 2
 const spaceCoor = 16
-const spaceSize = layerSize / chunkCoor / spaceCoor
+const spaceSize = layerSize / chunkCoorY / spaceCoor
+const chunkSize = layerSize / chunkCoorY
 
 /**
  * The function creating all env objects by given data inside the chunk
@@ -99,27 +101,29 @@ function BorderCreate() {
         // draw pos border
         border.nativeLines = true
         border.lineStyle(1, 0x000000, 0.5)
-        for (let i = 0; i < spaceCoor * chunkCoor; ++i) {
+        // draw horizontal lines
+        for (let i = 0; i < spaceCoor * chunkCoorY; ++i) {
             border.moveTo(0, spaceSize * i)
-            border.lineTo(layerSize, spaceSize * i)
-            border.moveTo(spaceSize * i, 0)
-            border.lineTo(spaceSize * i, layerSize)
+            border.lineTo(chunkSize * chunkCoorX, spaceSize * i)
         }
-
+        // draw vertical lines
+        for (let i = 0; i < spaceCoor * chunkCoorX; ++i) {
+            border.moveTo(spaceSize * i, 0)
+            border.lineTo(spaceSize * i, chunkSize * chunkCoorY)
+        }
         // draw chunk border
         border.lineStyle(3, 0x000000, 0.7)
         border.nativeLines = false
-        border.moveTo(0, 0)
-        border.lineTo(layerSize, 0)
-        border.lineTo(layerSize, layerSize)
-        border.lineTo(0, layerSize)
-        border.lineTo(0, 0)
-
-        border.moveTo((layerSize / chunkCoor), 0)
-        border.lineTo((layerSize / chunkCoor), layerSize)
-        border.moveTo(0, (layerSize / chunkCoor))
-        border.lineTo(layerSize, (layerSize / chunkCoor))
-
+        // draw horizontal lines
+        for (let i = 0; i <= chunkCoorY; ++i) {
+            border.moveTo(0, chunkSize * i)
+            border.lineTo(chunkSize * chunkCoorX, chunkSize * i)
+        }
+        // draw vertical lines
+        for (let i = 0; i <= chunkCoorX; ++i) {
+            border.moveTo(chunkSize * i, 0)
+            border.lineTo(chunkSize * i, chunkSize * chunkCoorY)
+        }
         // set zindex
         border.zIndex = 1
 

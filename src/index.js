@@ -76,16 +76,6 @@ loader.onComplete.add(() => {
     Init(connect, MainMap.container, textures)
 })
 
-// container width auto setting
-
-window.onresize = resize
-
-function resize() {
-    document.querySelector('.container').style.width = `${Math.ceil(document.querySelector('#mainMap').offsetWidth + document.querySelector('.aside').offsetWidth) }px`
-}
-
-resize();
-
 // render part
 
 document.querySelector('section#mainMap').appendChild(MainMap.view)

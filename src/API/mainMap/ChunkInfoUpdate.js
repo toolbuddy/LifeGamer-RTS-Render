@@ -2,9 +2,11 @@ import * as PIXI from 'pixi.js'
 import EnvType from './EnvType'
 
 const layerSize = 950
-const chunkCoor = 2
+const chunkCoorX = 4
+const chunkCoorY = 2
 const spaceCoor = 16
-const spaceSize = layerSize / chunkCoor / spaceCoor
+const spaceSize = layerSize / chunkCoorY / spaceCoor
+const chunkSize = layerSize / chunkCoorY
 
 const textStyle = {
     fill: "white",
@@ -26,7 +28,7 @@ export default function ChunkInfoUpdate(container, MapData) {
         let chunkInfoBackground = new PIXI.Graphics()
 
         chunkInfoBackground.beginFill(0x000000)
-        chunkInfoBackground.drawRect(0, 0, layerSize, layerSize)
+        chunkInfoBackground.drawRect(0, 0, chunkSize * chunkCoorX, chunkSize * chunkCoorY)
 
         chunkInfo.addChild(chunkInfoBackground)
         for (let chunkIndex = 0; chunkIndex < MapData.length; ++chunkIndex) {
@@ -75,8 +77,8 @@ function InfoUpdate(ChunkData, chunkIndex) {
 
         info.anchor.set(0.5)
 
-        info.x = (chunkIndex % chunkCoor) * (layerSize / chunkCoor) + (layerSize / chunkCoor / 2)
-        info.y = Math.floor(chunkIndex / chunkCoor) * (layerSize / chunkCoor) + (layerSize / chunkCoor / 2)
+        info.x = (chunkIndex % chunkCoorX) * chunkSize + (chunkSize / 2)
+        info.y = Math.floor(chunkIndex / chunkCoorX) * chunkSize + (chunkSize / 2)
 
         resolve(info)
     })

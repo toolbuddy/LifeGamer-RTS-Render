@@ -1,7 +1,9 @@
 const layerSize = 950
-const chunkCoor = 2
+const chunkCoorX = 4
+const chunkCoorY = 2
 const spaceCoor = 16
-const spaceSize = layerSize / chunkCoor / spaceCoor
+const spaceSize = layerSize / chunkCoorY / spaceCoor
+const chunkSize = layerSize / chunkCoorY
 
 /**
  * The base class let other class inherit
@@ -35,8 +37,8 @@ class Environment {
         this.object.scale.y = spaceSize / this.object.height
 
         // set position
-        this.object.x = (this.chunkIndex % chunkCoor) * (layerSize / chunkCoor) + this.x * spaceSize
-        this.object.y = Math.floor((this.chunkIndex / chunkCoor)) * (layerSize / chunkCoor) + this.y * spaceSize
+        this.object.x = (this.chunkIndex % chunkCoorX) * chunkSize + this.x * spaceSize
+        this.object.y = Math.floor((this.chunkIndex / chunkCoorX)) * chunkSize + this.y * spaceSize
 
         this.object.alpha = 0.8
 

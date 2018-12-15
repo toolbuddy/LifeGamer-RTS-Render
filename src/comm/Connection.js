@@ -92,7 +92,6 @@ class WebsocketConnection {
      */
     async msgHandler (e) {
         let msg = JSON.parse(e.data)
-        console.log(msg)
         switch (msg.Msg_type) {
             case MsgType['LogoutRequest']:
                 break

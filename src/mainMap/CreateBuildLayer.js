@@ -3,15 +3,18 @@ import Structures from '../API/mainMap/Structure'
 import * as PIXI from 'pixi.js'
 import * as API from '../API'
 
-var layerSize = null
-var spaceSize = null
-var defaultLayerSize = 950
-const chunkCoor = 2
-const spaceCoor = 16
+const width = 1683,
+      height = 864
+
+const layerSize = 950,
+      chunkCoorX = 4,
+      chunkCoorY = 2,
+      spaceCoor = 16,
+      spaceSize = layerSize / chunkCoorY / spaceCoor,
+      chunkSize = layerSize / chunkCoorY
+
 
 export default function CreateBuildLayer (conn, MapData, building) {
-    layerSize = window.innerHeight
-    spaceSize = layerSize / chunkCoor / spaceCoor
     return new Promise(async resolve => {
         // create layer
         var layer = new PIXI.Container()
@@ -27,21 +30,25 @@ export default function CreateBuildLayer (conn, MapData, building) {
         layer.interactive = true
 
         layer.mouseover = function(mouseData) {
-            let chunkIndex = Math.floor(mouseData.data.global.x / (layerSize / chunkCoor)) + Math.floor(mouseData.data.global.y / (layerSize / chunkCoor)) * chunkCoor
+            let scaleX = width / window.innerWidth,
+                scaleY = height / window.innerHeight
+            let chunkIndex = Math.floor(mouseData.data.global.x / chunkSize) + Math.floor(mouseData.data.global.y / chunkSize) * chunkCoorX
             let index = Math.floor(mouseData.data.global.x / spaceSize) % spaceCoor + Math.floor(mouseData.data.global.y / spaceSize) % spaceCoor * spaceCoor
             this.isHover = true
             this.addChild(this.selectSpace)
-            this.selectSpace.x = Math.floor(mouseData.data.global.x / spaceSize) * spaceSize
-            this.selectSpace.y = Math.floor(mouseData.data.global.y / spaceSize) * spaceSize
+            this.selectSpace.x = (Math.floor(mouseData.data.global.x / spaceSize) * spaceSize) * scaleX
+            this.selectSpace.y = (Math.floor(mouseData.data.global.y / spaceSize) * spaceSize) * scaleY
             this.selectSpace.graphicsData[0].fillColor = (allowPoints[chunkIndex][index]) ? 0x00ff00 : 0xff0000
         }
 
         layer.mousemove = function(mouseData) {
             if(this.isHover) {
-                let chunkIndex = Math.floor(mouseData.data.global.x / (layerSize / chunkCoor)) + Math.floor(mouseData.data.global.y / (layerSize / chunkCoor)) * chunkCoor
+                let scaleX = width / window.innerWidth,
+                    scaleY = height / window.innerHeight
+                let chunkIndex = Math.floor(mouseData.data.global.x / chunkSize) + Math.floor(mouseData.data.global.y / chunkSize) * chunkCoorX
                 let index = Math.floor(mouseData.data.global.x / spaceSize) % spaceCoor + Math.floor(mouseData.data.global.y / spaceSize) % spaceCoor * spaceCoor
-                this.selectSpace.x = Math.floor(mouseData.data.global.x / spaceSize) * spaceSize
-                this.selectSpace.y = Math.floor(mouseData.data.global.y / spaceSize) * spaceSize
+                this.selectSpace.x = (Math.floor(mouseData.data.global.x / spaceSize) * spaceSize) * scaleX
+                this.selectSpace.y = (Math.floor(mouseData.data.global.y / spaceSize) * spaceSize) * scaleY
                 this.selectSpace.graphicsData[0].fillColor = (allowPoints[chunkIndex][index]) ? 0x00ff00 : 0xff0000
             }
         }
@@ -53,19 +60,22 @@ export default function CreateBuildLayer (conn, MapData, building) {
 
         layer.on('pointerdown', function(mouseData) {
             this.isHover = false
-            let chunkIndex = Math.floor(mouseData.data.global.x / (layerSize / chunkCoor)) + Math.floor(mouseData.data.global.y / (layerSize / chunkCoor)) * chunkCoor
+            let chunkIndex = Math.floor(mouseData.data.global.x / chunkSize) + Math.floor(mouseData.data.global.y / chunkSize) * chunkCoorX
             let x = Math.floor(mouseData.data.global.x / spaceSize) % spaceCoor
             let y = Math.floor(mouseData.data.global.y / spaceSize) % spaceCoor
             API.mainMap.BuildOperRequest(conn, 'Build', Structures[building].ID, MapData[chunkIndex].Pos, {'X': x, 'Y': y})
             this.parent.removeChild(this)
             API.miniMap.ViewRangeMapdataRequest(conn, MapData[0].Pos)
+
+            // show all other elements
+            document.querySelector('#menu').style.display = 'block'
+            document.querySelector('#statusBar').style.display = 'block'
+            document.querySelector('#miniMap').style.display = 'block'
         })
 
         layer.zIndex = 99
         layer.alpha = 0.5
 
-        // setting scale
-        layer.scale.set(defaultLayerSize / layerSize)
 
         resolve(layer)
     })
@@ -75,7 +85,7 @@ function backgroundCreate() {
     return new Promise(resolve => {
         var bg = new PIXI.Graphics()
         bg.beginFill(0x000000)
-        bg.drawRect(0, 0, layerSize, layerSize)
+        bg.drawRect(0, 0, window.innerWidth, window.innerHeight)
         bg.endFill()
 
         resolve(bg)
