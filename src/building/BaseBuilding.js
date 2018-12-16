@@ -1,26 +1,16 @@
+import config from '../config'
 import * as PIXI from 'pixi.js'
 import * as API from '../API'
 
-const width = 1683,
-      height = 864
-
-const layerSize = 950
-const chunkCoorX = 4
-const chunkCoorY = 2
-const spaceCoor = 16
-const spaceSize = layerSize / chunkCoorY / spaceCoor
-const chunkSize = layerSize / chunkCoorY
-
-
 const padding = 10
 
-const buttonWidth = 150, buttonHeight = 35
+const buttonWidth = 170, buttonHeight = 40
 
 /* tooltip style setting */
 var tooltipStyle = {
     fill: "white",
     fontFamily: "\"Courier New\", Courier, monospace",
-    fontSize: 18
+    fontSize: 20
 }
 
 /**
@@ -45,11 +35,13 @@ class BaseBuilding {
      * @function
      */
     async objectInit () {
+        let chunkSize = Math.min(window.mainMapWidth, window.mainMapHeight) / Math.min(config.chunkCoorX, config.chunkCoorY),
+            spaceSize = chunkSize / config.spaceCoor
 
         this.object = new PIXI.Sprite(this.buildingTexture)
 
-        this.object.x = ((this.chunkIndex % chunkCoorX) * chunkSize) + this.info.Pos.X * spaceSize + (padding / 2)
-        this.object.y = (Math.floor(this.chunkIndex / chunkCoorX) * chunkSize) + this.info.Pos.Y * spaceSize + (padding / 2)
+        this.object.x = ((this.chunkIndex % config.chunkCoorX) * chunkSize) + this.info.Pos.X * spaceSize + (padding / 2)
+        this.object.y = (Math.floor(this.chunkIndex / config.chunkCoorX) * chunkSize) + this.info.Pos.Y * spaceSize + (padding / 2)
 
         // scale
         this.object.scale.x = (this.info.Size.W * spaceSize - padding) / this.object.width
@@ -76,21 +68,19 @@ class BaseBuilding {
         this.object.mouseover = function(mouseData) {
             this._parent.isHover = true
             if (!this._parent.isClicked) {
-                let scaleW = width / window.innerWidth,
-                    scaleH = height / window.iennnerHeight
+                let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
                 this.parent.addChild(this._parent.tooltip)
-                this._parent.tooltip.x = ((mouseData.data.global.x + this._parent.tooltip.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.tooltip.width) * scaleW
-                this._parent.tooltip.y = ((mouseData.data.global.y + this._parent.tooltip.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.tooltip.height) * scaleH
+                this._parent.tooltip.x = ((mouseData.data.global.x + this._parent.tooltip.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.tooltip.width) * scale
+                this._parent.tooltip.y = ((mouseData.data.global.y + this._parent.tooltip.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.tooltip.height) * scale
             }
         }
 
         // mouse move function setting
         this.object.mousemove = function(mouseData) {
             if (this._parent.isHover && !this._parent.isClicked) {
-                let scaleW = width / window.innerWidth,
-                    scaleH = height / window.innerHeight
-                this._parent.tooltip.x = ((mouseData.data.global.x + this._parent.tooltip.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.tooltip.width) * scaleW
-                this._parent.tooltip.y = ((mouseData.data.global.y + this._parent.tooltip.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.tooltip.height) * scaleH
+                let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
+                this._parent.tooltip.x = ((mouseData.data.global.x + this._parent.tooltip.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.tooltip.width) * scale
+                this._parent.tooltip.y = ((mouseData.data.global.y + this._parent.tooltip.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.tooltip.height) * scale
             }
         }
 
@@ -108,11 +98,10 @@ class BaseBuilding {
             if (this._parent.isHover) {
                 this.parent.removeChild(this._parent.tooltip)
             }
-            let scaleW = width / window.innerWidth,
-                scaleH = height / window.innerHeight
+            let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
             this.parent.addChild(this._parent.buttonList)
-            this._parent.buttonList.x = ((mouseData.data.global.x + this._parent.buttonList.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.buttonList.width) * scaleW
-            this._parent.buttonList.y = ((mouseData.data.global.y + this._parent.buttonList.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.buttonList.height) * scaleH
+            this._parent.buttonList.x = ((mouseData.data.global.x + this._parent.buttonList.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.buttonList.width) * scale
+            this._parent.buttonList.y = ((mouseData.data.global.y + this._parent.buttonList.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.buttonList.height) * scale
         })
 
     }
@@ -129,7 +118,7 @@ class BaseBuilding {
             const textSprite = new PIXI.Text(await this.tooltipTextGen(), tooltipStyle)
             var textBackground = new PIXI.Graphics()
             textBackground.beginFill(0x000000)
-            textBackground.drawRoundedRect(0, 0, textSprite.width + 40, textSprite.height + 20, 3)
+            textBackground.drawRoundedRect(0, 0, textSprite.width + 45, textSprite.height + 20, 3)
             textBackground.endFill()
 
             textSprite.anchor.set(0.5)

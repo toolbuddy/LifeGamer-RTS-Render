@@ -1,13 +1,7 @@
+import config from '../../config'
 import * as PIXI from 'pixi.js'
 import EnvType from './EnvType'
 import Environment from '../../mainMap/Environment'
-
-const layerSize = 950
-const chunkCoorX = 4
-const chunkCoorY = 2
-const spaceCoor = 16
-const spaceSize = layerSize / chunkCoorY / spaceCoor
-const chunkSize = layerSize / chunkCoorY
 
 /**
  * The function creating all env objects by given data inside the chunk
@@ -97,32 +91,34 @@ function ObjectInit(container, environmentList) {
  */
 function BorderCreate() {
     return new Promise(resolve => {
-        let border = new PIXI.Graphics()
+        let border = new PIXI.Graphics(),
+            chunkSize = Math.min(window.mainMapWidth, window.mainMapHeight) / Math.min(config.chunkCoorX, config.chunkCoorY),
+            spaceSize = chunkSize / config.spaceCoor
         // draw pos border
         border.nativeLines = true
         border.lineStyle(1, 0x000000, 0.5)
         // draw horizontal lines
-        for (let i = 0; i < spaceCoor * chunkCoorY; ++i) {
+        for (let i = 0; i < config.spaceCoor * config.chunkCoorY; ++i) {
             border.moveTo(0, spaceSize * i)
-            border.lineTo(chunkSize * chunkCoorX, spaceSize * i)
+            border.lineTo(chunkSize * config.chunkCoorX, spaceSize * i)
         }
         // draw vertical lines
-        for (let i = 0; i < spaceCoor * chunkCoorX; ++i) {
+        for (let i = 0; i < config.spaceCoor * config.chunkCoorX; ++i) {
             border.moveTo(spaceSize * i, 0)
-            border.lineTo(spaceSize * i, chunkSize * chunkCoorY)
+            border.lineTo(spaceSize * i, chunkSize * config.chunkCoorY)
         }
         // draw chunk border
         border.lineStyle(3, 0x000000, 0.7)
         border.nativeLines = false
         // draw horizontal lines
-        for (let i = 0; i <= chunkCoorY; ++i) {
+        for (let i = 0; i <= config.chunkCoorY; ++i) {
             border.moveTo(0, chunkSize * i)
-            border.lineTo(chunkSize * chunkCoorX, chunkSize * i)
+            border.lineTo(chunkSize * config.chunkCoorX, chunkSize * i)
         }
         // draw vertical lines
-        for (let i = 0; i <= chunkCoorX; ++i) {
+        for (let i = 0; i <= config.chunkCoorX; ++i) {
             border.moveTo(chunkSize * i, 0)
-            border.lineTo(chunkSize * i, chunkSize * chunkCoorY)
+            border.lineTo(chunkSize * i, chunkSize * config.chunkCoorY)
         }
         // set zindex
         border.zIndex = 1

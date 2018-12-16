@@ -1,10 +1,16 @@
 import * as PIXI from 'pixi.js'
+import config from '../config'
 
 const wrapper = document.querySelector('section#mainMap')
 
-// canvas origin width, height setting (get 110% width and height)
-const width = 1683
-const height = 864
+// canvas origin width, height setting
+const height = window.innerHeight,
+      width = height * (config.chunkCoorX / config.chunkCoorY)
+
+
+// setting default width and height
+window.mainMapWidth = width
+window.mainMapHeight = height
 
 // variable setting
 var app = null

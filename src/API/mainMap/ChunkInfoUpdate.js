@@ -1,12 +1,6 @@
+import config from '../../config'
 import * as PIXI from 'pixi.js'
 import EnvType from './EnvType'
-
-const layerSize = 950
-const chunkCoorX = 4
-const chunkCoorY = 2
-const spaceCoor = 16
-const spaceSize = layerSize / chunkCoorY / spaceCoor
-const chunkSize = layerSize / chunkCoorY
 
 const textStyle = {
     fill: "white",
@@ -23,16 +17,18 @@ const textStyle = {
  * @param {Object} MapData - the mapdata getting from server
  */
 export default function ChunkInfoUpdate(container, MapData) {
+    let chunkSize = Math.min(window.mainMapWidth, window.mainMapHeight) / Math.min(config.chunkCoorX, config.chunkCoorY),
+        spaceSize = chunkSize / config.spaceCoor
     return new Promise(async resolve => {
         let chunkInfo = new PIXI.Container()
         let chunkInfoBackground = new PIXI.Graphics()
 
         chunkInfoBackground.beginFill(0x000000)
-        chunkInfoBackground.drawRect(0, 0, chunkSize * chunkCoorX, chunkSize * chunkCoorY)
+        chunkInfoBackground.drawRect(0, 0, chunkSize * config.chunkCoorX, chunkSize * config.chunkCoorY)
 
         chunkInfo.addChild(chunkInfoBackground)
         for (let chunkIndex = 0; chunkIndex < MapData.length; ++chunkIndex) {
-            chunkInfo.addChild(await InfoUpdate(MapData[chunkIndex], chunkIndex))
+            chunkInfo.addChild(await InfoUpdate(MapData[chunkIndex], chunkIndex, chunkSize))
         }
 
         chunkInfo.interactive = true        // avoid the mouseevent under this layer
@@ -71,14 +67,14 @@ export default function ChunkInfoUpdate(container, MapData) {
  * @returns {Promise<PIXI.Text>} a promise contains PIXI.Text object
  * @resolve {PIXI.Text} the chunk info
  */
-function InfoUpdate(ChunkData, chunkIndex) {
+function InfoUpdate(ChunkData, chunkIndex, chunkSize) {
     return new Promise(async resolve => {
         let info = new PIXI.Text(await TextGen(ChunkData), textStyle)
 
         info.anchor.set(0.5)
 
-        info.x = (chunkIndex % chunkCoorX) * chunkSize + (chunkSize / 2)
-        info.y = Math.floor(chunkIndex / chunkCoorX) * chunkSize + (chunkSize / 2)
+        info.x = (chunkIndex % config.chunkCoorX) * chunkSize + (chunkSize / 2)
+        info.y = Math.floor(chunkIndex / config.chunkCoorX) * chunkSize + (chunkSize / 2)
 
         resolve(info)
     })

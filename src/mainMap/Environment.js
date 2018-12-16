@@ -1,9 +1,4 @@
-const layerSize = 950
-const chunkCoorX = 4
-const chunkCoorY = 2
-const spaceCoor = 16
-const spaceSize = layerSize / chunkCoorY / spaceCoor
-const chunkSize = layerSize / chunkCoorY
+import config from '../config'
 
 /**
  * The base class let other class inherit
@@ -31,14 +26,17 @@ class Environment {
      * The function init the env object
      */
     objectInit () {
+        let chunkSize = Math.min(window.mainMapWidth, window.mainMapHeight) / Math.min(config.chunkCoorX, config.chunkCoorY),
+            spaceSize = chunkSize / config.spaceCoor
+
         this.object = new PIXI.Sprite(this.env)
         // scale
         this.object.scale.x = spaceSize / this.object.width
         this.object.scale.y = spaceSize / this.object.height
 
         // set position
-        this.object.x = (this.chunkIndex % chunkCoorX) * chunkSize + this.x * spaceSize
-        this.object.y = Math.floor((this.chunkIndex / chunkCoorX)) * chunkSize + this.y * spaceSize
+        this.object.x = (this.chunkIndex % config.chunkCoorX) * chunkSize + this.x * spaceSize
+        this.object.y = Math.floor((this.chunkIndex / config.chunkCoorX)) * chunkSize + this.y * spaceSize
 
         this.object.alpha = 0.8
 
