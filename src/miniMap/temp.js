@@ -70,7 +70,7 @@ function dspCanSetting() {
 
 // color setting
 var terrainColor = [0x00FF00, 0x0000FF, 0xFFFF00, 0x00FF00, 0x0000FF, 0xFFFF00];
-var ownerColor = [0xC3BBBB, 0x00FF95, 0xDB0A0A, 0x5CADFF];
+var ownerColor = [0xC3BBBB, 0x00FF95, 0xDB0A0A];
 function ownerNumber(str) {
   if (str == "NONE") { return 0; }
   else if (str == "Andy") { return 1; }
@@ -151,72 +151,85 @@ function coutClub(dst) {
 
 dspCan.addEventListener("mouseover", () => {
   document.getElementById("test").style.backgroundColor = "#FF0000";
-  dspTimer = setInterval(miniMapUpdate, 100);
-  clearInterval(dspTimer)
-  dspTimer = setInterval(miniMapUpdate, 300);
-  function miniMapUpdate() {
-    var dstX = mouseX - dspCanXcen;
-    var dstY = mouseY - dspCanYcen;
-    document.getElementById("dsp_2").innerHTML = "dstX: " + dstX + " dstY: " + dstY;
-    var focusX = dspXcen + coutClub(dstX);
-    var focusY = dspYcen + coutClub(dstY);
-    document.getElementById("dsp_3").innerHTML = "focusX: " + focusX + " focusY: " + focusY;
-    searchTerrain(focusX, focusY);
+  var dblclick = false;
+  dspCan.addEventListener("dblclick", () => { dblclick = true; });
+  dspTimer = setInterval(() => {
+    if (dblclick)
+    {
+      dblclick = false;
+      var dstX = mouseX - dspCanXcen;
+      var dstY = mouseY - dspCanYcen;
+      document.getElementById("dsp_2").innerHTML = "dstX: " + dstX + " dstY: " + dstY;
+      var focusX = dspXcen + coutClub(dstX);
+      var focusY = dspYcen + coutClub(dstY);
+      document.getElementById("dsp_3").innerHTML = "focusX: " + focusX + " focusY: " + focusY;
+      searchTerrain(focusX, focusY);
+    }
+  }, 100);
+  // dspTimer = setInterval(miniMapUpdate, 100);
+  // function miniMapUpdate() {
+  //   var dstX = mouseX - dspCanXcen;
+  //   var dstY = mouseY - dspCanYcen;
+  //   document.getElementById("dsp_2").innerHTML = "dstX: " + dstX + " dstY: " + dstY;
+  //   var focusX = dspXcen + coutClub(dstX);
+  //   var focusY = dspYcen + coutClub(dstY);
+  //   document.getElementById("dsp_3").innerHTML = "focusX: " + focusX + " focusY: " + focusY;
+  //   searchTerrain(focusX, focusY);
 
-    if (Math.abs(dstX) > Math.abs(dstY))
-    {
-      if (Math.abs(dstX) > 160)
-      {
-        if (dstX > 0)
-        {
-          if (dspXcen < ((mapLong - 1) - (dspLongX / 2 - 0.5)))
-          {
-            dspCen(dspXcen + 1, dspYcen);
-            dspCanSetting();
-            drawMiniMap();
-          }
-        }
-        else
-        {
-          if (dspXcen > (dspLongX / 2 - 0.5))
-          {
-            dspCen(dspXcen - 1, dspYcen);
-            dspCanSetting();
-            drawMiniMap();
-          }
-        }
-      }
-    }
-    else if (Math.abs(dstX) < Math.abs(dstY))
-    {
-      if (Math.abs(dstY) > 160)
-      {
-        if (dstY < 0)
-        {
-          if (dspYcen > (dspLongY / 2 - 0.5))
-          {
-            dspCen(dspXcen, dspYcen - 1);
-            dspCanSetting();
-            drawMiniMap();
-          }
-        }
-        else
-        {
-          if (dspYcen < ((mapLong - 1) - (dspLongY / 2 - 0.5)))
-          {
-            dspCen(dspXcen, dspYcen + 1);
-            dspCanSetting();
-            drawMiniMap();
-          }
-        }
-      }
-    }
-    else
-    {
-      dspCanSetting();
-      drawMiniMap();
-    }
-  }
+  //   if (Math.abs(dstX) > Math.abs(dstY))
+  //   {
+  //     if (Math.abs(dstX) > 160)
+  //     {
+  //       if (dstX > 0)
+  //       {
+  //         if (dspXcen < ((mapLong - 1) - (dspLongX / 2 - 0.5)))
+  //         {
+  //           dspCen(dspXcen + 1, dspYcen);
+  //           dspCanSetting();
+  //           drawMiniMap();
+  //         }
+  //       }
+  //       else
+  //       {
+  //         if (dspXcen > (dspLongX / 2 - 0.5))
+  //         {
+  //           dspCen(dspXcen - 1, dspYcen);
+  //           dspCanSetting();
+  //           drawMiniMap();
+  //         }
+  //       }
+  //     }
+  //   }
+  //   else if (Math.abs(dstX) < Math.abs(dstY))
+  //   {
+  //     if (Math.abs(dstY) > 160)
+  //     {
+  //       if (dstY < 0)
+  //       {
+  //         if (dspYcen > (dspLongY / 2 - 0.5))
+  //         {
+  //           dspCen(dspXcen, dspYcen - 1);
+  //           dspCanSetting();
+  //           drawMiniMap();
+  //         }
+  //       }
+  //       else
+  //       {
+  //         if (dspYcen < ((mapLong - 1) - (dspLongY / 2 - 0.5)))
+  //         {
+  //           dspCen(dspXcen, dspYcen + 1);
+  //           dspCanSetting();
+  //           drawMiniMap();
+  //         }
+  //       }
+  //     }
+  //   }
+  //   else
+  //   {
+  //     dspCanSetting();
+  //     drawMiniMap();
+  //   }
+  // }
 })
 dspCan.addEventListener("mouseout", () => {
   document.getElementById("test").style.backgroundColor = "#00FF00";
