@@ -5,7 +5,10 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
     entry: {
-        app: './src/index.js'
+        app: ['babel-polyfill', './src/index.js'],
+		room: './src/room/chatRoom.js',
+		status: './src/status/status.js',
+        menu: './src/menu/index.js'
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
@@ -27,12 +30,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    query: {
-                        presets: ['es2015']
-                    }
-                }
+                loader: 'babel-loader'
             },
             {
                 test: /\.pug$/,

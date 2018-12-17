@@ -1,0 +1,63 @@
+.Status {
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-sizing:border-box;
+    font-family: Arial;
+    height: 100%;
+    width: 100%;
+}
+
+.Status div{
+    position: relative;;
+    float: left;
+    width: 33%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* Style the character data*/
+.Status div .Container{
+    background:rgb(245,242,242);
+
+    width: 95%;
+    height: 45px;
+
+    border: 0.05rem solid #ccc;
+    border-radius: 20px;
+}
+
+/* Style the resource data*/
+.Status .Data .Container .icon{
+    height: 100%;
+    width: 20%;
+    left:5px;
+}
+.Status #Power .Container .icon{
+    background-image: url(./img/power.png) ;  
+    background-position: center ;
+    background-repeat: no-repeat;
+    background-size:  100%;  
+}
+.Status #People .Container .icon{
+    background-image: url(./img/people.png) ;  
+    background-position: center ;
+    background-repeat: no-repeat;
+    background-size:  100%;
+}
+.Status #Money .Container .icon{
+    background-image: url(./img/money.png) ;  
+    background-position: center ;
+    background-repeat: no-repeat;
+    background-size:  100%;
+}
+.Status .Data .Container .Data{  
+    height: 50%;
+    width: 75%; 
+}
+.Status .Data .Container .Data p{
+    width: 85%;
+    text-align:right;
+}

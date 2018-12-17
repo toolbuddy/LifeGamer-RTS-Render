@@ -3,38 +3,46 @@
 html, body {
     margin: 0 auto;
     padding: 0;
-    height: 100%;
     width: 100%;
-}
-
-.container {
     height: 100%;
-    width: 100%;
+    overflow: hidden;
 }
 
-[class^='col-'] {
-    float: left;
-    height: 100%;
+#statusBar, #miniMap, #room, #menu {
+    border: 0.5px solid #000;
+    position: absolute;
 }
 
-.col-1 { width: 10%; }
-.col-2 { width: 20%; }
-.col-3 { width: 30%; }
-.col-4 { width: 40%; }
-.col-5 { width: 50%; }
-.col-6 { width: 60%; }
-.col-7 { width: 70%; }
-.col-8 { width: 80%; }
-.col-9 { width: 90%; }
-.col-10 { width: 100%; }
+#mainMap {
+    width: 100vw;
+    height: 100vh;
+}
 
-[class^='row-'] { width: 100%; }
+#miniMap {
+    width: 40vh;
+    height: 40vh;
+    min-width: 450px;
+    min-height: 450px;
+    top: 0;
+    right: 0;
+}
 
-.row-1 { height: 12.5%; }
-.row-2 { height: 25%; }
-.row-3 { height: 37.5%; }
-.row-4 { height: 50%; }
-.row-5 { height: 62.5%; }
-.row-6 { height: 75%; }
-.row-7 { height: 87.5%; }
-.row-8 { height: 100%; }
+#statusBar {
+    width: 40vw;
+    height: 10vh;
+    min-width: 600px;
+    min-height: 100px;
+    bottom: 0;
+    left: 0;
+}
+
+
+#menu{
+    position: absolute;
+    width: 30vw;
+    height: 7.5vh;
+    min-width: 450px;
+    min-height: 75px;
+    bottom: 0;
+    right: 0;
+}
