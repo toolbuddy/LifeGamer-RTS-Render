@@ -1,0 +1,25 @@
+h1, #story_div, button {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+h1 {
+  font-size: 50px;
+}
+#story_div {
+  width: 1000px;
+  top: 90px;
+  bottom: 120px;
+  overflow: hidden;
+  //background-color: yellow;
+}
+p {
+  font-size: 30px;
+  position: absolute;
+}
+button {
+  font-size: 50px;
+  width: 300px;
+  height: 60px;
+  bottom: 30px;
+}
