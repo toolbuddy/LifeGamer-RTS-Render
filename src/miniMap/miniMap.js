@@ -62,6 +62,19 @@ function dspRngCheck(x, y) {
   if ((x >= dspXmin) && (x <= dspXmax) && (y >= dspYmin) && (y <= dspYmax)) { return true; }
   else { return false; }
 }
+function dspCenSetCheck(val0, dval)
+{
+  var val = val0 - dval;
+  if(val<0) { return val0; }
+  else if (val>=mapLong) { 
+    return val0;
+  }
+  else{ return val; }
+}
+
+var mouseX = 0;
+var mouseY = 0;
+
 
 
 /**
@@ -87,7 +100,7 @@ class MiniMap {
    *    - the pixi container
    *  
    */
-  constructor (x, y, width, height, mapData, totalChunks, playerName) {
+  constructor (x, y, width, height, mapData, totalChunks, playerName, initX, initY) {
 
     this.x = x;
     this.y = y;
@@ -104,6 +117,13 @@ class MiniMap {
 
     this.outputContainer = new PIXI.Container();
 
+    dspInit(initX, initY);
+    this.isMouseDown = false;
+    this.isMouseOver = false;
+
+    this.ownerName = "NULL";
+    this.terrainType = "NULL";
+
     console.log("********************************");
     console.log("Minimap created.");
     console.log("x: " + this.x);
@@ -116,12 +136,44 @@ class MiniMap {
     console.log("");
   }
 
+  mouseXmove(x0, x1) {
+    var tmp0 = Math.floor((x0-this.x)/chunkWidth);
+    var tmp1 = Math.floor((x1-this.x)/chunkWidth);
+    if (tmp0==tmp1) { return 0; }
+    else {
+      var tmp = tmp1 - tmp0;
+      return tmp;
+    }
+  }
+  mouseYmove(y0, y1) {
+    var tmp0 = Math.floor((y0-this.y)/chunkHeight);
+    var tmp1 = Math.floor((y1-this.y)/chunkHeight);
+    if (tmp0==tmp1) { return 0; }
+    else {
+      var tmp = tmp1 - tmp0;
+      return tmp;
+    }
+  }
+
+  findChunkData(x, y) {
+    var tmpX = dspXmin + Math.floor((x-this.x)/chunkWidth);
+    var tmpY = dspYmin + Math.floor((y-this.y)/chunkHeight);
+    for (var i=0; i<mapSize; ++i)
+    {
+      if ((this.mapData[i].x==tmpX) && (this.mapData[i].y==tmpY))
+      {
+        this.ownerName = this.mapData[i].owner;
+        this.terrainType = this.mapData[i].terrain;
+        break;
+      }
+    }
+  }
+
   /**
    * @function drawMiniMap(x,y)
    *    - draw the miniMap centered on the specified point
    */
-  drawMiniMap(x, y) {
-    dspInit(x, y);
+  drawMiniMap() {
     let miniMapGraphics = new PIXI.Graphics();
     miniMapGraphics.cacheAsBitmao = true;
     for (var i = 0; i < mapSize; ++i)
@@ -132,8 +184,8 @@ class MiniMap {
         miniMapGraphics.drawRect(
           (this.mapData[i].x - dspXmin) * chunkWidth,
           (this.mapData[i].y - dspYmin) * chunkHeight,
-          (chunkWidth - 4),
-          (chunkHeight - 4)
+          (chunkWidth *0.9),
+          (chunkHeight *0.9)
         );
       }
     }
@@ -146,8 +198,28 @@ class MiniMap {
    *    - update the information of map
    * @param {object} mapData 
    */
-  dataUpdate(mapData) {
+  mapDataUpdate(mapData) {
     this.mapData = mapData;
   }
 
+  mouseDown(x, y) {
+    mouseX = x;
+    mouseY = y;
+  }
+  mouseUp(x, y) {
+    var dx = this.mouseXmove(mouseX, x);
+    var dy = this.mouseYmove(mouseY, y);
+    if((dx==0) && (dy==0))
+    {
+      this.findChunkData(mouseX, mouseY);
+    }
+    else
+    {
+      this.ownerName = "NULL";
+      this.terrainType = "NULL";
+      var tmpX = dspCenSetCheck(dspXcen, dx);
+      var tmpY = dspCenSetCheck(dspYcen, dy);
+      dspInit(tmpX, tmpY);
+    }
+  }
 }

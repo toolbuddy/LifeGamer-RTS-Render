@@ -36,44 +36,44 @@ import Void from './source/img/environment/void.png'
 var textures = {}
 var loader = new PIXI.loaders.Loader()
 loader.add('cancelIcon', cancelIcon).add('restartIcon', restartIcon).add('repairIcon', repairIcon)
-        .add('destructIcon', destructIcon).add('upgradeIcon', upgradeIcon).add('BitCoinMinerImg', BitCoinMinerImg)
-        .add('FishFarmImg', FishFarmImg).add('GeoThermalPowerPlantImg', GeoThermalPowerPlantImg)
-        .add('ThermalPowerPlantImg', ThermalPowerPlantImg).add('WindPowerPlantImg', WindPowerPlantImg)
-        .add('SolarPowerPlantImg', SolarPowerPlantImg)
-        .add('Forest', Forest).add('Grass', Grass).add('Lava', Lava).add('River', River)
-        .add('Desert', Desert).add('Sea', Sea).add('Snow', Snow).add('Volcano', Volcano).add('Void', Void)
+  .add('destructIcon', destructIcon).add('upgradeIcon', upgradeIcon).add('BitCoinMinerImg', BitCoinMinerImg)
+  .add('FishFarmImg', FishFarmImg).add('GeoThermalPowerPlantImg', GeoThermalPowerPlantImg)
+  .add('ThermalPowerPlantImg', ThermalPowerPlantImg).add('WindPowerPlantImg', WindPowerPlantImg)
+  .add('SolarPowerPlantImg', SolarPowerPlantImg)
+  .add('Forest', Forest).add('Grass', Grass).add('Lava', Lava).add('River', River)
+  .add('Desert', Desert).add('Sea', Sea).add('Snow', Snow).add('Volcano', Volcano).add('Void', Void)
 
 loader.load((loader, resources) => {
-    textures.buttons = {
-        cancelIcon: resources.cancelIcon.texture,
-        restartIcon: resources.restartIcon.texture,
-        destructIcon: resources.destructIcon.texture,
-        upgradeIcon: resources.upgradeIcon.texture,
-        repairIcon: resources.repairIcon.texture
-    }
-    textures.buildings = {
-        BitCoinMiner: resources.BitCoinMinerImg.texture,
-        FishFarm: resources.FishFarmImg.texture,
-        GeoThermalPowerPlant: resources.GeoThermalPowerPlantImg.texture,
-        ThermalPowerPlant: resources.ThermalPowerPlantImg.texture,
-        WindPowerPlant: resources.WindPowerPlantImg.texture,
-        SolarPowerPlant: resources.SolarPowerPlantImg.texture
-    }
-    textures.environment = {
-        Forest: resources.Forest.texture,
-        Grass: resources.Grass.texture,
-        Lava: resources.Lava.texture,
-        River: resources.River.texture,
-        Desert: resources.Desert.texture,
-        Sea: resources.Sea.texture,
-        Snow: resources.Snow.texture,
-        Volcano: resources.Volcano.texture,
-        Void: resources.Void.texture
-    }
+  textures.buttons = {
+    cancelIcon: resources.cancelIcon.texture,
+    restartIcon: resources.restartIcon.texture,
+    destructIcon: resources.destructIcon.texture,
+    upgradeIcon: resources.upgradeIcon.texture,
+    repairIcon: resources.repairIcon.texture
+  }
+  textures.buildings = {
+    BitCoinMiner: resources.BitCoinMinerImg.texture,
+    FishFarm: resources.FishFarmImg.texture,
+    GeoThermalPowerPlant: resources.GeoThermalPowerPlantImg.texture,
+    ThermalPowerPlant: resources.ThermalPowerPlantImg.texture,
+    WindPowerPlant: resources.WindPowerPlantImg.texture,
+    SolarPowerPlant: resources.SolarPowerPlantImg.texture
+  }
+  textures.environment = {
+    Forest: resources.Forest.texture,
+    Grass: resources.Grass.texture,
+    Lava: resources.Lava.texture,
+    River: resources.River.texture,
+    Desert: resources.Desert.texture,
+    Sea: resources.Sea.texture,
+    Snow: resources.Snow.texture,
+    Volcano: resources.Volcano.texture,
+    Void: resources.Void.texture
+  }
 })
 
 loader.onComplete.add(() => {
-    Init(connect, MainMap.container, textures)
+  Init(connect, MainMap.container, textures)
 })
 
 // render part
@@ -81,15 +81,15 @@ loader.onComplete.add(() => {
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
 // websocket connection
-// var connect = new WebsocketConnection('host', 'port', 'token')
+// var connect = new WebsocketConnection(justlaxative.com, 'port', 'token')
 
 
 async function Init(conn, mainMapContainer, textures) {
-    window.textures = textures                              // binding textures to window
-    window.playerData = new GameData.PlayerData()           // binding PlayerData object to window
-    window.mainMap = mainMapContainer                       // binding mainMap PIXI Container to window
-    await MainMapInit(mainMapContainer)                     // mainMap container init
-    window.mainMap._data = new GameData.MainMapData()       // setting PIXI mainMap object data
-    window.conn = conn                                      // binding websocketConnection object to window
-    conn.init()
+  window.textures = textures                              // binding textures to window
+  window.playerData = new GameData.PlayerData()           // binding PlayerData object to window
+  window.mainMap = mainMapContainer                       // binding mainMap PIXI Container to window
+  await MainMapInit(mainMapContainer)                     // mainMap container init
+  window.mainMap._data = new GameData.MainMapData()       // setting PIXI mainMap object data
+  window.conn = conn                                      // binding websocketConnection object to window
+  conn.init()
 }
