@@ -1,6 +1,7 @@
+import config from '../../config'
 import * as PIXI from 'pixi.js'
 import EnvType from './EnvType'
-import Environment from '../../mainMap/environment/Environment'
+import Environment from '../../mainMap/Environment'
 
 /**
  * The function creating all env objects by given data inside the chunk
@@ -29,7 +30,7 @@ export default function ChunkEnvUpdate(container, MapData) {
  */
 function ClearContainer(container) {
     return new Promise(resolve => {
-        for (var i = container.children.length - i; i >= 0; i--) {
+        for (var i = container.children.length - 1; i >= 0; i--) {
             container.removeChild(container.children[i])
         }
         resolve()
@@ -48,10 +49,11 @@ function ClearContainer(container) {
 function ListInit(MapData) {
     var chunkEnv = []
     return new Promise(resolve => {
-        for (let n = 0; n < MapData.length; ++n) {
-            for (let i = 0; i < 16; ++i) {
-                for (let j = 0; j < 16; ++j) {
-                    chunkEnv.push(new Environment(EnvType[MapData[n].Blocks[i][j].Terrain], n, i, j))
+        for (let chunkIndex = 0; chunkIndex < MapData.length; ++chunkIndex) {
+            for (let x = 0; x < 16; ++x) {
+                for (let y = 0; y < 16; ++y) {
+                    let texture = window.textures.environment[EnvType[MapData[chunkIndex].Blocks[x][y].Terrain]]
+                    chunkEnv.push(new Environment(texture, chunkIndex, x, y))
                 }
             }
         }
@@ -89,31 +91,35 @@ function ObjectInit(container, environmentList) {
  */
 function BorderCreate() {
     return new Promise(resolve => {
-        let border = new PIXI.Graphics()
+        let border = new PIXI.Graphics(),
+            chunkSize = Math.min(window.mainMapWidth, window.mainMapHeight) / Math.min(config.chunkCoorX, config.chunkCoorY),
+            spaceSize = chunkSize / config.spaceCoor
         // draw pos border
         border.nativeLines = true
-        border.lineStyle(1, 0x000000, 0.1)
-        for (let i = 0; i < 32; ++i) {
-            border.moveTo(0, 24 * i)
-            border.lineTo(768, 24 * i)
-            border.moveTo(24 * i, 0)
-            border.lineTo(24 * i, 768)
+        border.lineStyle(1, 0x000000, 0.5)
+        // draw horizontal lines
+        for (let i = 0; i < config.spaceCoor * config.chunkCoorY; ++i) {
+            border.moveTo(0, spaceSize * i)
+            border.lineTo(chunkSize * config.chunkCoorX, spaceSize * i)
         }
-
+        // draw vertical lines
+        for (let i = 0; i < config.spaceCoor * config.chunkCoorX; ++i) {
+            border.moveTo(spaceSize * i, 0)
+            border.lineTo(spaceSize * i, chunkSize * config.chunkCoorY)
+        }
         // draw chunk border
-        border.lineStyle(1, 0x000000, 0.7)
+        border.lineStyle(3, 0x000000, 0.7)
         border.nativeLines = false
-        border.moveTo(0, 0)
-        border.lineTo(768, 0)
-        border.lineTo(768, 768)
-        border.lineTo(0, 768)
-        border.lineTo(0, 0)
-
-        border.moveTo(384, 0)
-        border.lineTo(384, 768)
-        border.moveTo(0, 384)
-        border.lineTo(768, 384)
-
+        // draw horizontal lines
+        for (let i = 0; i <= config.chunkCoorY; ++i) {
+            border.moveTo(0, chunkSize * i)
+            border.lineTo(chunkSize * config.chunkCoorX, chunkSize * i)
+        }
+        // draw vertical lines
+        for (let i = 0; i <= config.chunkCoorX; ++i) {
+            border.moveTo(chunkSize * i, 0)
+            border.lineTo(chunkSize * i, chunkSize * config.chunkCoorY)
+        }
         // set zindex
         border.zIndex = 1
 

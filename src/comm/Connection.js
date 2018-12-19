@@ -1,6 +1,9 @@
 import MsgType from './MsgType'
 import * as API from '../API'
-const GameData = require('./GameData')
+import UpdateStatus from '../status/status'
+import CreateBuildLayer from '../mainMap/CreateBuildLayer'
+
+var flag = false
 
 /**
  * The connection function offer websocket connection to backend game engine
@@ -31,13 +34,25 @@ class WebsocketConnection {
      *
      */
     async init () {
-        this.playerData = new GameData.PlayerData()             // initialize playerdata
-        this.mainMapData = new GameData.MainMapData()           // initialize mapdata
-        this.miniMapData = new GameData.MiniMapData()           // initialize minimapdata
         this.connection = await this.connect()                  // websocket connect
         this.connection.parent = this                           // setting connection parent
         this.connection.onmessage = this.msgHandler             // setting onmessage function, msgHandler
         this.register()                                         // register
+
+        /*
+        window.addEventListener('keydown', function(event) {
+            const key = event.keyCode
+            if (key == 37) {
+                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.mainMap._data.data[0].Pos.X - 1, 'Y': window.mainMap._data.data[0].Pos.Y})
+            }else if(key == 38) {
+                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.mainMap._data.data[0].Pos.X, 'Y': window.mainMap._data.data[0].Pos.Y - 1})
+            }else if(key == 39) {
+                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.mainMap._data.data[0].Pos.X + 1, 'Y': window.mainMap._data.data[0].Pos.Y})
+            }else if(key == 40) {
+                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.mainMap._data.data[0].Pos.X, 'Y': window.mainMap._data.data[0].Pos.Y + 1})
+            }
+        })
+        */
     }
     /**
      * using promise to await websocket creating successful
@@ -67,12 +82,6 @@ class WebsocketConnection {
     register () {
         this.connection.send(JSON.stringify({'Token': this.token}))
     }
-    setMainMap (MainMap) {
-        this.mainMap = MainMap
-    }
-    setMiniMap (MiniMap) {
-        this.miniMap.MiniMap
-    }
     /**
      * the function handling websocket message
      *
@@ -83,30 +92,34 @@ class WebsocketConnection {
      */
     async msgHandler (e) {
         let msg = JSON.parse(e.data)
-        console.log(msg)
         switch (msg.Msg_type) {
             case MsgType['LogoutRequest']:
                 break
             // first play, ask for selecting one chunk to become home point
             case MsgType['HomePointRequest']:
-                API.HomePointRegister(this.parent, {'X': 3, 'Y': 3})
+                API.HomePointRegister(this.parent, {'X': 1, 'Y': 1})
                 break
             case MsgType['LoginResponse']:
                 console.log(`Welcome, ${msg.Username}`)
-                this.parent.playerData.setUsername(msg.Username) // setting username in userdata
+                window.playerData.setUsername(msg.Username)    // setting username in userdata
                 break
             case MsgType['PlayerDataResponse']:
-                this.parent.playerData.updateUserData(msg) // updating userdata
-                // API.mainMap.BuildOperRequest(this.parent, 'Build', 10, {'X': 1, 'Y': 1}, {'X': 12, 'Y': 12})
-                // API.miniMap.ViewRangeMapdataRequest(this.parent, {'X': Math.floor(Math.random() * 10), 'Y': 0})
+                window.playerData.updateUserData(msg) // updating userdata
+                if (!flag) {
+                    flag = true
+                    API.miniMap.ViewRangeMapdataRequest(this.parent, window.playerData.getHomePoint())
+                }
+                let userData = window.playerData.getUserStatusData()
+                UpdateStatus(userData)
                 break
             case MsgType['MapDataResponse']:
-                await this.parent.mainMapData.updateData(msg.Chunks)
-                await API.mainMap.ChunkEnvUpdate(this.parent.mainMap.children[0], this.parent.mainMapData.data)
-                await API.mainMap.ChunkBuildingsUpdate(this.parent.mainMap.children[1], this.parent.mainMapData.data, this.parent)
+                await window.mainMap._data.updateData(msg.Chunks)
+                await API.mainMap.ChunkEnvUpdate(window.mainMap.children[0], window.mainMap._data.data)
+                await API.mainMap.ChunkBuildingsUpdate(window.mainMap.children[1], window.mainMap._data.data)
+                await API.mainMap.ChunkInfoUpdate(window.mainMap.children[1], window.mainMap._data.data)
                 break
             case MsgType['MinimapDataResponse']:
-                await this.parent.miniMapData.updateData(msg)
+                await window.miniMap._data.updateData(msg)
                 break
             default: break
         }

@@ -17,6 +17,6 @@ export default function BuildOperRequest (WebsocketConnection, action, sID, Chun
         structureChunk: Chunk,
         structurePos: Pos
     }
-    WebsocketConnection.msgSender('BuildRequest', WebsocketConnection.playerData.Username, structure)
+    WebsocketConnection.msgSender('BuildRequest', window.playerData.Username, structure)
 }
 

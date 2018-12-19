@@ -30,8 +30,9 @@ class MainMapData {
      *
      * @returns {Object} MapData - mapdata of the game
      */
-    getData () {
-        return this.data
+    getData (chunkIndex = null) {
+        if(chunkIndex) return this.data[chunkIndex]
+        else return this.data
     }
 }
 

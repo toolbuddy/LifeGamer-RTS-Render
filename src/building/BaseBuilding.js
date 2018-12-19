@@ -1,20 +1,16 @@
+import config from '../config'
 import * as PIXI from 'pixi.js'
-import * as API from '../../API'
+import * as API from '../API'
 
-/* import button Icon svg */
-import cancelIcon from './static/buttonIcon/cancel.svg'
-import repairIcon from './static/buttonIcon/repair.svg'
-import restartIcon from './static/buttonIcon/restart.svg'
-import upgradeIcon from './static/buttonIcon/upgrade.svg'
-import destructIcon from './static/buttonIcon/destruct.svg'
+const padding = 10
 
-const buttonWidth = 150, buttonHeight = 35
+const buttonWidth = 170, buttonHeight = 40
 
 /* tooltip style setting */
 var tooltipStyle = {
     fill: "white",
     fontFamily: "\"Courier New\", Courier, monospace",
-    fontSize: 18
+    fontSize: 20
 }
 
 /**
@@ -28,12 +24,10 @@ class BaseBuilding {
      *
      * @param {Object} info - The structure data
      * @param {number} chunkIndex - which chunk the structure belongs to
-     * @param {WebsocketConnection} conn - the websocket connection
      */
-    constructor (info, chunkIndex, conn) {
+    constructor (info, chunkIndex) {
         this.info = info
         this.chunkIndex = chunkIndex
-        this.conn = conn
     }
     /**
      * Init the object as PIXI.Sprite object
@@ -41,9 +35,17 @@ class BaseBuilding {
      * @function
      */
     async objectInit () {
-        this.object = new PIXI.Sprite.fromImage(this.imgUrl)
-        this.object.x = ((this.chunkIndex % 2) * 384) + this.info.Pos.X * 24
-        this.object.y = (Math.floor(this.chunkIndex / 2) * 384) + this.info.Pos.Y * 24
+        let chunkSize = Math.min(window.mainMapWidth, window.mainMapHeight) / Math.min(config.chunkCoorX, config.chunkCoorY),
+            spaceSize = chunkSize / config.spaceCoor
+
+        this.object = new PIXI.Sprite(this.buildingTexture)
+
+        this.object.x = ((this.chunkIndex % config.chunkCoorX) * chunkSize) + this.info.Pos.X * spaceSize + (padding / 2)
+        this.object.y = (Math.floor(this.chunkIndex / config.chunkCoorX) * chunkSize) + this.info.Pos.Y * spaceSize + (padding / 2)
+
+        // scale
+        this.object.scale.x = (this.info.Size.W * spaceSize - padding) / this.object.width
+        this.object.scale.y = (this.info.Size.H * spaceSize - padding) / this.object.height
 
         this.object._parent = this
         this.object.interactive = true
@@ -66,17 +68,19 @@ class BaseBuilding {
         this.object.mouseover = function(mouseData) {
             this._parent.isHover = true
             if (!this._parent.isClicked) {
+                let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
                 this.parent.addChild(this._parent.tooltip)
-                this._parent.tooltip.x = (mouseData.data.global.x + this._parent.tooltip.width < (756 - 20)) ? mouseData.data.global.x + 20 : mouseData.data.global.x - 20 - this._parent.tooltip.width
-                this._parent.tooltip.y = (mouseData.data.global.y + this._parent.tooltip.height < (756 - 20)) ? mouseData.data.global.y + 20 : mouseData.data.global.y - this._parent.tooltip.height + 20
+                this._parent.tooltip.x = ((mouseData.data.global.x + this._parent.tooltip.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.tooltip.width) * scale
+                this._parent.tooltip.y = ((mouseData.data.global.y + this._parent.tooltip.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.tooltip.height) * scale
             }
         }
 
         // mouse move function setting
         this.object.mousemove = function(mouseData) {
             if (this._parent.isHover && !this._parent.isClicked) {
-                this._parent.tooltip.x = (mouseData.data.global.x + this._parent.tooltip.width < (756 - 20)) ? mouseData.data.global.x + 20 : mouseData.data.global.x - 20 - this._parent.tooltip.width
-                this._parent.tooltip.y = (mouseData.data.global.y + this._parent.tooltip.height < (756 - 20)) ? mouseData.data.global.y + 20 : mouseData.data.global.y - this._parent.tooltip.height + 20
+                let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
+                this._parent.tooltip.x = ((mouseData.data.global.x + this._parent.tooltip.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.tooltip.width) * scale
+                this._parent.tooltip.y = ((mouseData.data.global.y + this._parent.tooltip.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.tooltip.height) * scale
             }
         }
 
@@ -94,10 +98,12 @@ class BaseBuilding {
             if (this._parent.isHover) {
                 this.parent.removeChild(this._parent.tooltip)
             }
+            let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
             this.parent.addChild(this._parent.buttonList)
-            this._parent.buttonList.x = (mouseData.data.global.x + this._parent.buttonList.width < (756 - 20)) ? mouseData.data.global.x + 20 : mouseData.data.global.x - 20 - this._parent.buttonList.width
-            this._parent.buttonList.y = (mouseData.data.global.y + this._parent.buttonList.height < (756 - 20)) ? mouseData.data.global.y + 20 : mouseData.data.global.y - this._parent.buttonList.height + 20
+            this._parent.buttonList.x = ((mouseData.data.global.x + this._parent.buttonList.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.buttonList.width) * scale
+            this._parent.buttonList.y = ((mouseData.data.global.y + this._parent.buttonList.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.buttonList.height) * scale
         })
+
     }
     /**
      * Mouse hover tooltip object setting
@@ -112,7 +118,7 @@ class BaseBuilding {
             const textSprite = new PIXI.Text(await this.tooltipTextGen(), tooltipStyle)
             var textBackground = new PIXI.Graphics()
             textBackground.beginFill(0x000000)
-            textBackground.drawRoundedRect(0, 0, textSprite.width + 40, textSprite.height + 20, 3)
+            textBackground.drawRoundedRect(0, 0, textSprite.width + 45, textSprite.height + 20, 3)
             textBackground.endFill()
 
             textSprite.anchor.set(0.5)
@@ -139,7 +145,7 @@ class BaseBuilding {
             let textstring = ''
             textstring += `Name: ${this.info.Name}\n`
             textstring += `Status: ${this.info.Status}\n`
-            textstring += `Human: ${this.info.Human}\n`
+            textstring += `Population: ${this.info.Population}\n`
             textstring += `Money: ${this.info.Money}\n`
             textstring += `Power: ${this.info.Power}\n`
             textstring += `Level: ${this.info.Level}`
@@ -153,7 +159,7 @@ class BaseBuilding {
      * @function
      *
      * @param {string} name - button name
-     * @param {string} icon - the icon svg file url
+     * @param {PIXI.Texture} icon - the PIXI.Texture contains image
      * @param {function} func - the function when the button clicked will call
      * @returns {Promise<PIXI.Container>} a promise contains button PIXI.Container
      * @resolve {PIXI.Container} button
@@ -170,9 +176,9 @@ class BaseBuilding {
             buttonBackground.endFill()
 
             // button icon
-            const buttonIcon = new PIXI.Sprite.fromImage(icon)
-            buttonIcon.scale.x = ( 18 / 512 )                   // scale button width  to 18
-            buttonIcon.scale.y = ( 18 / 512 )                   // scale button height to 18
+            var buttonIcon = new PIXI.Sprite(icon)
+            buttonIcon.scale.x = ( 18 / icon.width )                    // scale button width  to 18
+            buttonIcon.scale.y = ( 18 / icon.height )                   // scale button height to 18
             buttonIcon.anchor.y = 0.5
             buttonIcon.y = buttonBackground.height / 2
             buttonIcon.x = 10
@@ -210,17 +216,17 @@ class BaseBuilding {
             var buttonList = new PIXI.Container()
             var funcButton = null   // funcButton: repair, restart, upgrade, or null
             if (this.info.SStatus === 'Destroyed') {
-                funcButton = await this.buttonCreate('Repair', repairIcon, this.repair.bind(null, this))
+                funcButton = await this.buttonCreate('Repair', window.textures.buttons.repairIcon, this.repair.bind(null, this))
             } else if (this.info.SStatus === 'Halted') {
-                funcButton = await this.buttonCreate('Restart', restartIcon, this.restart.bind(null, this))
+                funcButton = await this.buttonCreate('Restart', window.textures.buttons.restartIcon, this.restart.bind(null, this))
             } else if (this.info.SStatus === 'Running' && this.info.Level < this.info.MaxLevel) {
-                funcButton = await this.buttonCreate('Upgrade', upgradeIcon, this.upgrade.bind(null, this))
+                funcButton = await this.buttonCreate('Upgrade', window.textures.buttons.upgradeIcon, this.upgrade.bind(null, this))
             }
             var destructButton = null
             if (this.info.SStatus !== 'Building') {
-                destructButton = await this.buttonCreate('Destruct', destructIcon, this.destruct.bind(null, this))
+                destructButton = await this.buttonCreate('Destruct', window.textures.buttons.destructIcon, this.destruct.bind(null, this))
             }
-            var cancelButton = await this.buttonCreate('Cancel', cancelIcon, this.cancel.bind(null, this))
+            var cancelButton = await this.buttonCreate('Cancel', window.textures.buttons.cancelIcon, this.cancel.bind(null, this))
 
             if (funcButton) buttonList.addChild(funcButton)
             if (destructButton) buttonList.addChild(destructButton)
@@ -250,7 +256,7 @@ class BaseBuilding {
      * @param {Building} building - the building object
      */
     repair (building) {
-        API.mainMap.BuildOperRequest(building.conn, 'Repair', building.info.ID, building.info.Chunk, building.info.Pos)
+        API.mainMap.BuildOperRequest(window.conn, 'Repair', building.info.ID, building.info.Chunk, building.info.Pos)
         building.object.parent.removeChild(building.buttonList)
         building.isClicked = false
     }
@@ -262,7 +268,7 @@ class BaseBuilding {
      * @param {Building} building - the building object
      */
     restart (building) {
-        API.mainMap.BuildOperRequest(building.conn, 'Restart', building.info.ID, building.info.Chunk, building.info.Pos)
+        API.mainMap.BuildOperRequest(window.conn, 'Restart', building.info.ID, building.info.Chunk, building.info.Pos)
         building.object.parent.removeChild(building.buttonList)
         building.isClicked = false
     }
@@ -274,7 +280,7 @@ class BaseBuilding {
      * @param {Building} building - the building object
      */
     upgrade (building) {
-        API.mainMap.BuildOperRequest(building.conn, 'Upgrade', building.info.ID, building.info.Chunk, building.info.Pos)
+        API.mainMap.BuildOperRequest(window.conn, 'Upgrade', building.info.ID, building.info.Chunk, building.info.Pos)
         building.object.parent.removeChild(building.buttonList)
         building.isClicked = false
     }
@@ -286,7 +292,7 @@ class BaseBuilding {
      * @param {Building} building - the building object
      */
     destruct (building) {
-        API.mainMap.BuildOperRequest(building.conn, 'Destruct', building.info.ID, building.info.Chunk, building.info.Pos)
+        API.mainMap.BuildOperRequest(window.conn, 'Destruct', building.info.ID, building.info.Chunk, building.info.Pos)
         building.object.parent.removeChild(building.buttonList)
         building.isClicked = false
     }
