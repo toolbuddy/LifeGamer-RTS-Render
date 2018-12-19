@@ -73,6 +73,8 @@ loader.load((loader, resources) => {
 })
 
 loader.onComplete.add(() => {
+    var token = prompt('please input your private token')
+    var connect = new WebsocketConnection('localhost', 9999, token)
     Init(connect, MainMap.container, textures)
 })
 
@@ -81,7 +83,6 @@ loader.onComplete.add(() => {
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
 // websocket connection
-// var connect = new WebsocketConnection('host', 'port', 'token')
 
 
 async function Init(conn, mainMapContainer, textures) {
