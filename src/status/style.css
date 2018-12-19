@@ -1,14 +1,17 @@
 .Status {
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100%;
     box-sizing:border-box;
     font-family: Arial;
     height: 100%;
     width: 100%;
+    background-image: url('../source/img/appearance/statusBar.svg');
+    background-position: center;
+    padding: 0 22%;
 }
 
 .Status div{
-    position: relative;;
+    position: relative;
     float: left;
     width: 33%;
     height: 100%;
@@ -20,13 +23,8 @@
 
 /* Style the character data*/
 .Status div .Container{
-    background:rgb(245,242,242);
-
     width: 95%;
     height: 45px;
-
-    border: 0.05rem solid #ccc;
-    border-radius: 20px;
 }
 
 /* Style the resource data*/
@@ -36,28 +34,29 @@
     left:5px;
 }
 .Status #Power .Container .icon{
-    background-image: url(./img/power.png) ;  
+    background-image: url(./img/power.svg);
     background-position: center ;
     background-repeat: no-repeat;
-    background-size:  100%;  
+    background-size:  100%;
 }
 .Status #People .Container .icon{
-    background-image: url(./img/people.png) ;  
-    background-position: center ;
+    background-image: url(./img/people.svg);
+    background-position: center;
     background-repeat: no-repeat;
     background-size:  100%;
 }
 .Status #Money .Container .icon{
-    background-image: url(./img/money.png) ;  
+    background-image: url(./img/money.svg);
     background-position: center ;
     background-repeat: no-repeat;
     background-size:  100%;
 }
-.Status .Data .Container .Data{  
+.Status .Data .Container .Data{
     height: 50%;
-    width: 75%; 
+    width: 75%;
 }
 .Status .Data .Container .Data p{
     width: 85%;
     text-align:right;
+    color: #ffffff;
 }

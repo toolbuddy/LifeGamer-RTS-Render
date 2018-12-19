@@ -1,3 +1,5 @@
+const sourceMap = true
+
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
@@ -42,11 +44,17 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                use: ['style-loader', {
+                    loader: 'css-loader',
+                    options: { sourceMap }
+                },{
+                    loader: 'group-css-media-queries-loader',
+                    options: { sourceMap }
+                }]
             },
             {
-                test: /\.(png|jpg|svg|gif)$/,
-                use: ['file-loader']
+                test: /\.(png|jp(e*)g|svg|gif)$/,
+                loader: ['file-loader']
             },
             {
                 test: /\.(.woff|woff2|eot|ttf|otf)$/,

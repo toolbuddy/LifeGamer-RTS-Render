@@ -80,7 +80,7 @@ class WebsocketConnection {
      *
      */
     register () {
-        this.connection.send(JSON.stringify({'Token': this.token}))
+        this.connection.send(JSON.stringify({'Token': this.token, 'Token_type': 'private_token'}))
     }
     /**
      * the function handling websocket message
@@ -92,12 +92,16 @@ class WebsocketConnection {
      */
     async msgHandler (e) {
         let msg = JSON.parse(e.data)
+        console.log(msg)
         switch (msg.Msg_type) {
             case MsgType['LogoutRequest']:
                 break
             // first play, ask for selecting one chunk to become home point
             case MsgType['HomePointRequest']:
-                API.HomePointRegister(this.parent, {'X': 1, 'Y': 1})
+                var X = Math.floor(Math.random() * 50 - 26),
+                    Y = Math.floor(Math.random() * 50 - 26)
+                API.HomePointRegister(this.parent, {'X': X, 'Y': Y})
+                console.log(X, Y)
                 break
             case MsgType['LoginResponse']:
                 console.log(`Welcome, ${msg.Username}`)
