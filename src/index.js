@@ -81,7 +81,7 @@ loader.onComplete.add(() => {
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
 // websocket connection
-// var connect = new WebsocketConnection('host', 'port', 'token')
+// var connect = new WebsocketConnection('ip', port , 'token')
 
 
 async function Init(conn, mainMapContainer, textures) {
