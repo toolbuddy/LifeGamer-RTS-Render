@@ -1,25 +1,25 @@
 :root {
-    --statusBar-width: 700px;
-    --statusBar-height: 100px;
-    --menu-width: 500px;
-    --menu-height: 55px;
-    --miniMap-width: 500px;
-    --miniMap-height: 500px;
-    --room-width: 500px;
-    --room-height: 700px;
+    --statusBar-width: 36.84vw;
+    --statusBar-height: calc(var(--statusBar-width) * 0.1429);
+    --menu-width: 26.32vw;
+    --menu-height: calc(var(--menu-width) * 0.11);
+    --miniMap-width: 26.32vw;
+    --miniMap-height: var(--miniMap-width);
+    --room-width: 26.32vw;
+    --room-height: calc(var(--room-width) * 1.4);
 
-    --miniMap-decoration-leftTopCorner-width: 50px;
-    --miniMap-decoration-leftTopCorner-height: 50px;
+    --miniMap-decoration-leftTopCorner-width: 2.63vw;
+    --miniMap-decoration-leftTopCorner-height: var(--miniMap-decoration-leftTopCorner-width);
     --miniMap-decoration-leftTopCorner-pos-top: calc(var(--miniMap-height) * (-1));
 
-    --miniMap-decoration-topDecoration-height: 33px;
+    --miniMap-decoration-topDecoration-height: 1.74vw;
     --miniMap-decoration-topDecoration-width: calc(var(--miniMap-decoration-topDecoration-height) * 7);
     --miniMap-decoration-topDecoration-pos-top: calc(var(--miniMap-decoration-leftTopCorner-pos-top) - var(--miniMap-decoration-leftTopCorner-height));
-    --miniMap-decoration-topDecoration-pos-left: calc(var(--miniMap-width) - var(--miniMap-decoration-topDecoration-width) - 20px);
+    --miniMap-decoration-topDecoration-pos-left: calc(var(--miniMap-width) - var(--miniMap-decoration-topDecoration-width) - 1.05vw);
 
-    --miniMap-decoration-leftDecoration-width: 33px;
+    --miniMap-decoration-leftDecoration-width: 1.74vw;
     --miniMap-decoration-leftDecoration-height: calc(var(--miniMap-decoration-leftDecoration-width) * 7);
-    --miniMap-decoration-leftDecoration-pos-top: calc(var(--miniMap-decoration-topDecoration-pos-top) - var(--miniMap-decoration-topDecoration-height) + 110px);
+    --miniMap-decoration-leftDecoration-pos-top: calc(var(--miniMap-decoration-topDecoration-pos-top) - var(--miniMap-decoration-topDecoration-height) + 5.79vw);
 }
 
 * { box-sizing: border-box; }

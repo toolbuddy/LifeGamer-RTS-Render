@@ -74,7 +74,7 @@ loader.load((loader, resources) => {
 
 loader.onComplete.add(() => {
     var token = prompt('please input your private token')
-    var connect = new WebsocketConnection('localhost', 9999, token)
+    var connect = new WebsocketConnection('ws://localhost:9999', token)
     Init(connect, MainMap.container, textures)
 })
 
