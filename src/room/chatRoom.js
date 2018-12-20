@@ -1,5 +1,62 @@
 import chatCSS from './style.css' 
 
+/**
+ * Show the message data get from Server (call by Server)
+ *  - the "name" parm in line24 should change to get the right condition judgement
+ * 
+ * @function
+ * 
+ * @param {object} msg_obj - the message object
+ */
+export default function Show_msg(msg_obj){
+
+    var url = msg_obj.url;
+    var name = msg_obj.name;
+    var time = msg_obj.time;
+    var msg = msg_obj.message;
+
+    console.log("Name : " + name + 
+                "\nTime : " + time + 
+                "\nMsg : " + msg);
+
+    if (msg_obj.type == "client"){
+        if(name == "123"){                          // should change to get user name
+            write_ChatMsg_self(time, msg);
+        }else{
+            write_ChatMsg_other(url, name, time, msg);
+        }
+    } else if (msg_obj.type == "server"){
+        write_ServerMsg(time, msg);
+    }
+}
+
+
+/**
+ * Send the msg to the server (Call to Server)
+ *  - the "url" parm should insert 
+ *  - the "name" parm should insert
+ * 
+ * @function
+ * 
+ * @returns {Msg_Obj} - the data of the message
+ */
+function send_ChatMsg(){
+    console.log("Send");
+
+    var msg = msgInput.value;
+    msg = msg.replace(/</g,"&lt");
+    msg = msg.replace(/>/g,"&gt");
+
+    if(msg!=""){
+        var time = get_TIME();
+        msgInput.value = "";
+
+        //console.log("Name : " + name + "\nTime : " + time + "\nMsg : " + msg);		
+        return new Msg_Obj("none", "none", time, msg, "client");
+    }
+}
+
+
 /** 
  * @class Msg_Obj
  * @type {Object}
@@ -20,75 +77,25 @@ function Msg_Obj(url, name, time, msg, type) {
     };
 }
 
-/**
- * Send the msg to the server (Call to Server)
- *  - the "url" parm in line42 should change to get the right data
- *  - the "name" parm in line43 should change to get the right data
- * 
- * @function
- * 
- * @returns {Msg_Obj} - the data of the message
- */
-document.querySelector("#btn").onclick = send_ChatMsg;
-const msgInput = document.querySelector("#content");
-msgInput.addEventListener("keypress", function(e){
-    if(e.keyCode == 13){
-        send_ChatMsg();
-    }
-});
-function send_ChatMsg(){
-    console.log("Send");
-
-    var url = 'https://imgur.com/MTBIqnn.png';                  // should change
-    var name = "123";                                           // should change
-
-    var msg = msgInput.value;
-    msg = msg.replace(/</g,"&lt");
-    msg = msg.replace(/>/g,"&gt");
-
-    if(msg!=""){
-        var time = get_TIME();
-        msgInput.value = "";
-
-        //console.log("Name : " + name + "\nTime : " + time + "\nMsg : " + msg);
-        //Show_msg(new Msg_Obj(url, name, time, msg, "client"));
-        return new Msg_Obj(url, name, time, msg, "client");
-    }
-}
-
-
-/**
- * Show the message data get from Server (call by Server)
- *  - the "name" parm in line79 should change to get the right condition judgement
- * 
- * @function
- * 
- * @param {object} msg_obj - the message object
- */
-function Show_msg(msg_obj){
-
-    var url = msg_obj.url;
-    var name = msg_obj.name;
-    var time = msg_obj.time;
-    var msg = msg_obj.message;
-
-    console.log("Name : " + name + 
-                "\nTime : " + time + 
-                "\nMsg : " + msg);
-
-    if (msg_obj.type == "client"){
-        if(name == "123"){                          // should change
-            write_ChatMsg_self(time, msg);
-        }else{
-            write_ChatMsg_other(url, name, time, msg);
-        }
-    } else if (msg_obj.type == "server"){
-        write_ServerMsg(time, msg);
-    }
-}
-
 /*------------------- The following are not used for the server--------------------------*/
 
+/**
+ * the Enter key event listener
+ */
+var RoomShow = false;
+const msgInput = document.querySelector("#content");
+document.addEventListener("keypress", function(e){
+    if(e.keyCode == 13){
+		if(msgInput.value != "")
+			send_ChatMsg();
+		else
+			show_ChatRoom();
+    }
+});
+function show_ChatRoom(){
+	document.getElementsByClassName("ChatRoom")[0].style.display = (RoomShow)?"none":"block";
+	RoomShow = !RoomShow; 
+}
 
 
 /**
@@ -120,30 +127,31 @@ function write_ServerMsg(time,msg){
     $("#ServerMsg #show").scrollTop($("#ServerMsg #show")[0].scrollHeight);
 }
 
+
 /**
  * Show the message room which user select 
  */
-document.querySelector("#chatTab").addEventListener("click",function(e){
-    TabClick(e,"Chat");
+document.querySelector("#activeTab").addEventListener("click",function(e){
+    TabClick(e);
 });
-document.querySelector("#serverTab").addEventListener("click",function(e){
-    TabClick(e,"ServerMsg");
-});
-function TabClick(evt, type) {
-    var i, tabcontent, tablinks;
+function TabClick(evt) {
+    var i, tabcontent;
 
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none"; 
     }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    document.getElementById(type).style.display = "block";
-    evt.currentTarget.className += " active";
-
+	
+	if(evt.currentTarget.innerHTML == "Server Message"){
+		document.getElementById("ServerMsg").style.display = "block";
+		document.getElementById("Tab").innerHTML = "Server Message"
+		evt.currentTarget.innerHTML = "Chat"
+	}else if(evt.currentTarget.innerHTML == "Chat"){
+		document.getElementById("Chat").style.display = "block";
+		document.getElementById("Tab").innerHTML = "Chat"
+		evt.currentTarget.innerHTML = "Server Message"
+	}
+	
     $("#Chat #show").scrollTop($("#Chat #show")[0].scrollHeight);
     $("#ServerMsg #show").scrollTop($("#ServerMsg #show")[0].scrollHeight);
 }
@@ -165,8 +173,11 @@ function get_TIME(){
     return Y + "/" + M + "/" + D + " " + h + ':' + m + ':' + s;
 }
 
-document.getElementById("Chat").style.display = "block";  //init
-document.getElementById("chatTab").className += " active";//init
+/**
+ * init some javascript data
+ */
+document.getElementById("Chat").style.display = "block";  	
+document.getElementById("Tab").className += " active";		
 
 
 /*

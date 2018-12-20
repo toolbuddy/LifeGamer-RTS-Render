@@ -3,6 +3,8 @@
     font-family: Arial;
     height: 100%;
     width: 100%;
+	
+	display: none;
 }
 
 
@@ -63,16 +65,10 @@
     width: 100%;
 }
 .tabcontent #content{
-    width: 80%;
+    width: 95%;
     border: 0.1rem solid #ccc;
     border-radius: 0.25rem;
     padding-left: 0.3rem
-}
-.tabcontent #btn{
-    width: 16%;
-    border: 0.1rem solid #ccc;
-    border-radius: 0.25rem;
-    padding-right:0.3rem;
 }
 
 

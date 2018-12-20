@@ -83,7 +83,6 @@ loader.onComplete.add(() => {
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
 // websocket connection
-// var connect = new WebsocketConnection('ip', port , 'token')
 
 
 
