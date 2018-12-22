@@ -24,7 +24,6 @@ var textures = {}
 var loader = new PIXI.loaders.Loader()
 
 var keys = Object.keys(images)
-console.log(keys)
 for (let key of keys) {
     loader.add(key, images[key])
 }
@@ -77,6 +76,8 @@ async function Init(conn, mainMapContainer, textures) {
     window.mainMap = mainMapContainer                       // binding mainMap PIXI Container to window
     await MainMapInit(mainMapContainer)                     // mainMap container init
     window.mainMap._data = new GameData.MainMapData()       // setting PIXI mainMap object data
+    window.miniMap = new Object()
+    window.miniMap._data = new GameData.MiniMapData()
     window.conn = conn                                      // binding websocketConnection object to window
     conn.init()
 }
