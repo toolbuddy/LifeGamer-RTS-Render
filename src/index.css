@@ -1,25 +1,12 @@
 :root {
-    --statusBar-width: 700px;
-    --statusBar-height: 100px;
-    --menu-width: 500px;
-    --menu-height: 55px;
-    --miniMap-width: 500px;
-    --miniMap-height: 500px;
-    --room-width: 500px;
-    --room-height: 700px;
-
-    --miniMap-decoration-leftTopCorner-width: 50px;
-    --miniMap-decoration-leftTopCorner-height: 50px;
-    --miniMap-decoration-leftTopCorner-pos-top: calc(var(--miniMap-height) * (-1));
-
-    --miniMap-decoration-topDecoration-height: 33px;
-    --miniMap-decoration-topDecoration-width: calc(var(--miniMap-decoration-topDecoration-height) * 7);
-    --miniMap-decoration-topDecoration-pos-top: calc(var(--miniMap-decoration-leftTopCorner-pos-top) - var(--miniMap-decoration-leftTopCorner-height));
-    --miniMap-decoration-topDecoration-pos-left: calc(var(--miniMap-width) - var(--miniMap-decoration-topDecoration-width) - 20px);
-
-    --miniMap-decoration-leftDecoration-width: 33px;
-    --miniMap-decoration-leftDecoration-height: calc(var(--miniMap-decoration-leftDecoration-width) * 7);
-    --miniMap-decoration-leftDecoration-pos-top: calc(var(--miniMap-decoration-topDecoration-pos-top) - var(--miniMap-decoration-topDecoration-height) + 110px);
+    --statusBar-width: 10.53vw;
+    --statusBar-height: calc(var(--statusBar-width) * 1.3);
+    --menu-width: 26.32vw;
+    --menu-height: calc(var(--menu-width) * 0.11);
+    --miniMap-width: 26.32vw;
+    --miniMap-height: var(--miniMap-width);
+    --room-width: 26.32vw;
+    --room-height: calc(var(--room-width) * 1.4);
 }
 
 * { box-sizing: border-box; }
@@ -42,58 +29,38 @@ html, body {
 #statusBar {
     width: var(--statusBar-width);
     height: var(--statusBar-height);
-    margin-left: calc(var(--statusBar-width) / (-2));
-    top: 0;
-    left: 50%;
+    top: 25%;
+    left: 0;
 }
 
 #menu{
     position: absolute;
     width: var(--menu-width);
     height: var(--menu-height);
-    bottom: var(--miniMap-height);
+    bottom: 0;
     right: 0;
 }
 
 #miniMapWrapper {
     width: var(--miniMap-width);
     height: var(--miniMap-height);
-    bottom: 0;
+    top: 0;
     right: 0;
 }
 
 .miniMap {
     width: 100%;
     height: 100%;
-    background-image: url('./source/img/appearance/miniMapBackground.svg');
-    background-size: 100%;
 }
 
-.miniMapTopLeftCorner {
-    background-image: url('./source/img/appearance/miniMapLeftTopCorner.svg');
-    position: relative;
-    top: var(--miniMap-decoration-leftTopCorner-pos-top);
-    width: var(--miniMap-decoration-leftTopCorner-width);
-    height: var(--miniMap-decoration-leftTopCorner-height);
-}
-
-.miniMapTopDecoration {
-    background-image: url('./source/img/appearance/miniMapTopDecoration.svg');
+.miniMapDecoration {
+    background-image: url('./source/img/appearance/miniMap.svg');
     background-size: 100%;
     position: relative;
-    top: var(--miniMap-decoration-topDecoration-pos-top);
-    left: var(--miniMap-decoration-topDecoration-pos-left);
-    width: var(--miniMap-decoration-topDecoration-width);
-    height: var(--miniMap-decoration-topDecoration-height);
-}
-
-.miniMapLeftDecoration {
-    background-image: url('./source/img/appearance/miniMapLeftDecoration.svg');
-    background-size: 100%;
-    position: relative;
-    top: var(--miniMap-decoration-leftDecoration-pos-top);
-    width: var(--miniMap-decoration-leftDecoration-width);
-    height: var(--miniMap-decoration-leftDecoration-height);
+    top: -100%;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
 
 #room {
