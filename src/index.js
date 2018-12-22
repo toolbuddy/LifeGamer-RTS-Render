@@ -73,7 +73,13 @@ loader.load((loader, resources) => {
 })
 
 loader.onComplete.add(() => {
+<<<<<<< HEAD
   Init(connect, MainMap.container, textures)
+=======
+    var token = prompt('please input your private token')
+    var connect = new WebsocketConnection('localhost', 9999, token)
+    Init(connect, MainMap.container, textures)
+>>>>>>> master
 })
 
 // render part
@@ -81,7 +87,10 @@ loader.onComplete.add(() => {
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
 // websocket connection
+<<<<<<< HEAD
 // var connect = new WebsocketConnection(justlaxative.com, 'port', 'token')
+=======
+>>>>>>> master
 
 
 async function Init(conn, mainMapContainer, textures) {

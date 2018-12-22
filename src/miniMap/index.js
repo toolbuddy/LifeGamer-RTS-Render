@@ -32,31 +32,28 @@ console.log("totalChunks: " + totalChunks);
 console.log("********************************");
 console.log("");
 
+// dspCanvas.getBoundingClientRect().left,
+// dspCanvas.getBoundingClientRect().top,
 
 var miniMap = new MiniMap(
-  dspCanvas.getBoundingClientRect().left,
-  dspCanvas.getBoundingClientRect().top,
   dspCanvas.offsetWidth,
   dspCanvas.offsetHeight,
-  mapData, totalChunks, playerName,
-  32, 24
+  mapData, totalChunks, playerName
 );
-app.stage.addChild(miniMap.drawMiniMap());
+app.stage.addChild(miniMap.outputContainer);
 
-var isMouseOver = false;
-var isMouseDown = false;
-dspCanvas.addEventListener("mouseover", () => { isMouseOver = true; });
-dspCanvas.addEventListener("mouseout", () => { isMouseOver = false; });
-dspCanvas.addEventListener("mousedown", (event) => {
-  if (isMouseOver) { miniMap.mouseDown(event.clientX, event.clientY); }
-});
-dspCanvas.addEventListener("mouseup", (event) => {
-  if (isMouseOver) { miniMap.mouseUp(event.clientX, event.clientY); }
-  app.stage.addChild(miniMap.drawMiniMap());
-  var ownerName = miniMap.ownerName; // if click will be "NULL"
-  var terrainType = miniMap.terrainType; // if click will be "NULL"
-  console.log(ownerName + "  " + terrainType);
-});
+// dspCanvas.addEventListener("mouseover", () => { isMouseOver = true; });
+// dspCanvas.addEventListener("mouseout", () => { isMouseOver = false; });
+// dspCanvas.addEventListener("mousedown", (event) => {
+//   if (isMouseOver) { miniMap.mouseDown(event.clientX, event.clientY); }
+// });
+// dspCanvas.addEventListener("mouseup", (event) => {
+//   if (isMouseOver) { miniMap.mouseUp(event.clientX, event.clientY); }
+//   app.stage.addChild(miniMap.drawMiniMap());
+//   var ownerName = miniMap.ownerName; // if click will be "NULL"
+//   var terrainType = miniMap.terrainType; // if click will be "NULL"
+//   console.log(ownerName + "  " + terrainType);
+// });
 
 
 /**
