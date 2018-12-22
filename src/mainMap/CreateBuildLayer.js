@@ -57,7 +57,6 @@ export default function CreateBuildLayer (conn, MapData, building) {
             let y = Math.floor(mouseData.data.global.y / spaceSize) % config.spaceCoor
             API.mainMap.BuildOperRequest(conn, 'Build', Structures[building].ID, MapData[chunkIndex].Pos, {'X': x, 'Y': y})
             this.parent.removeChild(this)
-            API.miniMap.ViewRangeMapdataRequest(conn, MapData[0].Pos)
 
             // show all other elements
             document.querySelector('#menu').style.display = 'block'

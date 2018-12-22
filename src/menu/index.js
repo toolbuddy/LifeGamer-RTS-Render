@@ -1,13 +1,12 @@
 import menu from './style.css'
-
 import * as API from '../API'
 
-import BitCoinMiner from '../source/img/building/BitCoinMiner.png'
-import FishFarm from '../source/img/building/FishFarm.png'
-import GeoThermalPowerPlant from '../source/img/building/GeoThermalPowerPlant.png'
-import SolarPowerPlant from '../source/img/building/SolarPowerPlant.png'
-import ThermalPowerPlant from '../source/img/building/ThermalPowerPlant.png'
-import WindPowerPlant from '../source/img/building/WindPowerPlant.png'
+import BitCoinMiner from '../source/img/mainMap/building/BitCoinMiner.png'
+import FishFarm from '../source/img/mainMap/building/FishFarm.png'
+import GeoThermalPowerPlant from '../source/img/mainMap/building/GeoThermalPowerPlant.png'
+import SolarPowerPlant from '../source/img/mainMap/building/SolarPowerPlant.png'
+import ThermalPowerPlant from '../source/img/mainMap/building/ThermalPowerPlant.png'
+import WindPowerPlant from '../source/img/mainMap/building/WindPowerPlant.png'
 
 var img_list = {
     img:[BitCoinMiner, FishFarm, GeoThermalPowerPlant, SolarPowerPlant, ThermalPowerPlant, WindPowerPlant],
