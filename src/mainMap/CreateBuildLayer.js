@@ -18,7 +18,7 @@ export default function CreateBuildLayer (conn, MapData, building) {
         // select space create
         layer.selectSpace = await selectSpaceCreate(building, spaceSize)
 
-        let allowPoints = await API.mainMap.CalcAllowBuildPoint(MapData, building)
+        let allowPoints = await API.mainMap.CalcAllowBuildPoint(window.playerData.Username, MapData, building)
 
         // mouse event setting
         layer.interactive = true
