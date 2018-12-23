@@ -9,7 +9,11 @@
     --room-height: calc(var(--room-width) * 1.4);
 }
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
 
 html, body {
     margin: 0 auto;
@@ -48,7 +52,7 @@ html, body {
     right: 0;
 }
 
-.miniMap {
+.miniMap, .miniMap > canvas {
     width: 100%;
     height: 100%;
 }

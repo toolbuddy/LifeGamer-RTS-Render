@@ -1,5 +1,7 @@
-// import * as PIXI from 'pixi.js'
-// import miniMap from './miniMap'
+import * as PIXI from 'pixi.js'
+import MiniMap from './miniMap'
+import MapData from './MapData'
+
 
 let type = "WebGL";
 if (!PIXI.utils.isWebGLSupported())
@@ -8,7 +10,7 @@ if (!PIXI.utils.isWebGLSupported())
 }
 PIXI.utils.sayHello(type);
 
-var dspCanvas = document.getElementById("miniMapCanvas");
+var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
 var mapData = MapData;
 var totalChunks = 2500;
 var playerName = "Andy";
@@ -42,18 +44,8 @@ var miniMap = new MiniMap(
 );
 app.stage.addChild(miniMap.outputContainer);
 
-// dspCanvas.addEventListener("mouseover", () => { isMouseOver = true; });
-// dspCanvas.addEventListener("mouseout", () => { isMouseOver = false; });
-// dspCanvas.addEventListener("mousedown", (event) => {
-//   if (isMouseOver) { miniMap.mouseDown(event.clientX, event.clientY); }
-// });
-// dspCanvas.addEventListener("mouseup", (event) => {
-//   if (isMouseOver) { miniMap.mouseUp(event.clientX, event.clientY); }
-//   app.stage.addChild(miniMap.drawMiniMap());
-//   var ownerName = miniMap.ownerName; // if click will be "NULL"
-//   var terrainType = miniMap.terrainType; // if click will be "NULL"
-//   console.log(ownerName + "  " + terrainType);
-// });
+export default miniMap
+
 
 
 /**

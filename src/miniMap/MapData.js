@@ -15000,3 +15000,5 @@ var MapData = [
     "owner": "NONE"
   }
 ]
+
+export default MapData

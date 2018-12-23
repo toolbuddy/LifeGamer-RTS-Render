@@ -3,6 +3,7 @@ import WebsocketConnection from './comm/Connection'
 import MainMap from './mainMap/container'
 import MainMapInit from './mainMap/ContainerInit'
 import GameData from './GameData'
+import MiniMap from './miniMap'
 
 import * as API from './API'
 import * as PIXI from 'pixi.js'
@@ -67,14 +68,13 @@ loader.onComplete.add(() => {
 
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
-
 async function Init(conn, mainMapContainer, textures) {
     window.textures = textures                              // binding textures to window
     window.playerData = new GameData.PlayerData()           // binding PlayerData object to window
     window.mainMap = mainMapContainer                       // binding mainMap PIXI Container to window
     await MainMapInit(mainMapContainer)                     // mainMap container init
     window.mainMap._data = new GameData.MainMapData()       // setting PIXI mainMap object data
-    window.miniMap = new Object()
+    window.miniMap = MainMap
     window.miniMap._data = new GameData.MiniMapData()
     window.conn = conn                                      // binding websocketConnection object to window
     conn.init()

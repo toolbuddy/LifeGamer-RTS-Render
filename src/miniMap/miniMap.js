@@ -19,7 +19,7 @@
  * @param {number} mapSize - the number of total chunks
  * @param {number} mapLong - the number of one side chunks 
  */
-const dspChunks = 9;
+const dspChunks = 16;
 // const dspRngTmp = dspChunks / 2 - 0.5;
 const dspColor = [0xC3BBBB, 0x00FF95, 0xDB0A0A];
 function chunkColor(playerName, ownerName) {
@@ -121,15 +121,13 @@ class MiniMap {
     this.isMouseMove = false;
     this.mouseX = 0;
     this.mouseY = 0;
-    this.tempX = 0;
-    this.tmpeY = 0;
     this.dstX = 0;
     this.dstY = 0;
     this.outputContainer
       .on('mouseover', (event) => {
         this.isMouseOver = true;
       })
-      .on('mouseout', (evrnt) => {
+      .on('mouseout', (event) => {
         this.isMouseOver = false;
         this.ismouseDown = false;
       })
@@ -195,3 +193,5 @@ class MiniMap {
     console.log(this.outputContainer.x + " " + this.outputContainer.y);
   }
 }
+
+export default MiniMap
