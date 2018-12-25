@@ -53,6 +53,21 @@ var outputContainerXmin = 0;
 var outputContainerYmax = 0;
 var outputContainerYmin = 0;
 
+function containerXcheck(val) {
+  if (val <= outputContainerXmin) { return outputContainerXmin; }
+  else if (val >= outputContainerXmax) { return outputContainerXmax; }
+  else { return val; }
+}
+
+function containerYcheck(val) {
+  if (val <= outputContainerYmin) { return outputContainerYmin; }
+  else if (val >= outputContainerYmax) { return outputContainerYmax; }
+  else { return val; }
+}
+
+var correctionX = 0;
+var correctionY = 0;
+
 
 
 /**
@@ -60,7 +75,7 @@ var outputContainerYmin = 0;
  * 
  * @ Class
  */
-class MiniMap {
+class MiniMap extends PIXI.Container {
 
   /**
    * @param {number} x - the pos of miniMap canvas x
@@ -80,7 +95,7 @@ class MiniMap {
    */
   constructor (width, height, mapData, totalChunks, playerName) {
 
-
+    super();
     canvasWidth = width;
     chunkWidth = canvasWidth / dspChunks;
     canvasHeight = height;
@@ -94,12 +109,12 @@ class MiniMap {
     this.ownerName = "NULL";
     this.terrainType = "NULL";
 
-    this.outputContainer = new PIXI.Container();
-    this.outputContainer.x = 0;
-    this.outputContainer.y = 0;
-    this.outputContainer.interactive = true;
-    outputContainerXmax = this.outputContainer.x;
-    outputContainerYmax = this.outputContainer.y;
+    // this.outputContainer = new PIXI.Container();
+    this.x = 0;
+    this.y = 0;
+    this.interactive = true;
+    outputContainerXmax = this.x;
+    outputContainerYmax = this.y;
     outputContainerXmin = outputContainerXmax - canvasWidth;
     outputContainerYmin = outputContainerYmax - canvasHeight;
     let miniMapGraphics = new PIXI.Graphics();
@@ -115,66 +130,53 @@ class MiniMap {
         (chunkHeight * 0.9)
       );
     }
-    this.outputContainer.addChild(miniMapGraphics);
-    this.isMouseOver = false;
+    this.addChild(miniMapGraphics);
     this.ismouseDown = false;
     this.isMouseMove = false;
     this.mouseX = 0;
     this.mouseY = 0;
     this.dstX = 0;
     this.dstY = 0;
-    this.outputContainer
-      .on('mouseover', (event) => {
-        this.isMouseOver = true;
-      })
+    this
       .on('mouseout', (event) => {
-        this.isMouseOver = false;
         this.ismouseDown = false;
       })
       .on('mousedown', (event) => {
         this.ismouseDown = true;
         this.isMouseMove = false;
-        this.mouseX = event.data.global.x;
-        this.mouseY = event.data.global.y;
-        this.containerX = this.outputContainer.x;
-        this.containerY = this.outputContainer.y;
+        // this.mouseX = event.data.global.x;
+        // this.mouseY = event.data.global.y;
+        correctionX = event.data.global.x - this.x;
+        correctionY = event.data.global.y - this.y;
       })
       .on('mouseup', (event) => {
         this.ismouseDown = false;
-        if (this.isMouseOver)
+
+        if (!(this.isMouseMove))
         {
-          if (!(this.isMouseMove))
+          var tempX = Math.floor((event.data.global.x - this.x) / chunkWidth);
+          var tempY = Math.floor((event.data.global.y - this.y) / chunkHeight);
+          for (var i = 0; i < mapSize; ++i)
           {
-            var tempX = Math.floor((event.data.global.x - this.outputContainer.x) / chunkWidth);
-            var tempY = Math.floor((event.data.global.y - this.outputContainer.y) / chunkHeight);
-            for (var i = 0; i < mapSize; ++i)
+            if ((this.mapData[i].x == tempX) && (this.mapData[i].y == tempY))
             {
-              if ((this.mapData[i].x == tempX) && (this.mapData[i].y == tempY))
-              {
-                this.ownerName = this.mapData[i].owner;
-                this.terrainType = this.mapData[i].terrain;
-                console.log("mouseclick");
-                console.log("owner: " + this.ownerName);
-                console.log("terrainType: " + this.terrainType);
-                break;
-              }
+              this.ownerName = this.mapData[i].owner;
+              this.terrainType = this.mapData[i].terrain;
+              console.log("mouseclick");
+              console.log("owner: " + this.ownerName);
+              console.log("terrainType: " + this.terrainType);
+              break;
             }
           }
         }
+
       })
       .on('mousemove', (event) => {
         if (this.ismouseDown)
         {
           this.isMouseMove = true;
-          var tempX = this.containerX + (event.data.global.x - this.mouseX);
-          var tempY = this.containerY + (event.data.global.y - this.mouseY);
-          if (tempX <= outputContainerXmin) { tempX = outputContainerXmin; }
-          else if (tempX >= outputContainerXmax) { tempX = outputContainerXmax; }
-          if (tempY <= outputContainerYmin) { tempY = outputContainerYmin; }
-          else if (tempY >= outputContainerYmax) { tempY = outputContainerYmax; }
-          this.outputContainer.x = tempX;
-          this.outputContainer.y = tempY;
-
+          this.x = containerXcheck(event.data.global.x - correctionX);
+          this.y = containerYcheck(event.data.global.y - correctionY);
         }
       });
   }

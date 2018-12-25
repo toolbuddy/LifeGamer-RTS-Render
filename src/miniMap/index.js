@@ -11,6 +11,7 @@ if (!PIXI.utils.isWebGLSupported())
 PIXI.utils.sayHello(type);
 
 var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
+// var dspCanvas = document.getElementById("miniMapCanvas");
 var mapData = MapData;
 var totalChunks = 2500;
 var playerName = "Andy";
@@ -42,7 +43,7 @@ var miniMap = new MiniMap(
   dspCanvas.offsetHeight,
   mapData, totalChunks, playerName
 );
-app.stage.addChild(miniMap.outputContainer);
+app.stage.addChild(miniMap);
 
 export default miniMap
 
