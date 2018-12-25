@@ -43,7 +43,9 @@ loader.load((loader, resources) => {
         GeoThermalPowerPlant: resources.GeoThermalPowerPlant.texture,
         ThermalPowerPlant: resources.ThermalPowerPlant.texture,
         WindPowerPlant: resources.WindPowerPlant.texture,
-        SolarPowerPlant: resources.SolarPowerPlant.texture
+        SolarPowerPlant: resources.SolarPowerPlant.texture,
+        Sawmill: resources.Sawmill.texture,
+        Pasture: resources.Pasture.texture
     }
     textures.environment = {
         Forest: resources.Forest.texture,
