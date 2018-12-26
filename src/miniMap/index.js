@@ -1,4 +1,4 @@
-import * as PIXI from 'pixi.js'
+// import * as PIXI from 'pixi.js'
 import MiniMap from './miniMap'
 import MapData from './MapData'
 
@@ -35,22 +35,25 @@ console.log("totalChunks: " + totalChunks);
 console.log("********************************");
 console.log("");
 
-// dspCanvas.getBoundingClientRect().left,
-// dspCanvas.getBoundingClientRect().top,
 
+// create miniMap and initialize
 var miniMap = new MiniMap(
   dspCanvas.offsetWidth,
   dspCanvas.offsetHeight,
-  mapData, totalChunks, playerName
+  mapData, totalChunks
 );
+miniMap.init();
 app.stage.addChild(miniMap);
 
-export default miniMap
+// initialize player name
+miniMap.initName(playerName);
 
-
-
-/**
- * if the mapData change
- */
+// Update the map data
 // miniMap.mapDataUpdate(mapData);
-// app.stage.addChild(miniMap.drawMiniMap());
+
+// GET the x and y of the clicked chunk
+// if the click event haven't happen both would be null
+// var clickedX = miniMap.dspX;
+// var clickedY = miniMap.dspY;
+
+export default miniMap
