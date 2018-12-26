@@ -15,39 +15,35 @@ const oauth2 = simpleOauthModule.create({
 
 // Authorization uri definition
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
-  redirect_uri: `${hostname}/callback`,
+  redirect_uri: `${hostname}/game/callback`,
   scope: 'api'
 })
 
 class OAuthService {
   init (app) {
     // Initial page redirecting to Github
-    app.get('/auth', (req, res) => {
+    app.get('/game/auth', (req, res) => {
       res.redirect(authorizationUri)
     })
 
     // Callback service parsing the authorization token and asking for the access token
-    app.get('/callback', (req, res) => {
-      const options = {
-        code: req.query.code,
-        grant_type: 'authorization_code',
-        redirect_uri: `${hostname}/callback`
-      }
-
-      oauth2.authorizationCode.getToken(options, (error, result) => {
-        if (error) {
-          console.error('Access Token Error', error.message)
-          return res.json('Authentication failed')
+    app.get('/game/callback', async (req, res) => {
+        const options = {
+            code: req.query.code,
+            grant_type: 'authorization_code',
+            redirect_uri: `${hostname}/game/callback`
         }
-
-        const token = oauth2.accessToken.create(result)
-
-        res.cookie('token', token['token']['access_token'], {
-          secure: true,
-          expires: 0
-        })
-        res.redirect(`${hostname}/game`)
-      })
+	    try {
+            const result = await oauth2.authorizationCode.getToken(options)
+            const token = await oauth2.accessToken.create(result)
+            res.cookie('token', token['token']['access_token'], {
+                secure: true,
+                expires: 0
+            })
+            res.redirect(`${hostname}/game`)
+        } catch(error) {
+            console.log(error)
+        }
     })
   }
 }
