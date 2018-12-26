@@ -8,6 +8,23 @@
     transform:scale(1.2, 1.2);
 }
 
+.btn{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-image: url('../source/img/appearance/button.svg');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    color: #ffffff;
+}
+
+.btn:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
 #menu_list{
     width: 100%;
     height:100%;
@@ -16,69 +33,104 @@
 
 #menu_list > .btn{
     float: left;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: calc(100% / 3);
     height: 100%;
-    background-size: 100%;
-    background-image: url('../source/img/appearance/button.svg');
-    background-repeat: no-repeat;
-    background-position: bottom;
-    color: #ffffff;
 }
 
-
-#menu_list > .btn:hover{
-    cursor: pointer;
-    transform: scale(1.1);
-}
 
 #build_items{
-    background: rgba(255, 255, 255, 1);
-    border: 1px solid #000;
-    display:none;
+    background: rgba(0, 0, 0, 0.5);
     position:absolute;
-    bottom:100%;
-    height: 60vh;
+    display:none;
+    height: 100vh;
+    width:100vw;
+    top:0px;
+}
 
-    flex-direction:row;
-    flex-wrap:wrap;
-    align-items:center;
+#items_content{
+
+    position: absolute;
+    top:10vh;
+    left:10vw;
+    width:80%;
+    height:80%;
+
+    display:flex;
+
+}
+
+#items_content > div{
+
+    position:relative;
+    width:20%;
+    background:rgba(0, 0, 0, 0.6);
+    border: 2px red solid;
+
+}
+
+#items_list{
+    flex-grow:1;
+}
+
+#items{
+
+    display:flex;
+    flex-flow: row wrap;
     justify-content: space-around;
 
-    overflow:scroll;
-    width: 100%;
+    flex-grow:2;
+
+    overflow-x:visible;
+    overflow-y:scroll;
+}
+
+#items_description{
+
+    flex-grow:2;
+}
+
+#exit_btn{
+
+    position:absolute;
+    right:0vw;
+    width:4vw;
+    height:4vw;
+}
+
+#exit_btn > span{
+    font-size:2rem;
 }
 
 ::-webkit-scrollbar {
-    width : 3px ;
+    width : 0px ;
 }
 
 ::-webkit-scrollbar-thumb {
     background: #888;
 }
 
-
 .item{
-    width:30%;
-    height:30%;
+    margin: 3vw 1vw 0 1vw;
 }
+
 
 .item:hover{
     transform:scale(1.1, 1.1);
 }
 
 .img{
-    width:100%;
-    height:100%;
+    width:10vw;
+    height:10vw;
     background-size:cover;
     background-position:center;
 }
 
 .tag{
-    height:20%;
+    height:2vw;
+    width:10vw;
     text-align:center;
+    color:white;
+    word-wrap:break-word;
 }
 
 

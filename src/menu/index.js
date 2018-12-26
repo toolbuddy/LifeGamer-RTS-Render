@@ -18,19 +18,26 @@ function build_click(){
 
 	var build = document.getElementById('build');
 	var selection = document.getElementById('build_items');
+	if(build.className.match('active') != 'active'){
+		build.className += ' active';
+		selection.style.display = 'block';
+	}
+
+}
+
+function exit_click(){
+
+	var build = document.getElementById('build');
+	var selection = document.getElementById('build_items');
 	if(build.className.match('active') == 'active') {
 		selection.style.display = 'none';
 		build.className = build.className.replace('active', '');
-	}
-	else {
-		build.className += ' active';
-		selection.style.display = 'flex';
 	}
 
 }
 
 function item_click(item){
-	build_click();
+	exit_click();
     API.menu.BuildRequest(window.conn, window.mainMap._data.data, item._data)
 
     document.querySelector('#miniMap').style.display = 'none'
@@ -50,7 +57,7 @@ function load_items(img_list){
 
 	var item;
 
-	var build_items = document.getElementById('build_items');
+	var build_items = document.getElementById('items');
 	for(var i =0; i<img_list.img.length; i+=1){
 		item = document.createElement('div');
 		item.className = 'item';
@@ -84,4 +91,5 @@ load_items(img_list);
 document.querySelector('#menu_list > div:first-child').onclick = function(){ build_click() };
 document.querySelector('#menu_list > div:nth-child(2)').onclick = function(){ move_click() };
 document.querySelector('#menu_list > div:last-child').onclick = function(){ home_click() };
+document.querySelector('#exit_btn').onclick = function(){ exit_click() };
 

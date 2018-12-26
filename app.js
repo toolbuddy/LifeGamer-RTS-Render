@@ -6,7 +6,7 @@ const { OAuthService } = require('./oauth')
 const app = express();
 
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 13000;
 
 app.use(express.static(path.resolve(__dirname + "/dist")));
 
