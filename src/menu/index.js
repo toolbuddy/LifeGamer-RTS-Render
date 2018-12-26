@@ -13,6 +13,23 @@ var img_list = {
     tag:['BitCoinMiner', 'FishFarm', 'GeoThermalPowerPlant', 'SolarPowerPlant', 'ThermalPowerPlant', 'WindPowerPlant']
 }
 
+/*
+var img_list = {
+    cat1:{
+        img:[BitCoinMiner, FishFarm],
+        tag:['BitCoinMiner', 'FishFarm']
+    },
+    cat2:{
+        img:[GeoThermalPowerPlant, SolarPowerPlant],
+        tag:['GeoThermalPowerPlant', 'SolarPowerPlant']
+    }
+    cat3:{
+        img:[ThermalPowerPlant, WindPowerPlant],
+        tag:['ThermalPowerPlant', 'WindPowerPlant']
+    }
+}
+
+*/
 
 function build_click(){
 
