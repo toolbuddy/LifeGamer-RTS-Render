@@ -85,7 +85,6 @@ document.querySelector('section#mainMap').appendChild(MainMap.view)
 // websocket connection
 
 
-
 async function Init(conn, mainMapContainer, textures) {
     window.textures = textures                              // binding textures to window
     window.playerData = new GameData.PlayerData()           // binding PlayerData object to window
