@@ -1,0 +1,19 @@
+body{
+  background-color: #222222;
+}
+#miniMap{
+  position: absolute;
+  left: 128px;
+  top: 128px;
+  width: 512px;
+  height: 256px;
+  background-color: #FFFFFF;
+}
+#miniMapCanvas{
+  position: absolute;
+  top: 0px;
+  left: 96px;
+  width: 320px;
+  height: 256px;
+  background-color: #666666;
+}

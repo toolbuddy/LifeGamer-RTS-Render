@@ -1,9 +1,10 @@
 import statusCSS from './style.css'
 
-const UpperLimit = 999999;
-const p_Power = document.querySelector("#Power .Data p");
-const p_People = document.querySelector("#People .Data p");
-const p_Money = document.querySelector("#Money .Data p");
+
+const UpperLimit = 9999999;
+const p_Power = document.querySelector("#Power > .Data");
+const p_People = document.querySelector("#People > .Data");
+const p_Money = document.querySelector("#Money > .Data");
 /**
  * Update the Character data get from Server
  *

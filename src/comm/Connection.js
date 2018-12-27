@@ -16,15 +16,12 @@ class WebsocketConnection {
      * @constructor
      *
      * @param {string} host - server host name
-     * @param {number} port - port
      * @param {string} token - gitlab access token for registering
      */
-    constructor (host, port, token, mainMap, miniMap) {
-        this.webUrl = `ws://${host}:${port}`
+    constructor (host, token) {
+        this.webUrl = host
         this.token = token
         this.connection = null
-        this.mainMap = null
-        this.miniMap = null
     }
     /**
      * websocket and playerdata object init
@@ -38,21 +35,6 @@ class WebsocketConnection {
         this.connection.parent = this                           // setting connection parent
         this.connection.onmessage = this.msgHandler             // setting onmessage function, msgHandler
         this.register()                                         // register
-
-        /*
-        window.addEventListener('keydown', function(event) {
-            const key = event.keyCode
-            if (key == 37) {
-                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.mainMap._data.data[0].Pos.X - 1, 'Y': window.mainMap._data.data[0].Pos.Y})
-            }else if(key == 38) {
-                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.mainMap._data.data[0].Pos.X, 'Y': window.mainMap._data.data[0].Pos.Y - 1})
-            }else if(key == 39) {
-                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.mainMap._data.data[0].Pos.X + 1, 'Y': window.mainMap._data.data[0].Pos.Y})
-            }else if(key == 40) {
-                API.miniMap.ViewRangeMapdataRequest(window.conn, {'X': window.mainMap._data.data[0].Pos.X, 'Y': window.mainMap._data.data[0].Pos.Y + 1})
-            }
-        })
-        */
     }
     /**
      * using promise to await websocket creating successful
@@ -145,7 +127,7 @@ class WebsocketConnection {
         }
         switch (Msg_type) {
             case 'HomePointResponse': // send home point response to backend server, home.x, home.y needed
-                data['Home'] = param.home
+                data['Pos'] = param.home
                 this.connection.send(JSON.stringify(data))
                 break
             case 'MapDataRequest':

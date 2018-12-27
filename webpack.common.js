@@ -1,5 +1,3 @@
-const sourceMap = true
-
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
@@ -24,8 +22,9 @@ module.exports = {
         usedExports: true
     },
     output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: 'js/[name].[chunkhash:8].js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/game'
     },
     module: {
         rules: [
@@ -44,25 +43,46 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', {
-                    loader: 'css-loader',
-                    options: { sourceMap }
-                },{
-                    loader: 'group-css-media-queries-loader',
-                    options: { sourceMap }
-                }]
+                use: ['style-loader', 'css-loader', 'group-css-media-queries-loader']
             },
             {
-                test: /\.(png|jp(e*)g|svg|gif)$/,
-                loader: ['file-loader']
+                test: /\.(png|jpe?g|svg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[hash:8].[ext]',
+                            publicPath: 'images/',
+                            outputPath: 'images/'
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(.woff|woff2|eot|ttf|otf)$/,
-                use: ['file-loader']
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[hash:8].[ext]',
+                            publicPath: 'fonts/',
+                            outputPath: 'fonts/'
+                        }
+                    }
+                ]
             },
             {
                 test: /\.json$/,
-                use: ['json-loader']
+                use: [
+                    {
+                        loader: 'json-loader',
+                        options: {
+                            name: '[hash:8].[ext]',
+                            publicPath: 'data/',
+                            outputPath: 'data/'
+                        }
+                    }
+                ]
             }
         ]
     }
