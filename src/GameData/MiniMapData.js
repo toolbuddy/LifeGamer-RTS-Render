@@ -34,10 +34,14 @@ class MiniMapData {
     modifyData (Owner, Terrain) {
         let map = []
         return new Promise((resolve, reject) => {
-            for (let i = 0; i < Owner.length; i++) {
-                map.push([])
-                for (let j = 0; j < Owner[i].length; j++) {
-                    map[i].push({ 'Owner': Owner[i][j], 'Terrain': Terrain[i][j] })
+            for (let x = 0; x < Owner.length; x++) {
+                for (let y = 0; y < Owner[x].length; y++) {
+                    map.push({
+                        'x': x - Math.ceil(this.size / 2),
+                        'y': y - Math.ceil(this.size / 2),
+                        'owner': Owner[x][y],
+                        'terrain': (Terrain) ? Terrain[x][y] : null
+                    })
                 }
             }
             resolve(map)

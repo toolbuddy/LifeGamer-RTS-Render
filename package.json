@@ -26,7 +26,8 @@
     "babel-polyfill": "^6.26.0",
     "dat.gui": "^0.7.3",
     "express": "^4.16.4",
-    "pixi.js": "^4.8.2"
+    "pixi.js": "^4.8.2",
+    "simple-oauth2": "^2.2.1"
   },
   "devDependencies": {
     "babel": "^6.23.0",
