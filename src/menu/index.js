@@ -8,28 +8,22 @@ import SolarPowerPlant from '../source/img/mainMap/building/SolarPowerPlant.png'
 import ThermalPowerPlant from '../source/img/mainMap/building/ThermalPowerPlant.png'
 import WindPowerPlant from '../source/img/mainMap/building/WindPowerPlant.png'
 
-var img_list = {
-    img:[BitCoinMiner, FishFarm, GeoThermalPowerPlant, SolarPowerPlant, ThermalPowerPlant, WindPowerPlant],
-    tag:['BitCoinMiner', 'FishFarm', 'GeoThermalPowerPlant', 'SolarPowerPlant', 'ThermalPowerPlant', 'WindPowerPlant']
-}
 
-/*
 var img_list = {
-    cat1:{
+    cat0:{
         img:[BitCoinMiner, FishFarm],
         tag:['BitCoinMiner', 'FishFarm']
     },
-    cat2:{
+    cat1:{
         img:[GeoThermalPowerPlant, SolarPowerPlant],
         tag:['GeoThermalPowerPlant', 'SolarPowerPlant']
-    }
-    cat3:{
+    },
+    cat2:{
         img:[ThermalPowerPlant, WindPowerPlant],
         tag:['ThermalPowerPlant', 'WindPowerPlant']
     }
 }
 
-*/
 
 function build_click(){
 
@@ -40,6 +34,23 @@ function build_click(){
 		selection.style.display = 'block';
 	}
 
+}
+
+function _init_elements(){
+    var cls_list = document.getElementsByClassName('class_list');
+    for(var i of cls_list){
+        i.style.visibility = 'hidden';
+        i.style.zIndex = '1';
+    }
+}
+
+function class_click(cls){
+    var id = cls.getAttribute('id')
+    var element = document.getElementById(`${id}_element`);
+
+    _init_elements();
+    element.style.zIndex = '2';
+    element.style.visibility = 'visible';
 }
 
 function exit_click(){
@@ -73,33 +84,61 @@ function home_click(){
 function load_items(img_list){
 
 	var item;
-
 	var build_items = document.getElementById('items');
-	for(var i =0; i<img_list.img.length; i+=1){
-		item = document.createElement('div');
-		item.className = 'item';
-		var c_div1 = document.createElement('div');
-		var c_div2 = document.createElement('div');
 
-		item.appendChild(c_div1);
-		item.appendChild(c_div2);
-		build_items.appendChild(item);
+    var idx = 0;
+    for(var cls in img_list){
 
-		var num = String(i);
-		while(num.length < 3){
-			num = '0'+num;
-		}
-		c_div1.setAttribute('id', 'img'+num);
-		document.getElementById('img'+num).style.backgroundImage = `url(${img_list.img[i]})`;
-		c_div1.className = 'img';
 
-		c_div2.setAttribute('id', 'tag'+num);
-		document.getElementById('tag'+num).innerHTML = img_list.tag[i];
-		c_div2.className = 'tag';
+        //objects part
+        var element = document.createElement('div');
+        build_items.appendChild(element);
+        element.className = 'class_list';
+        element.setAttribute('id', `${cls}_element`);
 
-		item.onclick = function() { item_click(this) };
-        item._data = img_list.tag[i]
-	}
+        for(var i = 0; i < img_list[cls].img.length; i+= 1){
+
+            item = document.createElement('div');
+            item.className = 'item';
+            var c_div1 = document.createElement('div');
+            var c_div2 = document.createElement('div');
+
+            item.appendChild(c_div1);
+            item.appendChild(c_div2);
+            element.appendChild(item);
+
+            var num = String(idx);
+            while(num.length < 3){
+                num = '0'+num;
+            }
+
+            c_div1.setAttribute('id', 'img'+num);
+            document.getElementById('img'+num).style.backgroundImage = `url(${img_list[cls].img[i]})`;
+            c_div1.className = 'img';
+
+            c_div2.setAttribute('id', 'tag'+num);
+            document.getElementById('tag'+num).innerHTML = img_list[cls].tag[i];
+            c_div2.className = 'tag';
+
+            item.onclick = function() { item_click(this) };
+            item._data = img_list[cls].tag[i]
+
+            idx += 1;
+        }
+
+        //class name part
+        var class_name = document.createElement('div');
+        class_name.className = 'classes btn';
+        class_name.setAttribute('id', `${cls}`);
+        document.getElementById('items_list').appendChild(class_name);
+        class_name.onclick = function(){ class_click(this); }
+
+    }
+
+    _init_elements();
+    var first_element = document.getElementsByClassName('class_list')[0];
+    first_element.style.zIndex = '2';
+    first_element.style.visibility = 'visible';
 }
 
 
