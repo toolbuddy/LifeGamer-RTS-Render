@@ -5,10 +5,9 @@ import * as PIXI from 'pixi.js'
 import * as API from '../API'
 
 export default function CreateBuildLayer (conn, MapData, building) {
-    let chunkSize = Math.min(window.mainMapWidth, window.mainMapHeight) / Math.min(config.chunkCoorX, config.chunkCoorY),
+    let chunkSize = Math.max(window.innerWidth / config.chunkCoorX, window.innerHeight / config.chunkCoorY),
         spaceSize = chunkSize / config.spaceCoor
 
-    console.log(chunkSize, spaceSize)
     return new Promise(async resolve => {
         // create layer
         var layer = new PIXI.Container()
@@ -26,11 +25,13 @@ export default function CreateBuildLayer (conn, MapData, building) {
         layer.mouseover = function(mouseData) {
             let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
             let chunkIndex = Math.floor(mouseData.data.global.x / chunkSize) + Math.floor(mouseData.data.global.y / chunkSize) * config.chunkCoorX
-            let index = Math.floor(mouseData.data.global.x / spaceSize) % config.spaceCoor + Math.floor(mouseData.data.global.y / spaceSize) % config.spaceCoor * config.spaceCoor
+            let index = Math.floor(mouseData.data.global.x / spaceSize) % config.spaceCoor + Math.floor(mouseData.data.global.y / spaceSize) % config.spaceCoor * config.spaceCoor,
+                x = Math.floor(mouseData.data.global.x / spaceSize),
+                y = Math.floor(mouseData.data.global.y / spaceSize)
             this.isHover = true
             this.addChild(this.selectSpace)
-            this.selectSpace.x = (Math.floor(mouseData.data.global.x / spaceSize) * spaceSize) * scale
-            this.selectSpace.y = (Math.floor(mouseData.data.global.y / spaceSize) * spaceSize) * scale
+            this.selectSpace.x = x * (spaceSize * scale)
+            this.selectSpace.y = y * (spaceSize * scale)
             this.selectSpace.graphicsData[0].fillColor = (allowPoints[chunkIndex][index]) ? 0x00ff00 : 0xff0000
         }
 
@@ -38,9 +39,12 @@ export default function CreateBuildLayer (conn, MapData, building) {
             if(this.isHover) {
                 let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
                 let chunkIndex = Math.floor(mouseData.data.global.x / chunkSize) + Math.floor(mouseData.data.global.y / chunkSize) * config.chunkCoorX
-                let index = Math.floor(mouseData.data.global.x / spaceSize) % config.spaceCoor + Math.floor(mouseData.data.global.y / spaceSize) % config.spaceCoor * config.spaceCoor
-                this.selectSpace.x = (Math.floor(mouseData.data.global.x / spaceSize) * spaceSize) * scale
-                this.selectSpace.y = (Math.floor(mouseData.data.global.y / spaceSize) * spaceSize) * scale
+                let index = Math.floor(mouseData.data.global.x / spaceSize) % config.spaceCoor + Math.floor(mouseData.data.global.y / spaceSize) % config.spaceCoor * config.spaceCoor,
+                    x = Math.floor(mouseData.data.global.x / spaceSize),
+                    y = Math.floor(mouseData.data.global.y / spaceSize)
+
+                this.selectSpace.x = x * (spaceSize * scale)
+                this.selectSpace.y = y * (spaceSize * scale)
                 this.selectSpace.graphicsData[0].fillColor = (allowPoints[chunkIndex][index]) ? 0x00ff00 : 0xff0000
             }
         }
@@ -58,10 +62,7 @@ export default function CreateBuildLayer (conn, MapData, building) {
             API.mainMap.BuildOperRequest(conn, 'Build', Structures[building].ID, MapData[chunkIndex].Pos, {'X': x, 'Y': y})
             this.parent.removeChild(this)
 
-            // show all other elements
-            document.querySelector('#menu').style.display = 'block'
-            document.querySelector('#statusBar').style.display = 'block'
-            document.querySelector('#miniMap').style.display = 'block'
+            window.elementsToggle()
         })
 
         layer.zIndex = 99
@@ -86,9 +87,11 @@ function backgroundCreate(width, height) {
 
 function selectSpaceCreate (building, spaceSize) {
     return new Promise(resolve => {
+        let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
+
         var selectSpace = new PIXI.Graphics()
         selectSpace.beginFill(0x00ff00)
-        selectSpace.drawRect(0, 0, Structures[building].Size * spaceSize, Structures[building].Size * spaceSize)
+        selectSpace.drawRect(0, 0, Structures[building].Size * spaceSize * scale, Structures[building].Size * spaceSize * scale)
         selectSpace.endFill()
 
         resolve(selectSpace)
