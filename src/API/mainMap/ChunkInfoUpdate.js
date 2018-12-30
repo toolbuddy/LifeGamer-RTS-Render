@@ -4,8 +4,8 @@ import EnvType from './EnvType'
 
 const textStyle = {
     fill: "white",
-    fontFamily: "cwTeXYen, sans-serif, \"Courier New\"",
-    fontSize: 20
+    fontFamily: "Minecraft, misaki-mincho, sans-serif",
+    fontSize: 28
 }
 
 /**

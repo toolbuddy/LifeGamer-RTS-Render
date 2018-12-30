@@ -29,15 +29,12 @@ function build_click(){
 		selection.style.display = 'flex';
 	}
 
+    window.elementsToggle()
 }
 
 function item_click(item){
 	build_click();
     API.menu.BuildRequest(window.conn, window.mainMap._data.data, item._data)
-
-    document.querySelector('#miniMap').style.display = 'none'
-    document.querySelector('#menu').style.display = 'none'
-    document.querySelector('#statusBar').style.display = 'none'
 }
 
 

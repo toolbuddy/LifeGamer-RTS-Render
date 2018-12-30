@@ -9,10 +9,21 @@
     --room-height: calc(var(--room-width) * 1.4);
 }
 
+@font-face {
+    font-family: 'Minecraft';
+    src: url('./source/fonts/Minecraft.ttf')
+}
+
+@font-face {
+    font-family: 'misaki-mincho';
+    src: url('./source/fonts/misaki_mincho.ttf');
+}
+
 * {
     box-sizing: border-box;
     -moz-user-select: none;
     -webkit-user-select: none;
+    font-family: 'Minecraft', 'misaki-mincho', sans-serif;
 }
 
 html, body {
@@ -72,4 +83,5 @@ html, body {
     height: var(--room-height);
     bottom: 0;
     left: 0;
+    pointer-events: none;
 }

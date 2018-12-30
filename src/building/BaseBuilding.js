@@ -4,13 +4,13 @@ import * as API from '../API'
 
 const padding = 10
 
-const buttonWidth = 170, buttonHeight = 40
+const buttonWidth = 180, buttonHeight = 50
 
 /* tooltip style setting */
 var tooltipStyle = {
     fill: "white",
-    fontFamily: "\"Courier New\", Courier, monospace",
-    fontSize: 20
+    fontFamily: "Minecraft, misaki-mincho, sans-serif",
+    fontSize: 24
 }
 
 /**
@@ -35,7 +35,7 @@ class BaseBuilding {
      * @function
      */
     async objectInit () {
-        let chunkSize = Math.min(window.mainMapWidth, window.mainMapHeight) / Math.min(config.chunkCoorX, config.chunkCoorY),
+        let chunkSize = Math.max(window.innerWidth / config.chunkCoorX, window.innerHeight / config.chunkCoorY),
             spaceSize = chunkSize / config.spaceCoor
 
         this.object = new PIXI.Sprite(this.buildingTexture)
@@ -172,7 +172,7 @@ class BaseBuilding {
             // button background setting
             var buttonBackground = new PIXI.Graphics()
             buttonBackground.beginFill(0x000000)
-            buttonBackground.drawRoundedRect(0, 0, buttonWidth, buttonHeight, 0)
+            buttonBackground.drawRect(0, 0, buttonWidth, buttonHeight)
             buttonBackground.endFill()
 
             // button icon
