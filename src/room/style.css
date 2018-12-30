@@ -4,18 +4,15 @@
 
 	box-sizing:border-box;
     font-family: Arial;
-    height: 30rem;
     width: 30rem;
+    height: 30rem;
 }
 
 .chatRoom {
     overflow-y: scroll;
     height: calc(100% - 2.3rem);
     width: 100%;
-    background-color:rgba(190, 182, 182, 0.7);
-
-    border: 0.1rem solid black;
-    border-bottom: none;
+    background-color:rgba(106, 105, 104, 0.7);
 }
 
 
@@ -42,22 +39,16 @@
     float: left;
     height: 2.3rem;
     width:100%;
-
-    border: 0.1rem solid black;
 }
 .ChatRoom #input{
-    background-color:rgba(190, 182, 182);    
-    width:calc(100% - 1rem);
-    border-right: none;
-}
-.ChatRoom #dump{
-    background-color: black;
-    width:1rem;
-    border-left: none;
+    background-color: #6C6B74;
+    width: 100%;
 }
 #content{
-    border: 0.1rem solid #ccc;
-    border-radius: 0.25rem;
-    padding-left: 0.3rem;
-    width: 96%;
+    border: 0;
+    width: 100%;
+    height: 100%;
+    padding-left: 0.5rem;
+    background-color: transparent;
+    color: #fff;
 }
