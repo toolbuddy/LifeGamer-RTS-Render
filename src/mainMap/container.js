@@ -19,7 +19,7 @@ var mainContainer = null
 // resize handler setting
 const resizeHandler = () => {
     app.renderer.resize(window.innerWidth, window.innerHeight)
-    mainContainer.scale.set(window.innerHeight / height)
+    mainContainer.scale.set(Math.max(window.innerWidth / width, window.innerHeight / height))
 }
 
 // set canvas as auto resize render
