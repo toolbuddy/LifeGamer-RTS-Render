@@ -62,7 +62,7 @@ loader.load((loader, resources) => {
 
 loader.onComplete.add(() => {
     var token = prompt('please input your private token')
-    var connect = new WebsocketConnection('ws://localhost:9999', token)
+    var connect = new WebsocketConnection('wss://pd2a.imslab.org/gamews', token)
     Init(connect, MainMap.container, textures)
 })
 
