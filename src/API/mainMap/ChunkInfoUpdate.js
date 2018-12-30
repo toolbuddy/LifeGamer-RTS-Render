@@ -4,8 +4,8 @@ import EnvType from './EnvType'
 
 const textStyle = {
     fill: "white",
-    fontFamily: "cwTeXYen, sans-serif, \"Courier New\"",
-    fontSize: 20
+    fontFamily: "Minecraft, misaki-mincho, sans-serif",
+    fontSize: 28
 }
 
 /**
@@ -39,6 +39,7 @@ export default function ChunkInfoUpdate(container, MapData) {
         window.addEventListener('keydown', function(event) {
             const key = event.keyCode
             if (key == 81) {
+                if(!container.QPress) window.elementsToggle()
                 container.QPress = true
                 container.addChild(container.chunkInfo)
             }
@@ -49,6 +50,7 @@ export default function ChunkInfoUpdate(container, MapData) {
             if (key == 81 && container.QPress) {
                 container.QPress = false
                 container.removeChild(container.chunkInfo)
+                window.elementsToggle()
             }
         })
 
@@ -95,7 +97,7 @@ function TextGen(chunkData) {
         textString += `Chunk Pos: (${chunkData.Pos.X}, ${chunkData.Pos.Y})\n`
         textString += `Owner: ${chunkData.Owner !== '' ? chunkData.Owner : 'None'}\n`
         textString += `Environment: \n${await EnvCalculate(chunkData)}\n`
-        textString += `Population: ${window.playerData.Username === chunkData.Owner ? chunkData.Human : '???'}`
+        textString += `Population: ${window.playerData.Username === chunkData.Owner ? chunkData.Population : '???'}`
         resolve(textString)
     })
 }
@@ -118,8 +120,9 @@ function EnvCalculate(chunkData) {
         }
         let keys = Object.keys(percent), EnvPercent = ''
         for (let i = 0; i < keys.length; ++i) {
+            percent[keys[i]] /= (num / 100)
             if (i) EnvPercent += '\n'
-            EnvPercent += `\t\t${keys[i]}: ${percent[keys[i]] /= (num/100)}%`
+            EnvPercent += `\t\t${keys[i]}: ${percent[keys[i]].toFixed(2)}%`
         }
         resolve(EnvPercent)
     })

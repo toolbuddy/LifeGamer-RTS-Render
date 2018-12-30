@@ -59,6 +59,7 @@ function ListInit(MapData, sprites) {
                         chunk.push(new Building.BitCoinMiner(building, chunkIndex))
                         break
                     case structures['Sawmill'].ID:
+                        chunk.push(new Building.Sawmill(building, chunkIndex))
                         break
                     case structures['FishFarm'].ID:
                         chunk.push(new Building.FishFarm(building, chunkIndex))
@@ -66,6 +67,7 @@ function ListInit(MapData, sprites) {
                     case structures['ICFab'].ID:
                         break
                     case structures['Pasture'].ID:
+                        chunk.push(new Building.Pasture(building, chunkIndex))
                         break
                     case structures['Hotspring'].ID:
                         break

@@ -8,6 +8,11 @@ import MiniMap from './miniMap'
 import * as API from './API'
 import * as PIXI from 'pixi.js'
 
+const room = document.querySelector('section#room')
+const statusBar = document.querySelector('section#statusBar')
+const miniMap = document.querySelector('section#miniMapWrapper')
+const menu = document.querySelector('section#menu')
+
 // image import (using webpack require.context)
 function importAll (r, object) {
     r.keys().forEach(key => {
@@ -43,7 +48,9 @@ loader.load((loader, resources) => {
         GeoThermalPowerPlant: resources.GeoThermalPowerPlant.texture,
         ThermalPowerPlant: resources.ThermalPowerPlant.texture,
         WindPowerPlant: resources.WindPowerPlant.texture,
-        SolarPowerPlant: resources.SolarPowerPlant.texture
+        SolarPowerPlant: resources.SolarPowerPlant.texture,
+        Sawmill: resources.Sawmill.texture,
+        Pasture: resources.Pasture.texture
     }
     textures.environment = {
         Forest: resources.Forest.texture,
@@ -68,6 +75,22 @@ loader.onComplete.add(() => {
 
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
+function elementsToggle() {
+    if (room.style.display === '' || room.style.display === 'block') {
+        room.style.display = 'none'
+        statusBar.style.display = 'none'
+        miniMap.style.display = 'none'
+        menu.style.display = 'none'
+    } else {
+        room.style.display = 'block'
+        statusBar.style.display = 'block'
+        miniMap.style.display = 'block'
+        menu.style.display = 'block'
+    }
+}
+
+
+
 async function Init(conn, mainMapContainer, textures) {
     window.textures = textures                              // binding textures to window
     window.playerData = new GameData.PlayerData()           // binding PlayerData object to window
@@ -77,5 +100,6 @@ async function Init(conn, mainMapContainer, textures) {
     window.miniMap = MainMap
     window.miniMap._data = new GameData.MiniMapData()
     window.conn = conn                                      // binding websocketConnection object to window
+    window.elementsToggle = elementsToggle
     conn.init()
 }

@@ -1,135 +1,55 @@
 .ChatRoom {
+    position: fixed;
+    bottom: 0px;
+
 	box-sizing:border-box;
     font-family: Arial;
-    height: 100%;
-    width: 100%;
+    width: 30rem;
+    height: 30rem;
 }
 
-
-/* Style the tab container*/
-.tab {
-    overflow: hidden;
-}
-/* Style the buttons inside the tab */
-.tab button {
-    background-color: inherit;
-    cursor: pointer;
-    float: left;
-    width: 50%;
-    height: 2.5rem;
-
-    border: 0.05rem solid #ccc;
-    border-bottom: none;
-    padding: 0.5rem 0.6rem;
-    transition: 0.3s;
-    font-size: 17px;
-}
-/* Create an active/current tablink class */
-.tab button.active {
-    background-color: #ccc;   
-}
-
-
-
-/* Style the tab content (messagebox container) */
-.tabcontent {
-    display: none;
-    border: 0.05rem solid #ccc;
-    height: calc(100% - 2.5rem);
-    width:100%;
-}
-#Chat #show{
+.chatRoom {
     overflow-y: scroll;
-    height: calc(100% - 2rem);
+    height: calc(100% - 2.3rem);
     width: 100%;
-}
-#ServerMsg #show{
-    overflow-y: scroll;
-    height: calc(100%);
-    width: 100%;
+    background-color:rgba(106, 105, 104, 0.7);
 }
 
 
-
-/* Style the Message input line*/
-#input{
-    background-color: #ccc;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    
-    height: 2rem;
-    width: 100%;
-}
-.tabcontent #content{
-    width: 80%;
-    border: 0.1rem solid #ccc;
-    border-radius: 0.25rem;
-    padding-left: 0.3rem
-}
-.tabcontent #btn{
-    width: 16%;
-    border: 0.1rem solid #ccc;
-    border-radius: 0.25rem;
-    padding-right:0.3rem;
-}
-
-
-
-
-/* Style the chat Message */
-#Chat #show div{
-    margin-top:0.4rem;
-    margin-bottom: 0.3rem;
-
-    margin-left:0.4rem;
-    margin-right:30%;
-}
-#Chat #show div span{
-    background:rgb(245,242,242);
-
-    border: 0.05rem solid #ccc;
-    border-radius:0.6rem;
-    padding: 0.35rem;
-    
-    max-width: calc(100% - 45px);
-    display:inline-block; 
+/*The style of the message*/
+#message #show div{
+    padding: 0.2rem 1rem ;
     word-wrap:break-word;
     word-break: break-all;
 }
-#Chat #show div img{
-    width: 40px;
-    border: 0.03rem solid #ccc;
-    border-radius:100%;
-    background:rgb(190, 182, 182);
-
-    position: relative;
-    vertical-align : middle;
+#message #show .server{
+    color: red;
 }
-
-#Chat #show div.user{
-    text-align:right;
-    margin-left:30%;
-    margin-right:0.4rem;
-}
-#Chat #show div.user span{
-    background:rgb(53,120,229);
-    color:white;
-    max-width:100%;
+#message #show .client{
+    color: black;
 }
 
 
+/*The style of the showTab*/
+.showTab{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 
-/* Style the server Message */
-#ServerMsg #show div{  
-    background:rgb(245,242,242);
-
-    width: 90%;
-    margin:0.3rem auto;
-    border: 0.05rem solid #ccc;
-    border-radius:0.6rem;
-    padding: 0.35rem;
-
-    word-break: break-all;
+    float: left;
+    height: 2.3rem;
+    width:100%;
+    pointer-events: auto;
+}
+.ChatRoom #input{
+    background-color: #6C6B74;
+    width: 100%;
+}
+#content{
+    border: 0;
+    width: 100%;
+    height: 100%;
+    padding-left: 0.5rem;
+    background-color: transparent;
+    color: #fff;
 }

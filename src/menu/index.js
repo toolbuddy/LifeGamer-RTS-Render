@@ -7,10 +7,12 @@ import GeoThermalPowerPlant from '../source/img/mainMap/building/GeoThermalPower
 import SolarPowerPlant from '../source/img/mainMap/building/SolarPowerPlant.png'
 import ThermalPowerPlant from '../source/img/mainMap/building/ThermalPowerPlant.png'
 import WindPowerPlant from '../source/img/mainMap/building/WindPowerPlant.png'
+import Pasture from '../source/img/mainMap/building/Pasture.png'
+import Sawmill from '../source/img/mainMap/building/Sawmill.png'
 
 var img_list = {
-    img:[BitCoinMiner, FishFarm, GeoThermalPowerPlant, SolarPowerPlant, ThermalPowerPlant, WindPowerPlant],
-    tag:['BitCoinMiner', 'FishFarm', 'GeoThermalPowerPlant', 'SolarPowerPlant', 'ThermalPowerPlant', 'WindPowerPlant']
+    img:[BitCoinMiner, FishFarm, GeoThermalPowerPlant, SolarPowerPlant, ThermalPowerPlant, WindPowerPlant, Sawmill, Pasture],
+    tag:['BitCoinMiner', 'FishFarm', 'GeoThermalPowerPlant', 'SolarPowerPlant', 'ThermalPowerPlant', 'WindPowerPlant', 'Sawmill', 'Pasture']
 }
 
 
@@ -27,15 +29,12 @@ function build_click(){
 		selection.style.display = 'flex';
 	}
 
+    window.elementsToggle()
 }
 
 function item_click(item){
 	build_click();
     API.menu.BuildRequest(window.conn, window.mainMap._data.data, item._data)
-
-    document.querySelector('#miniMap').style.display = 'none'
-    document.querySelector('#menu').style.display = 'none'
-    document.querySelector('#statusBar').style.display = 'none'
 }
 
 
