@@ -26,8 +26,8 @@
 }
 
 .classes{
-    border: 2px solid red;
     height: 8vh;
+    margin: 1vh 0;
 }
 
 .class_list{
@@ -42,13 +42,13 @@
     justify-content: space-around;
     align-content:flex-start;
 
-    flex-grow:2;
-
     overflow-x:visible;
     overflow-y:scroll;
 
     visibility:hidden;
     z-index:1;
+    padding:1vw;
+    background:rgba(0, 0, 0, 0.5);
 }
 
 #menu_list{
@@ -77,8 +77,8 @@
 
     position: absolute;
     top:10vh;
-    left:10vw;
-    width:80%;
+    left:20vw;
+    width:60%;
     height:80%;
 
     display:flex;
@@ -90,7 +90,6 @@
     position:relative;
     width:20%;
     background:rgba(0, 0, 0, 0.6);
-    border: 2px red solid;
 
 }
 
@@ -104,11 +103,6 @@
 }
 
 #items{
-    flex-grow:2;
-}
-
-#items_description{
-
     flex-grow:2;
 }
 
@@ -142,15 +136,17 @@
 }
 
 .img{
-    width:10vw;
-    height:10vw;
+    width:4vw;
+    height:4vw;
     background-size:cover;
     background-position:center;
+
+    margin:1vw;
 }
 
 .tag{
     height:2vw;
-    width:10vw;
+    width:6vw;
     text-align:center;
     color:white;
     word-wrap:break-word;

@@ -11,8 +11,8 @@ import WindPowerPlant from '../source/img/mainMap/building/WindPowerPlant.png'
 
 var img_list = {
     cat0:{
-        img:[BitCoinMiner, FishFarm],
-        tag:['BitCoinMiner', 'FishFarm']
+        img:[BitCoinMiner, FishFarm, BitCoinMiner, FishFarm, BitCoinMiner, FishFarm, BitCoinMiner, FishFarm],
+        tag:['BitCoinMiner', 'FishFarm', 'BitCoinMiner', 'FishFarm', 'BitCoinMiner', 'FishFarm', 'BitCoinMiner', 'FishFarm']
     },
     cat1:{
         img:[GeoThermalPowerPlant, SolarPowerPlant],
@@ -33,14 +33,16 @@ function build_click(){
 		build.className += ' active';
 		selection.style.display = 'block';
 	}
-
 }
 
 function _init_elements(){
     var cls_list = document.getElementsByClassName('class_list');
-    for(var i of cls_list){
-        i.style.visibility = 'hidden';
-        i.style.zIndex = '1';
+    var cls_btn = document.getElementsByClassName('classes');
+    for(var i = 0; i < cls_list.length; i += 1){
+        cls_list[i].style.visibility = 'hidden';
+        cls_list[i].style.zIndex = '1';
+
+        cls_btn[i].style.border = 'none';
     }
 }
 
@@ -51,6 +53,8 @@ function class_click(cls){
     _init_elements();
     element.style.zIndex = '2';
     element.style.visibility = 'visible';
+
+    cls.style.border = '2px solid yellow';
 }
 
 function exit_click(){
@@ -121,24 +125,24 @@ function load_items(img_list){
             c_div2.className = 'tag';
 
             item.onclick = function() { item_click(this) };
-            item._data = img_list[cls].tag[i]
+            item._data = img_list[cls].tag[i];
 
             idx += 1;
         }
 
         //class name part
-        var class_name = document.createElement('div');
-        class_name.className = 'classes btn';
-        class_name.setAttribute('id', `${cls}`);
-        document.getElementById('items_list').appendChild(class_name);
-        class_name.onclick = function(){ class_click(this); }
+        var class_btn = document.createElement('div');
+        class_btn.className = 'classes btn';
+        class_btn.setAttribute('id', `${cls}`);
+        document.getElementById('items_list').appendChild(class_btn);
+        class_btn.onclick = function(){ class_click(this); }
+
+        var s = document.createElement('span');
+        class_btn.appendChild(s.appendChild(document.createTextNode(`${cls}`)));
 
     }
 
-    _init_elements();
-    var first_element = document.getElementsByClassName('class_list')[0];
-    first_element.style.zIndex = '2';
-    first_element.style.visibility = 'visible';
+    class_click(document.getElementsByClassName('classes')[0]);
 }
 
 
