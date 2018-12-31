@@ -85,8 +85,6 @@ function exit_click(){
 		selection.style.display = 'none';
 		build.className = build.className.replace('active', '');
 	}
-
-    window.elementsToggle()
 }
 
 function item_click(item){
