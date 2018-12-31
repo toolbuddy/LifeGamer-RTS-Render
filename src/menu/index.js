@@ -60,7 +60,7 @@ function _init_clsPage(){
         cls_list[i].style.visibility = 'hidden';
         cls_list[i].style.zIndex = '1';
 
-        cls_btn[i].style.border = 'none';
+        cls_btn[i].style.opacity = 0.7;
     }
 }
 
@@ -72,7 +72,7 @@ function class_click(cls){
     cls_page.style.zIndex = '2';
     cls_page.style.visibility = 'visible';
 
-    cls.style.border = '2px solid yellow';
+    cls.style.opacity = 1;
 }
 
 function exit_click(){
@@ -90,9 +90,7 @@ function item_click(item){
 	exit_click();
     API.menu.BuildRequest(window.conn, window.mainMap._data.data, item._data)
 
-    document.querySelector('#miniMap').style.display = 'none'
-    document.querySelector('#menu').style.display = 'none'
-    document.querySelector('#statusBar').style.display = 'none'
+    window.elementsToggle()
 }
 
 
@@ -111,13 +109,11 @@ function load_items(img_list){
     var idx = 0;
     for(var cls in img_list){
 
-
         //objects part
         var cls_page = document.createElement('div');
         build_items.appendChild(cls_page);
         cls_page.className = 'class_list';
         cls_page.setAttribute('id', `${cls}_clsPage`);
-
         for(var i = 0; i < img_list[cls].img.length; i+= 1){
 
             //items lists
@@ -188,6 +184,11 @@ function load_items(img_list){
         var s = document.createElement('span');
         class_btn.appendChild(s.appendChild(document.createTextNode(`${cls}`)));
 
+    }
+
+    var classLists = document.querySelectorAll('div.class_list')
+    for (let i = 0; i < classLists.length; ++i) {
+        classLists[i].style.top = `-${i}00%`
     }
 
     class_click(document.getElementsByClassName('classes')[0]);
