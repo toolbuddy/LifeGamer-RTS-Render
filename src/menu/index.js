@@ -12,15 +12,33 @@ import WindPowerPlant from '../source/img/mainMap/building/WindPowerPlant.png'
 var img_list = {
     cat0:{
         img:[BitCoinMiner, FishFarm, BitCoinMiner, FishFarm, BitCoinMiner, FishFarm, BitCoinMiner, FishFarm],
-        tag:['BitCoinMiner', 'FishFarm', 'BitCoinMiner', 'FishFarm', 'BitCoinMiner', 'FishFarm', 'BitCoinMiner', 'FishFarm']
+        tag:['BitCoinMiner', 'FishFarm', 'BitCoinMiner1', 'FishFarm1', 'BitCoinMiner2', 'FishFarm2', 'BitCoinMiner3', 'FishFarm3'],
+        description:[
+            'bit coin miner ajioe eiojsadj awidsoje oijeasjieo ejialdjk eiads ljie',
+            'fish farm jasdiajlejilakdjsoijmkvlweiojwlkjdlsjoiek',
+            'bit coin miner',
+            'fish farm',
+            'bit coin miner',
+            'fish farm',
+            'bit coin miner',
+            'fish farm'
+        ]
     },
     cat1:{
         img:[GeoThermalPowerPlant, SolarPowerPlant],
-        tag:['GeoThermalPowerPlant', 'SolarPowerPlant']
+        tag:['GeoThermalPowerPlant', 'SolarPowerPlant'],
+        description:[
+            'geo thermal power plant',
+            'solar poer plant'
+        ]
     },
     cat2:{
         img:[ThermalPowerPlant, WindPowerPlant],
-        tag:['ThermalPowerPlant', 'WindPowerPlant']
+        tag:['ThermalPowerPlant', 'WindPowerPlant'],
+        description:[
+            'thermal power plant',
+            'wind power plant'
+        ]
     }
 }
 
@@ -35,7 +53,7 @@ function build_click(){
 	}
 }
 
-function _init_elements(){
+function _init_clsPage(){
     var cls_list = document.getElementsByClassName('class_list');
     var cls_btn = document.getElementsByClassName('classes');
     for(var i = 0; i < cls_list.length; i += 1){
@@ -48,11 +66,11 @@ function _init_elements(){
 
 function class_click(cls){
     var id = cls.getAttribute('id')
-    var element = document.getElementById(`${id}_element`);
+    var cls_page = document.getElementById(`${id}_clsPage`);
 
-    _init_elements();
-    element.style.zIndex = '2';
-    element.style.visibility = 'visible';
+    _init_clsPage();
+    cls_page.style.zIndex = '2';
+    cls_page.style.visibility = 'visible';
 
     cls.style.border = '2px solid yellow';
 }
@@ -95,21 +113,24 @@ function load_items(img_list){
 
 
         //objects part
-        var element = document.createElement('div');
-        build_items.appendChild(element);
-        element.className = 'class_list';
-        element.setAttribute('id', `${cls}_element`);
+        var cls_page = document.createElement('div');
+        build_items.appendChild(cls_page);
+        cls_page.className = 'class_list';
+        cls_page.setAttribute('id', `${cls}_clsPage`);
 
         for(var i = 0; i < img_list[cls].img.length; i+= 1){
 
+            //items lists
+            var tag_name = img_list[cls].tag[i];
             item = document.createElement('div');
             item.className = 'item';
+            item.setAttribute('id', `${tag_name}`);
             var c_div1 = document.createElement('div');
             var c_div2 = document.createElement('div');
 
             item.appendChild(c_div1);
             item.appendChild(c_div2);
-            element.appendChild(item);
+            cls_page.appendChild(item);
 
             var num = String(idx);
             while(num.length < 3){
@@ -120,12 +141,46 @@ function load_items(img_list){
             document.getElementById('img'+num).style.backgroundImage = `url(${img_list[cls].img[i]})`;
             c_div1.className = 'img';
 
+            ///
+            /////remove tag
             c_div2.setAttribute('id', 'tag'+num);
-            document.getElementById('tag'+num).innerHTML = img_list[cls].tag[i];
+            document.getElementById('tag'+num).innerHTML = tag_name
             c_div2.className = 'tag';
 
             item.onclick = function() { item_click(this) };
-            item._data = img_list[cls].tag[i];
+            item._data = tag_name;
+
+
+            //items descriptions
+            var description = document.getElementById('description');
+            var pic = document.createElement('div');
+            pic.style.backgroundImage = `url(${img_list[cls].img[i]})`;
+            pic.className = 'item_bpic';
+            var content = document.createElement('div');
+            content.setAttribute('id', `des_${tag_name}`);
+            content.appendChild(pic);
+
+            var h = document.createElement('H2')
+            h.appendChild(document.createTextNode(`${tag_name}`))
+            content.appendChild(h);
+            var p = document.createElement('P')
+            p.appendChild(document.createTextNode(`${img_list[cls].description[i]}`));
+            content.appendChild(p);
+            h.className = 'wordsInDescription';
+            p.className = 'wordsInDescription';
+
+            content.className = 'description';
+            description.appendChild(content);
+            item.onmouseover = function(){
+                var id = this.getAttribute('id');
+                document.getElementById(`des_${id}`).style.display = 'block';
+            }
+            item.onmouseout = function(){
+                var id = this.getAttribute('id');
+                document.getElementById(`des_${id}`).style.display = 'none';
+            }
+
+
 
             idx += 1;
         }
