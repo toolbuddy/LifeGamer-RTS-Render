@@ -126,10 +126,8 @@ function load_items(img_list){
             item.className = 'item';
             item.setAttribute('id', `${tag_name}`);
             var c_div1 = document.createElement('div');
-            var c_div2 = document.createElement('div');
 
             item.appendChild(c_div1);
-            item.appendChild(c_div2);
             cls_page.appendChild(item);
 
             var num = String(idx);
@@ -141,11 +139,6 @@ function load_items(img_list){
             document.getElementById('img'+num).style.backgroundImage = `url(${img_list[cls].img[i]})`;
             c_div1.className = 'img';
 
-            ///
-            /////remove tag
-            c_div2.setAttribute('id', 'tag'+num);
-            document.getElementById('tag'+num).innerHTML = tag_name
-            c_div2.className = 'tag';
 
             item.onclick = function() { item_click(this) };
             item._data = tag_name;
@@ -160,7 +153,7 @@ function load_items(img_list){
             content.setAttribute('id', `des_${tag_name}`);
             content.appendChild(pic);
 
-            var h = document.createElement('H2')
+            var h = document.createElement('H1')
             h.appendChild(document.createTextNode(`${tag_name}`))
             content.appendChild(h);
             var p = document.createElement('P')
