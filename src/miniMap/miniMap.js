@@ -186,9 +186,12 @@ class MiniMap extends PIXI.Container {
     this.ismouseDown = false;
     this.isMouseMove = false;
 
+    /**
+     * These are object for miniMap render.
+     */
     this.focusRect = new PIXI.Graphics();
     this.miniMapGraphics = new PIXI.Graphics();
-    // this.miniMapBackground = new PIXI.Graphics();
+    this.miniMapBackground = new PIXI.Sprite();
   }
 
   /**
@@ -232,6 +235,20 @@ class MiniMap extends PIXI.Container {
    */
   initName(playerName) {
     this.player = playerName;
+    this.drawMiniMap();
+  }
+
+
+  /**
+   * @function
+   *  - to add background image
+   *
+   * @param {string} img
+   *  - the URL of background image
+   */
+  addBackGround(img) {
+    this.miniMapBackground = new PIXI.Sprite.fromImage(img);
+    this.addChild(this.miniMapBackground);
     this.drawMiniMap();
   }
 

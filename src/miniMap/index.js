@@ -48,6 +48,9 @@ app.stage.addChild(miniMap);
 // initialize player name
 miniMap.initName(playerName);
 
+// add background image
+miniMap.addBackGround("./images/miniMapBackGround.jpg");
+
 // Update the map data
 // miniMap.mapDataUpdate(mapData);
 
