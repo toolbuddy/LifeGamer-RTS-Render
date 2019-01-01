@@ -12,7 +12,7 @@ PIXI.utils.sayHello(type);
 
 // var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
 var dspCanvas = document.getElementById("miniMapCanvas");
-var mapData = MapData;
+
 var totalChunks = 2500;
 var playerName = "Andy";
 
@@ -35,6 +35,7 @@ console.log("totalChunks: " + totalChunks);
 console.log("********************************");
 console.log("");
 
+var mapData = MapData;
 
 // create miniMap and initialize
 // with mapData
@@ -43,6 +44,7 @@ console.log("");
 //   dspCanvas.offsetHeight,
 //   totalChunks, mapData
 // );
+
 // without mapData
 var miniMap = new MiniMap(
   dspCanvas.offsetWidth,
