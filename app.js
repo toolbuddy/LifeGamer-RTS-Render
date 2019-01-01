@@ -5,7 +5,6 @@ const { OAuthService } = require('./oauth')
 
 const app = express();
 
-
 var port = process.env.PORT || 5000;
 
 app.use('/game', express.static(path.resolve(__dirname + "/dist")));
