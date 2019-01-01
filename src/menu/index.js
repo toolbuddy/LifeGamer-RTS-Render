@@ -176,7 +176,7 @@ function load_items(img_list){
 
         //class name part
         var class_btn = document.createElement('div');
-        class_btn.className = 'classes btn';
+        class_btn.className = 'classes btn btn_img';
         class_btn.setAttribute('id', `${cls}`);
         document.getElementById('items_list').appendChild(class_btn);
         class_btn.onclick = function(){ class_click(this); }

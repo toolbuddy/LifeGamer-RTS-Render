@@ -28,10 +28,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-size: contain;
-    background-image: url('../source/img/appearance/button.svg');
-    background-repeat: no-repeat;
-    background-position: center;
     color: #ffffff;
 }
 
@@ -40,6 +36,12 @@
     transform: scale(1.1);
 }
 
+.btn_img{
+    background-size: contain;
+    background-image: url('../source/img/appearance/button.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
 #menu_list{
     width: 100%;
