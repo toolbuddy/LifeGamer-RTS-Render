@@ -10,8 +10,8 @@ if (!PIXI.utils.isWebGLSupported())
 }
 PIXI.utils.sayHello(type);
 
-var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
-// var dspCanvas = document.getElementById("miniMapCanvas");
+// var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
+var dspCanvas = document.getElementById("miniMapCanvas");
 var mapData = MapData;
 var totalChunks = 2500;
 var playerName = "Andy";
@@ -37,10 +37,17 @@ console.log("");
 
 
 // create miniMap and initialize
+// with mapData
+// var miniMap = new MiniMap(
+//   dspCanvas.offsetWidth,
+//   dspCanvas.offsetHeight,
+//   totalChunks, mapData
+// );
+// without mapData
 var miniMap = new MiniMap(
   dspCanvas.offsetWidth,
   dspCanvas.offsetHeight,
-  mapData, totalChunks
+  totalChunks
 );
 miniMap.init();
 app.stage.addChild(miniMap);

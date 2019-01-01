@@ -33,16 +33,16 @@ function ownerGenerate(num) {
 }
 
 var output = "[";
-for (var y = 0; y < 50; ++y)
+for (var y = -25; y < 25; ++y)
 {
-  for (var x = 0; x < 50; ++x)
+  for (var x = -25; x < 25; ++x)
   {
-    var xPos = "\"x\": \"" + x + "\",";
-    var yPos = "\"y\": \"" + y + "\",";
+    var xPos = "\"x\": " + x + ",";
+    var yPos = "\"y\": " + y + ",";
     var terrain = "\"terrain\": \"" + getRandom(0, 5) + "\",";
     var owner = "\"owner\": \"" + ownerGenerate(getRandom(1, 10)) + "\"";
     var tmp = "{" + xPos + yPos + terrain + owner + "}"
-    if (!(x == 49 && y == 49))
+    if (!(x == 24 && y == 24))
     {
       tmp += ",";
     }

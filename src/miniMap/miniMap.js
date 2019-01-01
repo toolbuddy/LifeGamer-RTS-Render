@@ -45,6 +45,7 @@ var chunkWidth = 0;
 var chunkHeight = 0;
 var mapSize = 0;
 var mapLong = 0;
+var halfMapLong = 0;
 
 /**
  * This part is setting of miniMap mask move.
@@ -143,7 +144,7 @@ class MiniMap extends PIXI.Container {
    * @param {number} totalChunks
    *  - the number of total chunks in whole map
    */
-  constructor (width, height, mapData, totalChunks) {
+  constructor (width, height, totalChunks, mapData) {
 
     super();
 
@@ -154,9 +155,13 @@ class MiniMap extends PIXI.Container {
     chunkWidth = canvasWidth / dspChunks;
     canvasHeight = height;
     chunkHeight = canvasHeight / dspChunks;
-    this.mapData = mapData;
+    console.log(arguments.length);
+    if (arguments.length == 4) { this.mapData = mapData; }
+    else { this.mapData = null; }
     mapSize = totalChunks;
     mapLong = Math.sqrt(mapSize);
+    halfMapLong = mapLong / 2;
+
     this.x = 0;
     this.y = 0;
     this.interactive = true;
@@ -208,23 +213,37 @@ class MiniMap extends PIXI.Container {
    *  - the miniMap will draw focusRect
    */
   drawMiniMap() {
-    this.removeChild(this.miniMapGraphics);
-    this.miniMapGraphics = new PIXI.Graphics();
-    this.miniMapGraphics.interactive = true;
-    for (var i = 0; i < mapSize; ++i)
+    if (this.mapData == null)
     {
-      this.miniMapGraphics.beginFill(dspColor[chunkColor(this.player, this.mapData[i].owner)]);
-      this.miniMapGraphics.drawRoundedRect(
-        (this.mapData[i].x) * chunkWidth,
-        (this.mapData[i].y) * chunkHeight,
-        (chunkWidth * 0.9),
-        (chunkHeight * 0.9),
-        chunkRadius
-      );
+      this.removeChildren();
+      this.miniMapGraphics = new PIXI.Graphics();
+      this.miniMapGraphics.interactive = true;
+      this.miniMapGraphics.beginFill(0x666666);
+      this.miniMapGraphics.drawRoundedRect(this.x, this.y, mapLong * chunkWidth, mapLong * chunkHeight, chunkRadius);
+      this.addChild(this.miniMapGraphics);
     }
-    this.miniMapGraphics.endFill();
-    this.addChild(this.miniMapGraphics);
-    this.addChild(this.focusRect);
+    else
+    {
+      this.removeChildren();
+      // this.removeChild(this.miniMapGraphics);
+      this.miniMapGraphics = new PIXI.Graphics();
+      this.miniMapGraphics.interactive = true;
+      for (var i = 0; i < mapSize; ++i)
+      {
+        this.miniMapGraphics.beginFill(dspColor[chunkColor(this.player, this.mapData[i].owner)]);
+        this.miniMapGraphics.drawRoundedRect(
+          (this.mapData[i].x + mapLong / 2) * chunkWidth,
+          (this.mapData[i].y + mapLong / 2) * chunkHeight,
+          (chunkWidth * 0.9),
+          (chunkHeight * 0.9),
+          chunkRadius
+        );
+      }
+      this.miniMapGraphics.endFill();
+      this.addChild(this.miniMapBackground);
+      this.addChild(this.miniMapGraphics);
+      this.addChild(this.focusRect);
+    }
   }
 
   /**
@@ -260,8 +279,8 @@ class MiniMap extends PIXI.Container {
    * @param {number} y
    */
   addFocusRect(x, y) {
-    this.dspX = focusXcheck(x);
-    this.dspY = focusYcheck(y);
+    this.dspX = focusXcheck(x + mapLong / 2);
+    this.dspY = focusYcheck(y + mapLong / 2);
     this.removeChild(this.focusRect);
     this.focusRect = new PIXI.Graphics();
     this.focusRect.interactive = true;
@@ -300,8 +319,8 @@ class MiniMap extends PIXI.Container {
         }
         else
         {
-          this.dspX = Math.floor((event.data.global.x - this.x) / chunkWidth);
-          this.dspY = Math.floor((event.data.global.y - this.y) / chunkHeight);
+          this.dspX = Math.floor((event.data.global.x - this.x) / chunkWidth) - mapLong / 2;
+          this.dspY = Math.floor((event.data.global.y - this.y) / chunkHeight) - mapLong / 2;
           console.log(this.dspX + " " + this.dspY);
           this.addFocusRect(this.dspX, this.dspY);
         }
