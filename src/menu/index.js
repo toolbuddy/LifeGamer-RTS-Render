@@ -10,7 +10,6 @@ import WindPowerPlant from '../source/img/mainMap/building/WindPowerPlant.png'
 import Pasture from '../source/img/mainMap/building/Pasture.png'
 import Sawmill from '../source/img/mainMap/building/Sawmill.png'
 
-
 var img_list = {
     cat0:{
         img:[BitCoinMiner, FishFarm, BitCoinMiner, FishFarm, BitCoinMiner, FishFarm, BitCoinMiner, FishFarm],
@@ -195,6 +194,7 @@ function load_items(img_list){
 }
 
 
+document.body.appendChild(document.getElementById('build_items'))
 load_items(img_list);
 
 document.querySelector('#menu_list > div:first-child').onclick = function(){ build_click() };
