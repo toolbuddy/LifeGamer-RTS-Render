@@ -293,6 +293,21 @@ class MiniMap extends PIXI.Container {
 
   /**
    * @function
+   *  - to set display center
+   *
+   * @param {*} x
+   * @param {*} y
+   */
+  setDspCenter(x, y) {
+    var tempX = x + mapLong / 2 - Math.floor(dspChunks / 2);
+    var tempY = y + mapLong / 2 - Math.floor(dspChunks / 2);
+    console.log(tempX + " " + tempY);
+    this.x = -(tempX * chunkWidth);
+    this.y = -(tempY * chunkHeight);
+  }
+
+  /**
+   * @function
    *  - to initialize the miniMap
    *  - MUST CALL AFTER CREATE MINIMAP
    */

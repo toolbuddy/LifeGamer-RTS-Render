@@ -61,7 +61,13 @@ miniMap.initName(playerName);
 miniMap.addBackGround("./images/miniMapBackGround.jpg");
 
 // Update the map data
-// miniMap.mapDataUpdate(mapData);
+miniMap.mapDataUpdate(mapData);
+
+// set display center
+miniMap.setDspCenter(0, 0);
+
+// add the focusRect
+miniMap.addFocusRect(0, 0);
 
 // GET the x and y of the clicked chunk
 // if the click event haven't happen both would be null
