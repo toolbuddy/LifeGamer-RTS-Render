@@ -80,7 +80,7 @@ loader.onComplete.add(() => {
         var connect = new WebsocketConnection('wss://pd2a.imslab.org/gamews', token)
         Init(connect, MainMap.container, textures)
     } else {
-        window.href = 'https://pd2a.imslab.org/game/login'
+        window.location.href = 'https://pd2a.imslab.org/game/login'
     }
 })
 
