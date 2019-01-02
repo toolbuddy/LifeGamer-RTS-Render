@@ -1,63 +1,46 @@
 .Status {
-    background-repeat: no-repeat;
-    background-size: cover;
-    box-sizing:border-box;
+    background: rgba(125,126,129,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: space-around;
+    flex-direction: column;
     font-family: Arial;
+    height: 100%;
+    width: 100%;
+    padding: 10% 5%;
+}
+
+.Status > div {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5%;
+}
+
+.iconWrapper {
+    width: 30%;
+    height: 100%;
+}
+
+.Data {
+    width: 70%;
+    color: red;
+    font-weight: bold;
+    text-align: right;
+    font-size: 18px;
+}
+
+.icon{
+    background-position: center ;
+    background-repeat: no-repeat;
+    background-size: 100%;
     height: 100%;
     width: 100%;
 }
 
-.Status div{
-    position: relative;;
-    float: left;
-    width: 33%;
-    height: 100%;
+#PowerIcon { background-image: url(./img/power.svg); }
+#MoneyIcon { background-image: url(./img/money.svg); }
+#PeopleIcon { background-image: url(./img/people.svg); }
 
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-/* Style the character data*/
-.Status div .Container{
-    background:rgb(245,242,242);
-
-    width: 95%;
-    height: 45px;
-
-    border: 0.05rem solid #ccc;
-    border-radius: 20px;
-}
-
-/* Style the resource data*/
-.Status .Data .Container .icon{
-    height: 100%;
-    width: 20%;
-    left:5px;
-}
-.Status #Power .Container .icon{
-    background-image: url(./img/power.png) ;  
-    background-position: center ;
-    background-repeat: no-repeat;
-    background-size:  100%;  
-}
-.Status #People .Container .icon{
-    background-image: url(./img/people.png) ;  
-    background-position: center ;
-    background-repeat: no-repeat;
-    background-size:  100%;
-}
-.Status #Money .Container .icon{
-    background-image: url(./img/money.png) ;  
-    background-position: center ;
-    background-repeat: no-repeat;
-    background-size:  100%;
-}
-.Status .Data .Container .Data{  
-    height: 50%;
-    width: 75%; 
-}
-.Status .Data .Container .Data p{
-    width: 85%;
-    text-align:right;
-}

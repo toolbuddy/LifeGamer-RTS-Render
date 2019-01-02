@@ -1,17 +1,47 @@
 import menu from './style.css'
-
 import * as API from '../API'
 
-import BitCoinMiner from '../mainMap/building/static/BitCoinMiner.png'
-import FishFarm from '../mainMap/building/static/FishFarm.png'
-import GeoThermalPowerPlant from '../mainMap/building/static/GeoThermalPowerPlant.png'
-import SolarPowerPlant from '../mainMap/building/static/SolarPowerPlant.png'
-import ThermalPowerPlant from '../mainMap/building/static/ThermalPowerPlant.png'
-import WindPowerPlant from '../mainMap/building/static/WindPowerPlant.png'
+import BitCoinMiner from '../source/img/mainMap/building/BitCoinMiner.png'
+import FishFarm from '../source/img/mainMap/building/FishFarm.png'
+import GeoThermalPowerPlant from '../source/img/mainMap/building/GeoThermalPowerPlant.png'
+import SolarPowerPlant from '../source/img/mainMap/building/SolarPowerPlant.png'
+import ThermalPowerPlant from '../source/img/mainMap/building/ThermalPowerPlant.png'
+import WindPowerPlant from '../source/img/mainMap/building/WindPowerPlant.png'
+import Pasture from '../source/img/mainMap/building/Pasture.png'
+import Sawmill from '../source/img/mainMap/building/Sawmill.png'
+
 
 var img_list = {
-    img:[BitCoinMiner, FishFarm, GeoThermalPowerPlant, SolarPowerPlant, ThermalPowerPlant, WindPowerPlant],
-    tag:['BitCoinMiner', 'FishFarm', 'GeoThermalPowerPlant', 'SolarPowerPlant', 'ThermalPowerPlant', 'WindPowerPlant']
+    cat0:{
+        img:[BitCoinMiner, FishFarm, BitCoinMiner, FishFarm, BitCoinMiner, FishFarm, BitCoinMiner, FishFarm],
+        tag:['BitCoinMiner', 'FishFarm', 'BitCoinMiner1', 'FishFarm1', 'BitCoinMiner2', 'FishFarm2', 'BitCoinMiner3', 'FishFarm3'],
+        description:[
+            'bit coin miner ajioe eiojsadj awidsoje oijeasjieo ejialdjk eiads ljie',
+            'fish farm jasdiajlejilakdjsoijmkvlweiojwlkjdlsjoiek',
+            'bit coin miner',
+            'fish farm',
+            'bit coin miner',
+            'fish farm',
+            'bit coin miner',
+            'fish farm'
+        ]
+    },
+    cat1:{
+        img:[GeoThermalPowerPlant, SolarPowerPlant],
+        tag:['GeoThermalPowerPlant', 'SolarPowerPlant'],
+        description:[
+            'geo thermal power plant',
+            'solar poer plant'
+        ]
+    },
+    cat2:{
+        img:[ThermalPowerPlant, WindPowerPlant],
+        tag:['ThermalPowerPlant', 'WindPowerPlant'],
+        description:[
+            'thermal power plant',
+            'wind power plant'
+        ]
+    }
 }
 
 
@@ -19,20 +49,48 @@ function build_click(){
 
 	var build = document.getElementById('build');
 	var selection = document.getElementById('build_items');
+	if(build.className.match('active') != 'active'){
+		build.className += ' active';
+		selection.style.display = 'block';
+	}
+}
+
+function _init_clsPage(){
+    var cls_list = document.getElementsByClassName('class_list');
+    var cls_btn = document.getElementsByClassName('classes');
+    for(var i = 0; i < cls_list.length; i += 1){
+        cls_list[i].style.visibility = 'hidden';
+        cls_list[i].style.zIndex = '1';
+
+        cls_btn[i].style.opacity = 0.7;
+    }
+}
+
+function class_click(cls){
+    var id = cls.getAttribute('id')
+    var cls_page = document.getElementById(`${id}_clsPage`);
+
+    _init_clsPage();
+    cls_page.style.zIndex = '2';
+    cls_page.style.visibility = 'visible';
+
+    cls.style.opacity = 1;
+}
+
+function exit_click(){
+
+	var build = document.getElementById('build');
+	var selection = document.getElementById('build_items');
 	if(build.className.match('active') == 'active') {
 		selection.style.display = 'none';
 		build.className = build.className.replace('active', '');
 	}
-	else {
-		build.className += ' active';
-		selection.style.display = 'flex';
-	}
-
 }
 
 function item_click(item){
-	build_click();
-    API.menu.BuildRequest(window.conn, window.conn.mainMapData.data, item._data)
+	exit_click();
+    API.menu.BuildRequest(window.conn, window.mainMap._data.data, item._data)
+    window.elementsToggle()
 }
 
 
@@ -40,39 +98,100 @@ function move_click(){
     console.log('move');
 }
 function home_click(){
-    API.miniMap.ViewRangeMapdataRequest(window.conn, window.conn.playerData.Home)
+    API.miniMap.ViewRangeMapdataRequest(window.conn, window.playerData.Home)
 }
 
 function load_items(img_list){
 
 	var item;
+	var build_items = document.getElementById('items');
 
-	var build_items = document.getElementById('build_items');
-	for(var i =0; i<img_list.img.length; i+=1){
-		item = document.createElement('div');
-		item.className = 'item';
-		var c_div1 = document.createElement('div');
-		var c_div2 = document.createElement('div');
+    var idx = 0;
+    for(var cls in img_list){
 
-		item.appendChild(c_div1);
-		item.appendChild(c_div2);
-		build_items.appendChild(item);
+        //objects part
+        var cls_page = document.createElement('div');
+        build_items.appendChild(cls_page);
+        cls_page.className = 'class_list';
+        cls_page.setAttribute('id', `${cls}_clsPage`);
+        for(var i = 0; i < img_list[cls].img.length; i+= 1){
 
-		var num = String(i);
-		while(num.length < 3){
-			num = '0'+num;
-		}
-		c_div1.setAttribute('id', 'img'+num);
-		document.getElementById('img'+num).style.backgroundImage = `url(${img_list.img[i]})`;
-		c_div1.className = 'img';
+            //items lists
+            var tag_name = img_list[cls].tag[i];
+            item = document.createElement('div');
+            item.className = 'item';
+            item.setAttribute('id', `${tag_name}`);
+            var c_div1 = document.createElement('div');
 
-		c_div2.setAttribute('id', 'tag'+num);
-		document.getElementById('tag'+num).innerHTML = img_list.tag[i];
-		c_div2.className = 'tag';
+            item.appendChild(c_div1);
+            cls_page.appendChild(item);
 
-		item.onclick = function() { item_click(this) };
-        item._data = img_list.tag[i]
-	}
+            var num = String(idx);
+            while(num.length < 3){
+                num = '0'+num;
+            }
+
+            c_div1.setAttribute('id', 'img'+num);
+            document.getElementById('img'+num).style.backgroundImage = `url(${img_list[cls].img[i]})`;
+            c_div1.className = 'img';
+
+
+            item.onclick = function() { item_click(this) };
+            item._data = tag_name;
+
+
+            //items descriptions
+            var description = document.getElementById('description');
+            var pic = document.createElement('div');
+            pic.style.backgroundImage = `url(${img_list[cls].img[i]})`;
+            pic.className = 'item_bpic';
+            var content = document.createElement('div');
+            content.setAttribute('id', `des_${tag_name}`);
+            content.appendChild(pic);
+
+            var h = document.createElement('H1')
+            h.appendChild(document.createTextNode(`${tag_name}`))
+            content.appendChild(h);
+            var p = document.createElement('P')
+            p.appendChild(document.createTextNode(`${img_list[cls].description[i]}`));
+            content.appendChild(p);
+            h.className = 'wordsInDescription';
+            p.className = 'wordsInDescription';
+
+            content.className = 'description';
+            description.appendChild(content);
+            item.onmouseover = function(){
+                var id = this.getAttribute('id');
+                document.getElementById(`des_${id}`).style.display = 'block';
+            }
+            item.onmouseout = function(){
+                var id = this.getAttribute('id');
+                document.getElementById(`des_${id}`).style.display = 'none';
+            }
+
+
+
+            idx += 1;
+        }
+
+        //class name part
+        var class_btn = document.createElement('div');
+        class_btn.className = 'classes btn btn_img';
+        class_btn.setAttribute('id', `${cls}`);
+        document.getElementById('items_list').appendChild(class_btn);
+        class_btn.onclick = function(){ class_click(this); }
+
+        var s = document.createElement('span');
+        class_btn.appendChild(s.appendChild(document.createTextNode(`${cls}`)));
+
+    }
+
+    var classLists = document.querySelectorAll('div.class_list')
+    for (let i = 0; i < classLists.length; ++i) {
+        classLists[i].style.top = `-${i}00%`
+    }
+
+    class_click(document.getElementsByClassName('classes')[0]);
 }
 
 
@@ -81,4 +200,5 @@ load_items(img_list);
 document.querySelector('#menu_list > div:first-child').onclick = function(){ build_click() };
 document.querySelector('#menu_list > div:nth-child(2)').onclick = function(){ move_click() };
 document.querySelector('#menu_list > div:last-child').onclick = function(){ home_click() };
+document.querySelector('#exit_btn').onclick = function(){ exit_click() };
 

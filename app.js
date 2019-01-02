@@ -1,12 +1,15 @@
 const express = require('express')
 const path = require('path')
 
+const { OAuthService } = require('./oauth')
+
 const app = express();
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 
-app.use(express.static(path.resolve(__dirname + "/dist")));
+app.use('/game', express.static(path.resolve(__dirname + "/dist")));
 
+OAuthService.init(app)
 
 // setting server
 var server = app.listen(port, () => {

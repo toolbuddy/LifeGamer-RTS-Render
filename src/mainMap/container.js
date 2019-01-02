@@ -1,11 +1,16 @@
 import * as PIXI from 'pixi.js'
+import config from '../config'
 
-// setting wrapper
 const wrapper = document.querySelector('section#mainMap')
 
 // canvas origin width, height setting
-const width = 768
-const height = 768
+const height = window.innerHeight,
+      width = height * (config.chunkCoorX / config.chunkCoorY)
+
+
+// setting default width and height
+window.mainMapWidth = width
+window.mainMapHeight = height
 
 // variable setting
 var app = null
@@ -13,12 +18,8 @@ var mainContainer = null
 
 // resize handler setting
 const resizeHandler = () => {
-    const scaleFactor = Math.min(wrapper.offsetWidth / width, wrapper.offsetHeight / height)
-    const newWidth = Math.ceil(width * scaleFactor)
-    const newHeight = Math.ceil(height * scaleFactor)
-
-    app.renderer.resize(newWidth, newHeight)
-    mainContainer.scale.set(scaleFactor)
+    app.renderer.resize(window.innerWidth, window.innerHeight)
+    mainContainer.scale.set(Math.max(window.innerWidth / width, window.innerHeight / height))
 }
 
 // set canvas as auto resize render

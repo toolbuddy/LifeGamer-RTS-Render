@@ -1,50 +1,87 @@
-* { box-sizing: border-box; }
+:root {
+    --statusBar-width: 10.53vw;
+    --statusBar-height: calc(var(--statusBar-width) * 1.3);
+    --menu-width: 26.32vw;
+    --menu-height: calc(var(--menu-width) * 0.11);
+    --miniMap-width: 26.32vw;
+    --miniMap-height: var(--miniMap-width);
+    --room-width: 26.32vw;
+    --room-height: calc(var(--room-width) * 1.4);
+}
+
+@font-face {
+    font-family: 'Minecraft';
+    src: url('./source/fonts/Minecraft.ttf')
+}
+
+@font-face {
+    font-family: 'misaki-mincho';
+    src: url('./source/fonts/misaki_mincho.ttf');
+}
+
+* {
+    box-sizing: border-box;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    font-family: 'Minecraft', 'misaki-mincho', sans-serif;
+}
 
 html, body {
     margin: 0 auto;
     padding: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 
-.container {
-    overflow-x: auto;
-    overflow-y: hidden;
-    width: auto;
-    height: 100%;
-}
-
-.row-1 { height: calc(100% / 12); }
-.row-2 { height: calc(100% / 6); }
-.row-3 { height: 25%; }
-.row-4 { height: calc(100% / 3); }
-.row-5 { height: calc(100% * 5 / 12); }
-.row-6 { height: 50%; }
-.row-7 { height: calc(100% * 7 / 12); }
-.row-8 { height: calc(100% * 2 / 3); }
-.row-9 { height: 75%; }
-.row-10 { height: calc(100% * 5 / 6); }
-.row-11 { height: calc(100% * 11 / 12); }
-.row-12 { height: 100%; }
-
-
-#mainMap, #statusBar, #miniMap, #room, #menu {
-    border: 0.5px solid #000;
-}
+#statusBar, #miniMapWrapper, #room, #menu { position: absolute; }
 
 #mainMap {
-    width: calc(100vw - 600px);
-    min-width: 100vh;
-    height: 100%;
-    float: left;
+    width: 100vw;
+    height: 100vh;
 }
 
-.aside {
-    height: 100%;
-    width: 600px;
-    float: left;
+#statusBar {
+    width: var(--statusBar-width);
+    height: var(--statusBar-height);
+    top: 25%;
+    left: 0;
 }
 
 #menu{
-    position:relative;
+    position: absolute;
+    width: var(--menu-width);
+    height: var(--menu-height);
+    bottom: 0;
+    right: 0;
+}
+
+#miniMapWrapper {
+    width: var(--miniMap-width);
+    height: var(--miniMap-height);
+    top: 0;
+    right: 0;
+}
+
+.miniMap, .miniMap > canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.miniMapDecoration {
+    background-image: url('./source/img/appearance/miniMap.svg');
+    background-size: 100%;
+    position: relative;
+    top: -100%;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#room {
+    width: var(--room-width);
+    height: var(--room-height);
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
 }

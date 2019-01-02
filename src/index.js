@@ -2,75 +2,117 @@ import index from './index.css'
 import WebsocketConnection from './comm/Connection'
 import MainMap from './mainMap/container'
 import MainMapInit from './mainMap/ContainerInit'
+import GameData from './GameData'
+import MiniMap from './miniMap'
 
 import * as API from './API'
 import * as PIXI from 'pixi.js'
 
-// image import
-import cancelIcon from './mainMap/building/static/buttonIcon/cancel.svg'
-import restartIcon from './mainMap/building/static/buttonIcon/restart.svg'
-import repairIcon from './mainMap/building/static/buttonIcon/repair.svg'
-import destructIcon from './mainMap/building/static/buttonIcon/destruct.svg'
-import upgradeIcon from './mainMap/building/static/buttonIcon/upgrade.svg'
+const room = document.querySelector('section#room')
+const statusBar = document.querySelector('section#statusBar')
+const miniMap = document.querySelector('section#miniMapWrapper')
+const menu = document.querySelector('section#menu')
 
-import BitCoinMinerImg from './mainMap/building/static/BitCoinMiner.png'
-import FishFarmImg from './mainMap/building/static/FishFarm.png'
-import GeoThermalPowerPlantImg from './mainMap/building/static/GeoThermalPowerPlant.png'
-import SolarPowerPlantImg from './mainMap/building/static/SolarPowerPlant.png'
-import ThermalPowerPlantImg from './mainMap/building/static/ThermalPowerPlant.png'
-import WindPowerPlantImg from './mainMap/building/static/WindPowerPlant.png'
+// function that reading cookie, getting user access token
+function getCookie (name) {
+    function escape (s) { return s.replace(/([.*+?\^${}()|\[\]\/\\])/g, '\\$1') }
+    var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'))
+    return match ? match[1] : null
+}
+
+
+// image import (using webpack require.context)
+function importAll (r, object) {
+    r.keys().forEach(key => {
+        let name = key.replace(/\.\/|(\w+)\/|\.png|\.jpg|\.jpeg|\.svg/gi, '')
+        object[name] = r(key)
+    })
+}
+
+var images = {}
+
+importAll(require.context('./source/img/mainMap', true, /^\.\/.*(png|jp(e*)g|svg|gif)$/), images)
 
 // loader setting, make sure all image loaded
 var textures = {}
 var loader = new PIXI.loaders.Loader()
-loader.add('cancelIcon', cancelIcon).add('restartIcon', restartIcon).add('repairIcon', repairIcon)
-        .add('destructIcon', destructIcon).add('upgradeIcon', upgradeIcon).add('BitCoinMinerImg', BitCoinMinerImg)
-        .add('FishFarmImg', FishFarmImg).add('GeoThermalPowerPlantImg', GeoThermalPowerPlantImg)
-        .add('ThermalPowerPlantImg', ThermalPowerPlantImg).add('WindPowerPlantImg', WindPowerPlantImg)
-        .add('SolarPowerPlantImg', SolarPowerPlantImg)
+
+var keys = Object.keys(images)
+for (let key of keys) {
+    loader.add(key, images[key])
+}
 
 loader.load((loader, resources) => {
     textures.buttons = {
-        cancelIcon: resources.cancelIcon.texture,
-        restartIcon: resources.restartIcon.texture,
-        destructIcon: resources.destructIcon.texture,
-        upgradeIcon: resources.upgradeIcon.texture,
-        repairIcon: resources.repairIcon.texture
+        cancelIcon: resources.Cancel.texture,
+        restartIcon: resources.Restart.texture,
+        destructIcon: resources.Destruct.texture,
+        upgradeIcon: resources.Upgrade.texture,
+        repairIcon: resources.Repair.texture
     }
-    textures.BitCoinMiner = resources.BitCoinMinerImg.texture
-    textures.FishFarm = resources.FishFarmImg.texture
-    textures.GeoThermalPowerPlant = resources.GeoThermalPowerPlantImg.texture
-    textures.ThermalPowerPlant = resources.ThermalPowerPlantImg.texture
-    textures.WindPowerPlant = resources.WindPowerPlantImg.texture
-    textures.SolarPowerPlant = resources.SolarPowerPlantImg.texture
+    textures.buildings = {
+        BitCoinMiner: resources.BitCoinMiner.texture,
+        FishFarm: resources.FishFarm.texture,
+        GeoThermalPowerPlant: resources.GeoThermalPowerPlant.texture,
+        ThermalPowerPlant: resources.ThermalPowerPlant.texture,
+        WindPowerPlant: resources.WindPowerPlant.texture,
+        SolarPowerPlant: resources.SolarPowerPlant.texture,
+        Sawmill: resources.Sawmill.texture,
+        Pasture: resources.Pasture.texture
+    }
+    textures.environment = {
+        Forest: resources.Forest.texture,
+        Grass: resources.Grass.texture,
+        Lava: resources.Lava.texture,
+        River: resources.River.texture,
+        Desert: resources.Desert.texture,
+        Sea: resources.Sea.texture,
+        Snow: resources.Snow.texture,
+        Volcano: resources.Volcano.texture,
+        Void: resources.Void.texture
+    }
 })
 
 loader.onComplete.add(() => {
-    Init(connect, MainMap.container, textures)
+    var token = getCookie('token')
+    if (token && token !== '') {
+    // var token = prompt('please input your private token')
+        var connect = new WebsocketConnection('wss://pd2a.imslab.org/gamews', token)
+        Init(connect, MainMap.container, textures)
+    } else {
+        window.location.href = 'https://pd2a.imslab.org/game/login'
+    }
 })
-
-// container width auto setting
-
-window.onresize = resize
-
-function resize() {
-    document.querySelector('.container').style.width = `${Math.ceil(document.querySelector('#mainMap').offsetWidth + document.querySelector('.aside').offsetWidth) }px`
-}
-
-resize();
 
 // render part
 
 document.querySelector('section#mainMap').appendChild(MainMap.view)
 
-// websocket connection
-// var connect = new WebsocketConnection('host', 'port', 'token')
+function elementsToggle() {
+    if (room.style.display === '' || room.style.display === 'block') {
+        room.style.display = 'none'
+        statusBar.style.display = 'none'
+        miniMap.style.display = 'none'
+        menu.style.display = 'none'
+    } else {
+        room.style.display = 'block'
+        statusBar.style.display = 'block'
+        miniMap.style.display = 'block'
+        menu.style.display = 'block'
+    }
+}
+
 
 
 async function Init(conn, mainMapContainer, textures) {
+    window.textures = textures                              // binding textures to window
+    window.playerData = new GameData.PlayerData()           // binding PlayerData object to window
+    window.mainMap = mainMapContainer                       // binding mainMap PIXI Container to window
+    await MainMapInit(mainMapContainer)                     // mainMap container init
+    window.mainMap._data = new GameData.MainMapData()       // setting PIXI mainMap object data
+    window.miniMap = MainMap
+    window.miniMap._data = new GameData.MiniMapData()
+    window.conn = conn                                      // binding websocketConnection object to window
+    window.elementsToggle = elementsToggle
     conn.init()
-    await MainMapInit(mainMapContainer)
-    conn.setMainMap(mainMapContainer)
-    conn.setTextures(textures)
-    window.conn = conn                      // binding websocketConnection object to window
 }
