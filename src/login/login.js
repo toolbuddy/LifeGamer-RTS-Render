@@ -1,3 +1,5 @@
+import Login from './login.css'
+
 $(document).ready(function() {
   $( "#button" ).click(function() {
     $("#cover_div").css({"visibility": "visible"});
@@ -30,3 +32,8 @@ function run() {
   $("p").css({"top": $("#story_div").height()});
   $("p").animate({"top": -$("p").height()}, 50000, "linear", run);
 }
+
+document.querySelector('div#button').addEventListener('click', () => {
+    window.location.href = 'https://pd2a.imslab.org/game/auth'
+})
+
