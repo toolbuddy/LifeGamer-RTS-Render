@@ -3,6 +3,8 @@ import * as API from '../API'
 import UpdateStatus from '../status/status'
 import CreateBuildLayer from '../mainMap/CreateBuildLayer'
 
+import { writeMsg } from '../room/chatRoom'
+
 var flag = false
 
 /**
@@ -106,6 +108,13 @@ class WebsocketConnection {
             case MsgType['MinimapDataResponse']:
                 await window.miniMap._data.updateData(msg)
                 break
+            case MsgType['Message']:
+                writeMsg({
+                    'name': msg.Username,
+                    'message': msg.message,
+                    'type': msg.Username === 'Server' ? 'Server' : 'Player'
+                })
+                break
             default: break
         }
     }
@@ -140,6 +149,10 @@ class WebsocketConnection {
                     Chunk: param.structureChunk,
                     Pos: param.structurePos
                 }
+                this.connection.send(JSON.stringify(data))
+                break
+            case 'Message':
+                data['message'] = param.message
                 this.connection.send(JSON.stringify(data))
                 break
             default: break
