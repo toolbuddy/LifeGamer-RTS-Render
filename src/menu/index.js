@@ -98,6 +98,10 @@ function item_click(item){
 
 
 function move_click(){
+    total = 0;
+    count_list = new Array(4).fill(0);
+    document.querySelector('#total_number > span').innerHTML = total;
+    document.querySelectorAll('.bar > .number > span').forEach(item => { item.innerHTML = 0; })
     document.getElementById('move_block').style.display = 'block';
 }
 
@@ -235,7 +239,7 @@ function count_num(mode, digits, total){
 
     return result;
 }
-for(let i = 0; i < 4; i+=1){
+for(let i = 0; i < 4; i++){
     document.getElementById(`minus_${i}`).onclick = function(){
         total = count_num('down', i, total);
     }
