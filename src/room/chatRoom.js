@@ -30,7 +30,6 @@ function writeMsg(msgObj){
     var sender = msgObj.name;
     var msg = msgObj.message;
     var type = msgObj.type;
-
     msg = msg.replace(/</g,"&lt");
     msg = msg.replace(/>/g,"&gt");
 
@@ -64,16 +63,19 @@ document.addEventListener("keypress", function(e){
  */
 function sendMsg(){
     var msg = msgInput.value;
-    msgInput.value = "";		
-    return new msgObj(name, msg, "client");
+    msgInput.value = "";
+    window.conn.msgSender('Message', window.playerData.Username, { 'message': msg })
+    // return new msgObj(name, msg, "client");
 }
 /**
  * show/hide the msg block
  * @function
  */
-var RoomShow = true;
+var RoomShow = false;
 function showChatRoom(){
     document.getElementsByClassName("chatRoom")[0].style.display = (RoomShow)?"none":"block";
     document.getElementsByClassName("ChatRoom")[0].style.height = (RoomShow)? "2.3rem":"30rem";
     RoomShow = !RoomShow; 
 }
+
+export { writeMsg }

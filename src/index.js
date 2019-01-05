@@ -13,6 +13,14 @@ const statusBar = document.querySelector('section#statusBar')
 const miniMap = document.querySelector('section#miniMapWrapper')
 const menu = document.querySelector('section#menu')
 
+// function that reading cookie, getting user access token
+function getCookie (name) {
+    function escape (s) { return s.replace(/([.*+?\^${}()|\[\]\/\\])/g, '\\$1') }
+    var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'))
+    return match ? match[1] : null
+}
+
+
 // image import (using webpack require.context)
 function importAll (r, object) {
     r.keys().forEach(key => {
@@ -50,7 +58,9 @@ loader.load((loader, resources) => {
         WindPowerPlant: resources.WindPowerPlant.texture,
         SolarPowerPlant: resources.SolarPowerPlant.texture,
         Sawmill: resources.Sawmill.texture,
-        Pasture: resources.Pasture.texture
+        Pasture: resources.Pasture.texture,
+        MilitaryCamp: resources.MilitaryCamp.texture,
+        Residence: resources.Residence.texture
     }
     textures.environment = {
         Forest: resources.Forest.texture,
@@ -66,9 +76,14 @@ loader.load((loader, resources) => {
 })
 
 loader.onComplete.add(() => {
-    var token = prompt('please input your private token')
-    var connect = new WebsocketConnection('wss://pd2a.imslab.org/gamews', token)
-    Init(connect, MainMap.container, textures)
+    var token = getCookie('token')
+    if (token && token !== '') {
+    // var token = prompt('please input your private token')
+        var connect = new WebsocketConnection('wss://pd2a.imslab.org/gamews', token)
+        Init(connect, MainMap.container, textures)
+    } else {
+        window.location.href = 'https://pd2a.imslab.org/game/login'
+    }
 })
 
 // render part
