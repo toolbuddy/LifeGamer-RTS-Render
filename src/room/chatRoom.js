@@ -48,8 +48,9 @@ function writeMsg(msgObj){
  * @listens
  */
 const msgInput = document.querySelector("#content");
-document.addEventListener("keypress", function(e){
-    if(e.keyCode == 13){
+document.addEventListener("keyup", function(e) {
+    if(e.keyCode == 13) {
+        e.stopImmediatePropagation()
 		if(msgInput.value != "")
             sendMsg();
 		else

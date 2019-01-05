@@ -6,7 +6,7 @@
     --miniMap-width: 26.32vw;
     --miniMap-height: var(--miniMap-width);
     --room-width: 26.32vw;
-    --room-height: calc(var(--room-width) * 1.4);
+    --room-height: var(--room-width);
 }
 
 @font-face {
@@ -45,6 +45,11 @@ html, body {
     width: var(--statusBar-width);
     height: var(--statusBar-height);
     top: 25%;
+    left: calc(var(--statusBar-width) * (-1) + 20px);
+    transition: left .3s ease;
+}
+
+#statusBar:hover {
     left: 0;
 }
 
@@ -83,5 +88,4 @@ html, body {
     height: var(--room-height);
     bottom: 0;
     left: 0;
-    pointer-events: none;
 }

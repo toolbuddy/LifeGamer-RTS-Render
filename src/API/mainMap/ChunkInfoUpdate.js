@@ -36,18 +36,18 @@ export default function ChunkInfoUpdate(container, MapData) {
 
         container.chunkInfo = chunkInfo
         // add event listener, keydown
-        window.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function(event) {
             const key = event.keyCode
-            if (key == 81) {
+            if (key == 81 && event.target.tagName !== 'INPUT') {
                 if(!container.QPress) window.elementsToggle()
                 container.QPress = true
                 container.addChild(container.chunkInfo)
             }
         })
         // add event listener, keyup
-        window.addEventListener('keyup', function(event) {
+        document.addEventListener('keyup', function(event) {
             const key = event.keyCode
-            if (key == 81 && container.QPress) {
+            if (key == 81 && container.QPress && event.target.tagName !== 'INPUT') {
                 container.QPress = false
                 container.removeChild(container.chunkInfo)
                 window.elementsToggle()

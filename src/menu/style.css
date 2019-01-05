@@ -129,14 +129,6 @@
     transform: scale(1.1);
 }
 
-::-webkit-scrollbar {
-    width : 0px ;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #888;
-}
-
 .item{
     background-image: url('../source/img/appearance/itemBlock.svg');
     background-repeat: no-repeat;
