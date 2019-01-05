@@ -77,8 +77,8 @@ loader.load((loader, resources) => {
 
 loader.onComplete.add(() => {
     var token = getCookie('token')
-    if (token && token !== '') {
     // var token = prompt('please input your private token')
+    if (token && token !== '') {
         var connect = new WebsocketConnection('wss://pd2a.imslab.org/gamews', token)
         Init(connect, MainMap.container, textures)
     } else {
@@ -112,7 +112,7 @@ async function Init(conn, mainMapContainer, textures) {
     window.mainMap = mainMapContainer                       // binding mainMap PIXI Container to window
     await MainMapInit(mainMapContainer)                     // mainMap container init
     window.mainMap._data = new GameData.MainMapData()       // setting PIXI mainMap object data
-    window.miniMap = MainMap
+    window.miniMap = MiniMap
     window.miniMap._data = new GameData.MiniMapData()
     window.conn = conn                                      // binding websocketConnection object to window
     window.elementsToggle = elementsToggle

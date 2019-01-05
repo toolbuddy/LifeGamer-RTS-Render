@@ -97,7 +97,9 @@ function move_click(){
     console.log('move');
 }
 function home_click(){
-    API.miniMap.ViewRangeMapdataRequest(window.conn, window.playerData.Home)
+    API.miniMap.ViewRangeMapdataRequest(window.conn, window.playerData.data.Home)
+    window.miniMap.setDspCenter(window.playerData.data.Home.X, window.playerData.data.Home.Y)
+    window.miniMap.addFocusRect(window.playerData.data.Home.X, window.playerData.data.Home.Y)
 }
 
 function load_items(img_list){

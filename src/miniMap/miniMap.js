@@ -1,4 +1,5 @@
-// import * as PIXI from 'pixi.js'
+import * as PIXI from 'pixi.js'
+import * as API from '../API'
 
 /**
  * This part is basis display setting.
@@ -31,7 +32,7 @@
  * @param {number (var)} mapLong
  *  - mapSize == mapLong * mapLong
  */
-const dspChunks = 9;
+const dspChunks = 16;
 const chunkRadius = 5;
 const dspColor = [0xC3BBBB, 0x00FF95, 0xDB0A0A];
 function chunkColor(playerName, ownerName) {
@@ -344,6 +345,7 @@ class MiniMap extends PIXI.Container {
           this.dspX = Math.floor((event.data.global.x - this.x) / chunkWidth) - mapLong / 2;
           this.dspY = Math.floor((event.data.global.y - this.y) / chunkHeight) - mapLong / 2;
           console.log(this.dspX + " " + this.dspY);
+          API.miniMap.ViewRangeMapdataRequest(window.conn, { 'X': this.dspX, 'Y': this.dspY })
           this.addFocusRect(this.dspX, this.dspY);
         }
 

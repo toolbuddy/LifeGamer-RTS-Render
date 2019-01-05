@@ -39,7 +39,7 @@ class MiniMapData {
                     map.push({
                         'x': x - Math.ceil(this.size / 2),
                         'y': y - Math.ceil(this.size / 2),
-                        'owner': Owner[x][y],
+                        'owner': (Owner[x][y] != '') ? Owner[x][y] : 'NONE',
                         'terrain': (Terrain) ? Terrain[x][y] : null
                     })
                 }

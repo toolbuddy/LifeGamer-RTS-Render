@@ -5,7 +5,7 @@ import CreateBuildLayer from '../mainMap/CreateBuildLayer'
 
 import { writeMsg } from '../room/chatRoom'
 
-var flag = false
+var initailize = false
 
 /**
  * The connection function offer websocket connection to backend game engine
@@ -89,12 +89,15 @@ class WebsocketConnection {
             case MsgType['LoginResponse']:
                 console.log(`Welcome, ${msg.Username}`)
                 window.playerData.setUsername(msg.Username)    // setting username in userdata
+                window.miniMap.initName(window.playerData.Username)
                 break
             case MsgType['PlayerDataResponse']:
                 window.playerData.updateUserData(msg) // updating userdata
-                if (!flag) {
-                    flag = true
+                if (!initialize) {
+                    initialize = true
                     API.miniMap.ViewRangeMapdataRequest(this.parent, window.playerData.getHomePoint())
+                    window.miniMap.setDspCenter(window.playerData.data.Home.X, window.playerData.data.Home.Y)
+                    window.miniMap.addFocusRect(window.playerData.data.Home.X, window.playerData.data.Home.Y)
                 }
                 let userData = window.playerData.getUserStatusData()
                 UpdateStatus(userData)
@@ -107,6 +110,7 @@ class WebsocketConnection {
                 break
             case MsgType['MinimapDataResponse']:
                 await window.miniMap._data.updateData(msg)
+                window.miniMap.mapDataUpdate(window.miniMap._data.data)
                 break
             case MsgType['Message']:
                 writeMsg({
