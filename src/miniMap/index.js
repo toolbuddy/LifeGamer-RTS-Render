@@ -1,6 +1,6 @@
 // import * as PIXI from 'pixi.js'
-import MiniMap from './miniMap'
-import MapData from './MapData'
+// import MiniMap from './miniMap'
+// import MapData from './MapData'
 
 
 let type = "WebGL";
@@ -10,8 +10,8 @@ if (!PIXI.utils.isWebGLSupported())
 }
 PIXI.utils.sayHello(type);
 
-var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
-// var dspCanvas = document.getElementById("miniMapCanvas");
+// var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
+var dspCanvas = document.getElementById("miniMapCanvas");
 
 var totalChunks = 2500;
 var playerName = "Andy";
@@ -66,6 +66,10 @@ miniMap.mapDataUpdate(mapData);
 // set display center
 miniMap.setDspCenter(20, 22);
 
+// change the mode of miniMap
+// default: miniMap
+// miniMap.mode = "homeSelect";
+
 // add the focusRect
 // miniMap.addFocusRect(0, 0);
 
@@ -74,4 +78,4 @@ miniMap.setDspCenter(20, 22);
 // var clickedX = miniMap.dspX;
 // var clickedY = miniMap.dspY;
 
-export default miniMap
+// export default miniMap
