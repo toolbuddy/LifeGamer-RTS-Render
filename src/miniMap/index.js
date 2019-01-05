@@ -61,6 +61,10 @@ app.stage.addChild(miniMap);
 // set display center
 // miniMap.setDspCenter(0, 0);
 
+// change the mode of miniMap
+// default: miniMap
+// miniMap.mode = "homeSelect";
+
 // add the focusRect
 // miniMap.addFocusRect(0, 0);
 
