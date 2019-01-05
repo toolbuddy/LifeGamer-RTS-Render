@@ -299,11 +299,18 @@ class MiniMap extends PIXI.Container {
    * @param {*} y
    */
   setDspCenter(x, y) {
+    console.log("x: " + x + " y: " + y);
+    this.addFocusRect(x, y);
     var tempX = x + mapLong / 2 - Math.floor(dspChunks / 2);
     var tempY = y + mapLong / 2 - Math.floor(dspChunks / 2);
-    console.log(tempX + " " + tempY);
+    if (tempX < 0) { tempX = 0; }
+    else if (tempX > 41) { tempX = 41; }
+    if (tempY < 0) { tempY = 0; }
+    else if (tempY > 41) { tempY = 41; }
+    console.log("tempX: " + tempX + " tempY: " + tempY);
     this.x = -(tempX * chunkWidth);
     this.y = -(tempY * chunkHeight);
+    console.log("this.x: " + this.x + " this.y: " + this.y);
   }
 
   /**

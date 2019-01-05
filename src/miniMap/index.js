@@ -10,8 +10,8 @@ if (!PIXI.utils.isWebGLSupported())
 }
 PIXI.utils.sayHello(type);
 
-// var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
-var dspCanvas = document.getElementById("miniMapCanvas");
+var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
+// var dspCanvas = document.getElementById("miniMapCanvas");
 
 var totalChunks = 2500;
 var playerName = "Andy";
@@ -64,10 +64,10 @@ miniMap.addBackGround("./images/miniMapBackGround.jpg");
 miniMap.mapDataUpdate(mapData);
 
 // set display center
-miniMap.setDspCenter(0, 0);
+miniMap.setDspCenter(20, 22);
 
 // add the focusRect
-miniMap.addFocusRect(0, 0);
+// miniMap.addFocusRect(0, 0);
 
 // GET the x and y of the clicked chunk
 // if the click event haven't happen both would be null
