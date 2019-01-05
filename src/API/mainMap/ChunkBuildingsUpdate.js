@@ -71,11 +71,17 @@ function ListInit(MapData, sprites) {
                         break
                     case structures['Hotspring'].ID:
                         break
-                    case structures['SmallMilitaryCamp'].ID:
+                    case structures['Residence'].ID:
+                        chunk.push(new Building.Residence(building, chunkIndex))
                         break
-                    case structures['MediumMilitaryCamp'].ID:
+                    case structures['LargeResidence'].ID:
+                        chunk.push(new Building.Residence(building, chunkIndex))
+                        break
+                    case structures['MilitaryCamp'].ID:
+                        chunk.push(new Building.MilitaryCamp(building, chunkIndex))
                         break
                     case structures['LargeMilitaryCamp'].ID:
+                        chunk.push(new Building.MilitaryCamp(building, chunkIndex))
                         break
                     case structures['Observatory'].ID:
                         break

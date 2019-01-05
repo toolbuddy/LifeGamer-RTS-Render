@@ -3,6 +3,8 @@ import * as API from '../API'
 import UpdateStatus from '../status/status'
 import CreateBuildLayer from '../mainMap/CreateBuildLayer'
 
+import { writeMsg } from '../room/chatRoom'
+
 var flag = false
 
 /**
@@ -62,7 +64,8 @@ class WebsocketConnection {
      *
      */
     register () {
-        this.connection.send(JSON.stringify({'Token': this.token, 'Token_type': 'private_token'}))
+        this.connection.send(JSON.stringify({'Token': this.token, 'Token_type': 'access_token'}))
+        // this.connection.send(JSON.stringify({'Token': this.token, 'Token_type': 'private_token'}))
     }
     /**
      * the function handling websocket message
@@ -74,7 +77,6 @@ class WebsocketConnection {
      */
     async msgHandler (e) {
         let msg = JSON.parse(e.data)
-        console.log(msg)
         switch (msg.Msg_type) {
             case MsgType['LogoutRequest']:
                 break
@@ -83,7 +85,6 @@ class WebsocketConnection {
                 var X = Math.floor(Math.random() * 50 - 26),
                     Y = Math.floor(Math.random() * 50 - 26)
                 API.HomePointRegister(this.parent, {'X': X, 'Y': Y})
-                console.log(X, Y)
                 break
             case MsgType['LoginResponse']:
                 console.log(`Welcome, ${msg.Username}`)
@@ -106,6 +107,13 @@ class WebsocketConnection {
                 break
             case MsgType['MinimapDataResponse']:
                 await window.miniMap._data.updateData(msg)
+                break
+            case MsgType['Message']:
+                writeMsg({
+                    'name': msg.Username,
+                    'message': msg.message,
+                    'type': msg.Username === 'Server' ? 'Server' : 'Player'
+                })
                 break
             default: break
         }
@@ -141,6 +149,10 @@ class WebsocketConnection {
                     Chunk: param.structureChunk,
                     Pos: param.structurePos
                 }
+                this.connection.send(JSON.stringify(data))
+                break
+            case 'Message':
+                data['message'] = param.message
                 this.connection.send(JSON.stringify(data))
                 break
             default: break

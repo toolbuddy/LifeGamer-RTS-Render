@@ -5,19 +5,25 @@ var structures = {
         "Terrain" : [1,2,4,32,64,128,512],
         "Cost" : 10000,
         "Power" : 1000,
-        "Human" : -10,
+        "Population" : -10,
         "Money" : -1500,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'WaterPowerPlant': {
-            "ID" : 2,
-            "Name" : "Water Power Plant",
-            "Terrain" : [16,128],
-            "Cost" : 15000,
-            "Power" : 750,
-            "Human" : -5,
-            "Money" : -500,
-            "Size" : 4
+        "ID" : 2,
+        "Name" : "Water Power Plant",
+        "Terrain" : [16,128],
+        "Cost" : 15000,
+        "Power" : 750,
+        "Population" : -5,
+        "Money" : -500,
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'WindPowerPlant': {
         "ID" : 3,
@@ -25,9 +31,12 @@ var structures = {
         "Terrain" : [2,64],
         "Cost" : 15000,
         "Power" : 250,
-        "Human" : -1,
+        "Population" : -1,
         "Money" : -300,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'TidalPowerPlant': {
         "ID" : 4,
@@ -35,9 +44,12 @@ var structures = {
         "Terrain" : [8,64],
         "Cost" : 10000,
         "Power" : 500,
-        "Human" : -2,
+        "Population" : -2,
         "Money" : -500,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'SolarPowerPlant': {
         "ID" : 5,
@@ -45,9 +57,12 @@ var structures = {
         "Terrain" : [1],
         "Cost" : 20000,
         "Power" : 500,
-        "Human" : -1,
+        "Population" : -1,
         "Money" : -200,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'GeoThermalPowerPlant': {
         "ID" : 6,
@@ -55,9 +70,12 @@ var structures = {
         "Terrain" : [512],
         "Cost" : 20000,
         "Power" : 500,
-        "Human" : -1,
+        "Population" : -1,
         "Money" : -300,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'NuclearPowerPlant': {
         "ID" : 7,
@@ -65,9 +83,12 @@ var structures = {
         "Terrain" : [64],
         "Cost" : 70000,
         "Power" : 3000,
-        "Human" : -20,
+        "Population" : -20,
         "Money" : -6000,
-        "Size" : 8
+        "PopulationCap": 0,
+        "Size" : 8,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'BitCoinMiner': {
         "ID" : 10,
@@ -75,9 +96,12 @@ var structures = {
         "Terrain" : [1,2,4,32,64,128,512],
         "Cost" : 5000,
         "Power" : -2000,
-        "Human" : -1,
+        "Population" : -1,
         "Money" : 5000,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'Sawmill': {
         "ID" : 11,
@@ -85,9 +109,12 @@ var structures = {
         "Terrain" : [4],
         "Cost" : 8000,
         "Power" : -500,
-        "Human" : -10,
+        "Population" : -10,
         "Money" : 2000,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'FishFarm': {
         "ID" : 12,
@@ -95,9 +122,12 @@ var structures = {
         "Terrain" : [8,16,64,128],
         "Cost" : 12000,
         "Power" : -200,
-        "Human" : -5,
+        "Population" : -5,
         "Money" : 2000,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'ICFab': {
         "ID" : 13,
@@ -105,9 +135,12 @@ var structures = {
         "Terrain" : [1],
         "Cost" : 60000,
         "Power" : -2500,
-        "Human" : -20,
+        "Population" : -20,
         "Money" : 7000,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'Pasture': {
         "ID" : 14,
@@ -115,9 +148,12 @@ var structures = {
         "Terrain" : [2],
         "Cost" : 8000,
         "Power" : -100,
-        "Human" : -30,
+        "Population" : -30,
         "Money" : 2000,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
     'Hotspring': {
         "ID" : 15,
@@ -125,39 +161,64 @@ var structures = {
         "Terrain" : [512],
         "Cost" : 0,
         "Power" : 0,
-        "Human" : -2,
+        "Population" : -2,
         "Money" : 1000,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     },
-    'SmallMilitaryCamp': {
-        "ID" : 21,
-        "Name" : "Military Camp (small)",
+    'Residence': {
+        "ID" : 20,
+        "Name" : "Residence",
         "Terrain" : [1,2,4,32,64,128],
         "Cost" : 10000,
         "Power" : -200,
-        "Human" : 0,
+        "Population" : 0,
         "Money" : 0,
-        "Size" : 2
+        "PopulationCap": 10,
+        "Size" : 4,
+        "MaxLevel": 1,
+        "BuildTime": 10
     },
-    'MediumMilitaryCamp': {
+    'LargeResidence': {
+        "ID" : 21,
+        "Name" : "Large Residence",
+        "Terrain" : [1,2,4,32,64,128],
+        "Cost" : 10000,
+        "Power" : -200,
+        "Population" : 0,
+        "Money" : 0,
+        "PopulationCap": 50,
+        "Size" : 8,
+        "MaxLevel": 1,
+        "BuildTime": 10
+    },
+    'MilitaryCamp': {
         "ID" : 22,
-        "Name" : "Military Camp (medium)",
+        "Name" : "Military Camp",
         "Terrain" : [1,2,4,32,64,128],
         "Cost" : 25000,
         "Power" : -400,
-        "Human" : 0,
+        "Population" : 2,
         "Money" : 0,
-        "Size" : 4
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 1,
+        "BuildTime": 10
     },
     'LargeMilitaryCamp': {
         "ID" : 23,
-        "Name" : "Military Camp (large)",
+        "Name" : "Large Military Camp",
         "Terrain" : [1,2,4,32,64,128],
         "Cost" : 60000,
         "Power" : -500,
-        "Human" : 0,
+        "Population" : 4,
         "Money" : 0,
-        "Size" : 8
+        "PopulationCap": 0,
+        "Size" : 8,
+        "MaxLevel": 1,
+        "BuildTime": 10
     },
     'Observatory': {
         "ID" : 24,
@@ -165,9 +226,12 @@ var structures = {
         "Terrain" : [1,2,4,32,64,128,512],
         "Cost" : 8000,
         "Power" : -100,
-        "Human" : -2,
+        "Population" : -2,
         "Money" : -500,
-        "Size" : 2
+        "PopulationCap": 0,
+        "Size" : 4,
+        "MaxLevel": 5,
+        "BuildTime": 10
     }
 }
 

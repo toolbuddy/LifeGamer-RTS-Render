@@ -9,21 +9,20 @@ import ThermalPowerPlant from '../source/img/mainMap/building/ThermalPowerPlant.
 import WindPowerPlant from '../source/img/mainMap/building/WindPowerPlant.png'
 import Pasture from '../source/img/mainMap/building/Pasture.png'
 import Sawmill from '../source/img/mainMap/building/Sawmill.png'
-
+import MilitaryCamp from '../source/img/mainMap/building/MilitaryCamp.png'
+import Residence from '../source/img/mainMap/building/Residence.png'
 
 var img_list = {
     cat0:{
-        img:[BitCoinMiner, FishFarm, BitCoinMiner, FishFarm, BitCoinMiner, FishFarm, BitCoinMiner, FishFarm],
-        tag:['BitCoinMiner', 'FishFarm', 'BitCoinMiner1', 'FishFarm1', 'BitCoinMiner2', 'FishFarm2', 'BitCoinMiner3', 'FishFarm3'],
+        img:[BitCoinMiner, FishFarm, MilitaryCamp, MilitaryCamp, Residence, Residence],
+        tag:['BitCoinMiner', 'FishFarm', 'MilitaryCamp', 'LargeMilitaryCamp', 'Residence', 'LargeResidence'],
         description:[
             'bit coin miner ajioe eiojsadj awidsoje oijeasjieo ejialdjk eiads ljie',
             'fish farm jasdiajlejilakdjsoijmkvlweiojwlkjdlsjoiek',
-            'bit coin miner',
-            'fish farm',
-            'bit coin miner',
-            'fish farm',
-            'bit coin miner',
-            'fish farm'
+            'tmp',
+            'tmp',
+            'tmp',
+            'tmp'
         ]
     },
     cat1:{
@@ -195,6 +194,7 @@ function load_items(img_list){
 }
 
 
+document.body.appendChild(document.getElementById('build_items'))
 load_items(img_list);
 
 document.querySelector('#menu_list > div:first-child').onclick = function(){ build_click() };
