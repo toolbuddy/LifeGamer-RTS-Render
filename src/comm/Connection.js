@@ -5,7 +5,7 @@ import CreateBuildLayer from '../mainMap/CreateBuildLayer'
 
 import { writeMsg } from '../room/chatRoom'
 
-var initailize = false
+var initialize = false
 
 /**
  * The connection function offer websocket connection to backend game engine
