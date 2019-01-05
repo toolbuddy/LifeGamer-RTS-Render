@@ -76,7 +76,7 @@ function class_click(cls){
     cls.style.opacity = 1;
 }
 
-function exit_click(){
+function building_block_exit(){
 
 	var build = document.getElementById('build');
 	var selection = document.getElementById('build_items');
@@ -86,20 +86,29 @@ function exit_click(){
 	}
 }
 
+function move_window_exit(){
+    document.getElementById('move_block').style.display = 'none';
+}
+
 function item_click(item){
-	exit_click();
+	building_block_exit();
     API.menu.BuildRequest(window.conn, window.mainMap._data.data, item._data)
     window.elementsToggle()
 }
 
 
 function move_click(){
-    console.log('move');
+    document.getElementById('move_block').style.display = 'block';
 }
+
 function home_click(){
     API.miniMap.ViewRangeMapdataRequest(window.conn, window.playerData.data.Home)
     window.miniMap.setDspCenter(window.playerData.data.Home.X, window.playerData.data.Home.Y)
     window.miniMap.addFocusRect(window.playerData.data.Home.X, window.playerData.data.Home.Y)
+}
+
+function move_submit(){
+    console.log(total);
 }
 
 function load_items(img_list){
@@ -195,12 +204,55 @@ function load_items(img_list){
     class_click(document.getElementsByClassName('classes')[0]);
 }
 
+var total = 0
+var count_list = [0, 0, 0, 0]
+function count_num(mode, digits, total){
+    let count = 1;
+    if(mode == 'down'){
+        count = -1;
+    }
+
+    var result = total;
+    count_list[digits] += count;
+    if(count_list[digits] < 0){
+        count_list[digits] = 0;
+    }
+    else if(count_list[digits] > 9){
+        count_list[digits] = 9;
+    }
+    else{
+        //todo
+        //
+        //
+        //
+        //whether exceeding the limit
+        //
+        result = total + count * Math.pow(10, digits);
+    }
+
+    document.querySelector('#total_number > span').innerHTML = result;
+    document.querySelector(`#number_${digits} > span`).innerHTML = count_list[digits];
+
+    return result;
+}
+for(let i = 0; i < 4; i+=1){
+    document.getElementById(`minus_${i}`).onclick = function(){
+        total = count_num('down', i, total);
+    }
+    document.getElementById(`plus_${i}`).onclick = function(){
+        total = count_num('up', i, total);
+    }
+}
 
 document.body.appendChild(document.getElementById('build_items'))
 load_items(img_list);
+document.body.appendChild(document.getElementById('move_block'))
 
 document.querySelector('#menu_list > div:first-child').onclick = function(){ build_click() };
 document.querySelector('#menu_list > div:nth-child(2)').onclick = function(){ move_click() };
 document.querySelector('#menu_list > div:last-child').onclick = function(){ home_click() };
-document.querySelector('#exit_btn').onclick = function(){ exit_click() };
+document.querySelector('#building_block_exit').onclick = function(){ building_block_exit() };
+document.querySelector('#move_window_exit').onclick = function(){ move_window_exit() };
+document.querySelector('#move_submit').onclick = function(){ move_submit(); move_window_exit() };
+
 

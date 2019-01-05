@@ -13,6 +13,11 @@
     --item-height: var(--item-width);
 }
 
+#move_window{
+
+    --move-window-width: 80vw;
+    --move-window-height: calc(var(--move-window-width) / 2);
+}
 
 *{
     font-size:16px;
@@ -113,18 +118,18 @@
     height: var(--description-height);
 }
 
-#exit_btn{
+.exit_btn{
     position:absolute;
     top: 2.8%;
     right: 2.8%;
 }
 
-#exit_btn > span{
-    font-size:2rem;
+.exit_btn > span{
+    font-size:4rem;
     color: #fff;
 }
 
-#exit_btn > span:hover {
+.exit_btn > span:hover {
     cursor: pointer;
     transform: scale(1.1);
 }
@@ -195,4 +200,80 @@
     padding:2vh;
     word-break:break-all;
     color:white;
+}
+
+
+#move_block{
+    background: rgba(0, 0, 0, 0.5);
+    position:absolute;
+    height: 100vh;
+    width:100vw;
+    top:0px;
+    display:none;
+}
+
+#move_window{
+
+    position: absolute;
+    display: flex;
+    width: var(--move-window-width);
+    height: var(--move-window-height);
+    top: 50%;
+    left: 50%;
+    margin-left: calc(var(--move-window-width) / (-2));
+    margin-top: calc(var(--move-window-height) / (-2));
+    padding: 3.7% 4.3%;
+
+    background-image: url('../source/img/appearance/blockBackground.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#right, #left{
+    position: relative;
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+}
+
+#control div, #control span{
+    font-size: 4vw;
+    color: white;
+}
+
+#total_number{
+    font-size:5vw;
+    position: relative;
+    color: white;
+}
+
+#total_number > span{
+    font-size:4vw;
+    padding:1vw;
+}
+
+.bar{
+    padding: 1%;
+    display: flex;
+}
+
+#control{
+    margin:3% 0;
+}
+
+
+#move_submit{
+    float:right;
+    padding-right:6vw;
+    font-size:5vw;
+}
+
+.number{
+    width: calc(var(--move-window-width) / 2 * 0.65);
+    padding:0 7%;
+}
+
+.number > span{
+    float:right;
 }
