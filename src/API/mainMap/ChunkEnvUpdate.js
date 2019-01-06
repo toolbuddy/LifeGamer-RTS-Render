@@ -3,6 +3,9 @@ import * as PIXI from 'pixi.js'
 import EnvType from './EnvType'
 import Environment from '../../mainMap/Environment'
 
+const Coast = 64
+const Bank = 128
+
 /**
  * The function creating all env objects by given data inside the chunk
  *
@@ -52,7 +55,11 @@ function ListInit(MapData) {
         for (let chunkIndex = 0; chunkIndex < MapData.length; ++chunkIndex) {
             for (let x = 0; x < 16; ++x) {
                 for (let y = 0; y < 16; ++y) {
-                    let texture = window.textures.environment[EnvType[MapData[chunkIndex].Blocks[x][y].Terrain]]
+                    let terrain = MapData[chunkIndex].Blocks[x][y].Terrain,
+                        realTerrain = terrain - ((terrain & Coast) + (terrain & Bank)),
+                        isVoid = (EnvType[realTerrain] == null)
+
+                    let texture = (isVoid) ? window.textures.environment[EnvType[0]] : window.textures.environment[EnvType[realTerrain]]
                     chunkEnv.push(new Environment(texture, chunkIndex, x, y))
                 }
             }

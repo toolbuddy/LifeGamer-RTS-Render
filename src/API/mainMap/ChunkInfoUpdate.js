@@ -2,6 +2,9 @@ import config from '../../config'
 import * as PIXI from 'pixi.js'
 import EnvType from './EnvType'
 
+const Coast = 64,
+      Bank = 128
+
 const textStyle = {
     fill: "white",
     fontFamily: "Minecraft, misaki-mincho, sans-serif",
@@ -114,8 +117,10 @@ function EnvCalculate(chunkData) {
         let num = chunkData.Blocks.length * chunkData.Blocks[0].length, percent = {}
         for (let x = 0; x < chunkData.Blocks.length; ++x) {
             for (let y = 0; y < chunkData.Blocks[x].length; ++y) {
-                if(percent[EnvType[chunkData.Blocks[x][y].Terrain]]) percent[EnvType[chunkData.Blocks[x][y].Terrain]]++
-                else percent[EnvType[chunkData.Blocks[x][y].Terrain]] = 1
+                let terrain = chunkData.Blocks[x][y].Terrain,
+                    realTerrain = terrain - ((terrain & Coast) + (terrain & Bank))
+                if(percent[EnvType[realTerrain]]) percent[EnvType[realTerrain]]++
+                else percent[EnvType[realTerrain]] = 1
             }
         }
         let keys = Object.keys(percent), EnvPercent = ''

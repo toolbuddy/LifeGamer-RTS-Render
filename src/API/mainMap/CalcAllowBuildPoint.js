@@ -1,9 +1,9 @@
 import structures from './Structure'
+import config from '../../config'
 
-const spaceCoor = 16,
-      spaceNum = spaceCoor * spaceCoor,
-      chunkCoorX = 4,
-      chunkCoorY = 2
+const Coast = 64,
+      Bank = 128,
+      spaceNum = config.spaceCoor * config.spaceCoor
 
 /**
  * Calculate the point the param building can build
@@ -22,26 +22,36 @@ export default function CalcAllowBuildPoint(userName, MapData, building) {
         for (let chunk of MapData) {
             var ChunkAllowPoint = new Array(spaceNum).fill(0)
             // check own this chunk or not
+            console.log(chunk)
             if (userName === chunk.Owner) {
-                for (let y = 0; y <= spaceCoor - structures[building].Size; ++y) {
-                    for (let x = 0; x <= spaceCoor - structures[building].Size; ++x) {
+                for (let y = 0; y <= config.spaceCoor - structures[building].Size; ++y) {
+                    for (let x = 0; x <= config.spaceCoor - structures[building].Size; ++x) {
                         // check terrain
                         let TerrainAllow = true
                         for (let n = 0; n < structures[building].Size * structures[building].Size; ++n) {
+                            let blockY = Math.floor(y / config.chunkCoorX),
+                                blockX = x % config.chunkCoorX
                             // if cur env not exists in allow terrain, means it cannot build, otherwise, continue
-                            if (structures[building].Terrain.indexOf(chunk.Blocks[Math.floor(y / chunkCoorX)][x % chunkCoorX].Terrain) === -1) {
-                                TerrainAllow = false
-                                break
+                            if (structures[building].Terrain.indexOf(chunk.Blocks[blockY][blockX].Terrain) === -1) {
+                                // check coast and bank env type
+                                let AllowCoast = structures[building].Terrain.indexOf(Coast) === -1,
+                                    AllowBank = structures[building].Terrain.indexOf(Bank) === -1
+                                if (!(chunk.Blocks[blockY][blockX] & Coast == Coast && AllowCoast)) {   // check coast
+                                    if (!(chunk.Blocks[blockY][blockX] & Bank == Bank && AllowBank)) {  // check bank
+                                        TerrainAllow = false
+                                        break
+                                    }
+                                }
                             }
                         }
-                        if (TerrainAllow) ChunkAllowPoint[y*spaceCoor+x] = 1
+                        if (TerrainAllow) ChunkAllowPoint[y*config.spaceCoor+x] = 1
                     }
                 }
                 // Remove the point that building already existed
                 for (let ExistBuilding of chunk.Structures) {
                     for (let y = ExistBuilding.Pos.Y - structures[building].Size + 1; y <= ExistBuilding.Pos.Y + structures[building].Size - 1; ++y) {
                         for (let x = ExistBuilding.Pos.X - structures[building].Size + 1; x <= ExistBuilding.Pos.X + structures[building].Size - 1; ++x) {
-                            ChunkAllowPoint[y*spaceCoor+x] = 0
+                            ChunkAllowPoint[y*config.spaceCoor+x] = 0
                         }
                     }
                 }

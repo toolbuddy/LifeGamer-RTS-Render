@@ -1,6 +1,7 @@
 // define environment type key(number) to value(string)
 
 var EnvType = {
+    0: 'Void',
     1: 'Desert',
     2: 'Grass',
     4: 'Forest',
