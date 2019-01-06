@@ -51,12 +51,15 @@ app.stage.addChild(miniMap);
 
 // initialize player name
 // miniMap.initName(playerName);
+miniMap.initName("Andy");
+
 
 // add background image
 // miniMap.addBackGround("./images/miniMapBackGround.jpg");
 
+var mapData = MapData;
 // Update the map data
-// miniMap.mapDataUpdate(mapData);
+miniMap.mapDataUpdate(mapData);
 
 // set display center
 // miniMap.setDspCenter(0, 0);
