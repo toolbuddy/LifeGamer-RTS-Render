@@ -1,7 +1,5 @@
-// import * as PIXI from 'pixi.js'
-// import MiniMap from './miniMap'
-// import MapData from './MapData'
-
+import * as PIXI from 'pixi.js'
+import MiniMap from './miniMap'
 
 let type = "WebGL";
 if (!PIXI.utils.isWebGLSupported())
@@ -10,11 +8,10 @@ if (!PIXI.utils.isWebGLSupported())
 }
 PIXI.utils.sayHello(type);
 
-// var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
-var dspCanvas = document.getElementById("miniMapCanvas");
+var dspCanvas = document.querySelector('#miniMapWrapper > .miniMap > canvas');
+// var dspCanvas = document.getElementById("miniMapCanvas");
 
 var totalChunks = 2500;
-var playerName = "Andy";
 
 let app = new PIXI.Application({
   width: dspCanvas.offsetWidth,
@@ -35,8 +32,6 @@ console.log("totalChunks: " + totalChunks);
 console.log("********************************");
 console.log("");
 
-var mapData = MapData;
-
 // create miniMap and initialize
 // with mapData
 // var miniMap = new MiniMap(
@@ -55,16 +50,19 @@ miniMap.init();
 app.stage.addChild(miniMap);
 
 // initialize player name
-miniMap.initName(playerName);
+// miniMap.initName(playerName);
+miniMap.initName("Andy");
+
 
 // add background image
-miniMap.addBackGround("./images/miniMapBackGround.jpg");
+// miniMap.addBackGround("./images/miniMapBackGround.jpg");
 
+var mapData = MapData;
 // Update the map data
 miniMap.mapDataUpdate(mapData);
 
 // set display center
-miniMap.setDspCenter(20, 22);
+// miniMap.setDspCenter(0, 0);
 
 // change the mode of miniMap
 // default: miniMap
@@ -78,4 +76,4 @@ miniMap.setDspCenter(20, 22);
 // var clickedX = miniMap.dspX;
 // var clickedY = miniMap.dspY;
 
-// export default miniMap
+export default miniMap

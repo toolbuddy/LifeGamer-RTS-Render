@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import chatCSS from './style.css' 
 
 //var name = window.playerData.Username;
