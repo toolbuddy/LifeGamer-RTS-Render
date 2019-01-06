@@ -215,15 +215,15 @@ class BaseBuilding {
         return new Promise(async resolve => {
             var buttonList = new PIXI.Container()
             var funcButton = null   // funcButton: repair, restart, upgrade, or null
-            if (this.info.SStatus === 'Destroyed') {
+            if (this.info.Status === 'Destroyed') {
                 funcButton = await this.buttonCreate('Repair', window.textures.buttons.repairIcon, this.repair.bind(null, this))
-            } else if (this.info.SStatus === 'Halted') {
+            } else if (this.info.Status === 'Halted') {
                 funcButton = await this.buttonCreate('Restart', window.textures.buttons.restartIcon, this.restart.bind(null, this))
-            } else if (this.info.SStatus === 'Running' && this.info.Level < this.info.MaxLevel) {
+            } else if (this.info.Status === 'Running' && this.info.Level < this.info.MaxLevel) {
                 funcButton = await this.buttonCreate('Upgrade', window.textures.buttons.upgradeIcon, this.upgrade.bind(null, this))
             }
             var destructButton = null
-            if (this.info.SStatus !== 'Building') {
+            if (this.info.Status !== 'Building') {
                 destructButton = await this.buttonCreate('Destruct', window.textures.buttons.destructIcon, this.destruct.bind(null, this))
             }
             var cancelButton = await this.buttonCreate('Cancel', window.textures.buttons.cancelIcon, this.cancel.bind(null, this))
