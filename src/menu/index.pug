@@ -6,42 +6,5 @@ div#menu_list
     div#home.btn.btn_img
         span Home
 
-div#build_items
-    div#items_content
-        div#items_list
-        div#items
-        div#description
-            div#building_block_exit.exit_btn.btn
-                span X
-
-div#move_block
-    div#move_window
-        div#move_window_exit.exit_btn.btn
-            span X
-        div#left
-            div
-        div#right
-            div#total_number Total:
-                span
-            div#control
-                div.bar
-                    div.btn#minus_3 -
-                    div#number_3.number thousand
-                        span 0
-                    div.btn#plus_3 +
-                div.bar
-                    div.btn#minus_2 -
-                    div#number_2.number hundred
-                        span 0
-                    div.btn#plus_2 +
-                div.bar
-                    div.btn#minus_1 -
-                    div#number_1.number ten
-                        span 0
-                    div.btn#plus_1 +
-                div.bar
-                    div.btn#minus_0 -
-                    div#number_0.number unit
-                        span 0
-                    div.btn#plus_0 +
-            div#move_submit.btn Go
+include ./build_items.pug
+include ./move_block.pug

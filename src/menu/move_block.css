@@ -1,0 +1,141 @@
+#move_window{
+    --move-window-width: 80vw;
+    --move-window-height: calc(var(--move-window-width) / 2);
+    --canvas-width: 25vw;
+    --canvas-height: var(--canvas-width);
+}
+
+#move_block{
+    background: rgba(0, 0, 0, 0.5);
+    position:absolute;
+    height: 100vh;
+    width:100vw;
+    top:0px;
+    display:none;
+}
+
+#move_window{
+    position: absolute;
+    display: flex;
+    width: var(--move-window-width);
+    height: var(--move-window-height);
+    top: 50%;
+    left: 50%;
+    margin-left: calc(var(--move-window-width) / (-2));
+    margin-top: calc(var(--move-window-height) / (-2));
+    padding: 3.7% 4.3% 3.7% 0;
+
+    background-image: url('../source/img/appearance/blockBackground.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#right, #left{
+    position: relative;
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+}
+
+#left > canvas, #left > .moveCanvasDecoration {
+    width: var(--canvas-width);
+    height: var(--canvas-height);
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    margin-left: calc(var(--canvas-height) / (-2));
+}
+
+#left > .moveCanvasDecoration {
+    background-image: url('../source/img/appearance/miniMap.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+}
+
+.buttonList {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.buttonList > .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#right {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+#control span{
+    font-size: 2vw;
+    color: white;
+}
+
+#total_number{
+    font-size: 3vw;
+    position: relative;
+    color: white;
+}
+
+#total_number > span{
+    padding:1vw;
+    font-size: 3vw;
+}
+
+.bar{
+    padding: 1%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 4vw;
+}
+
+#control{
+    margin:3% 0;
+}
+
+
+#move_submit{
+    float:right;
+    justify-content: center;
+    align-items: center;
+}
+
+.number{
+    width: calc(var(--move-window-width) / 2 * 0.65);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.number > span{ margin: 0 1vw; }
+.gobuttonWrapper {
+    width: 100%;
+    height: 4vw;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.bar > .btn, .gobuttonWrapper > .btn, .buttonList > div{
+    width: 9vw;
+    height: 3vw;
+    background-image: url('../source/img/appearance/button.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-size: 1.5vw;
+    color: #fff;
+}

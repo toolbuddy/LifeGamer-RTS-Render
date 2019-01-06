@@ -1,5 +1,8 @@
-import menu from './style.css'
+import './style.css'
+import './move_block.css'
+
 import * as API from '../API'
+import moveCanvasCreate from './moveCanvas'
 
 import BitCoinMiner from '../source/img/mainMap/building/BitCoinMiner.png'
 import FishFarm from '../source/img/mainMap/building/FishFarm.png'
@@ -99,9 +102,10 @@ function item_click(item){
 
 function move_click(){
     total = 0;
-    count_list = new Array(4).fill(0);
+    count_list = [0,0,0,0]
+    moveCanvasCreate()
     document.querySelector('#total_number > span').innerHTML = total;
-    document.querySelectorAll('.bar > .number > span').forEach(item => { item.innerHTML = 0; })
+    document.querySelectorAll('.bar > .number > span:nth-child(2)').forEach(item => { item.innerHTML = 0; })
     document.getElementById('move_block').style.display = 'block';
 }
 
@@ -235,7 +239,7 @@ function count_num(mode, digits, total){
     }
 
     document.querySelector('#total_number > span').innerHTML = result;
-    document.querySelector(`#number_${digits} > span`).innerHTML = count_list[digits];
+    document.querySelector(`#number_${digits} > span:nth-child(2)`).innerHTML = count_list[digits];
 
     return result;
 }
@@ -258,5 +262,3 @@ document.querySelector('#menu_list > div:last-child').onclick = function(){ home
 document.querySelector('#building_block_exit').onclick = function(){ building_block_exit() };
 document.querySelector('#move_window_exit').onclick = function(){ move_window_exit() };
 document.querySelector('#move_submit').onclick = function(){ move_submit(); move_window_exit() };
-
-

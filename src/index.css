@@ -1,6 +1,6 @@
 :root {
-    --statusBar-width: 10.53vw;
-    --statusBar-height: calc(var(--statusBar-width) * 1.3);
+    --statusBar-height: 30.24vh;
+    --statusBar-width: calc(var(--statusBar-height) / 1.2);
     --menu-width: 26.32vw;
     --menu-height: calc(var(--menu-width) * 0.11);
     --miniMap-width: 26.32vw;
