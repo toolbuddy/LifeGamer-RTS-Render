@@ -90,6 +90,7 @@ class WebsocketConnection {
                 console.log(`Welcome, ${msg.Username}`)
                 window.playerData.setUsername(msg.Username)    // setting username in userdata
                 window.miniMap.initName(window.playerData.Username)
+                window.miniMap.addBackGround(window.textures.miniMapBackground)
                 break
             case MsgType['PlayerDataResponse']:
                 window.playerData.updateUserData(msg) // updating userdata

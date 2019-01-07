@@ -264,11 +264,12 @@ class MiniMap extends PIXI.Container {
    * @function
    *  - to add background image
    *
-   * @param {string} img
-   *  - the URL of background image
+   * @param {PIXI.texture} img
+   *  - the texture of background image
    */
   addBackGround(img) {
-    this.miniMapBackground = new PIXI.Sprite.fromImage(img);
+    this.miniMapBackground = new PIXI.Sprite(img);
+    this.miniMapBackground.scale.set(this.width / this.miniMapBackground.width, this.height / this.miniMapBackground.height);
     this.addChild(this.miniMapBackground);
     this.drawMiniMap();
   }

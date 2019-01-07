@@ -8,6 +8,8 @@ import MiniMap from './miniMap'
 import * as API from './API'
 import * as PIXI from 'pixi.js'
 
+import miniMapBackground from './source/img/map.png'
+
 const room = document.querySelector('section#room')
 const statusBar = document.querySelector('section#statusBar')
 const miniMap = document.querySelector('section#miniMapWrapper')
@@ -41,6 +43,7 @@ var keys = Object.keys(images)
 for (let key of keys) {
     loader.add(key, images[key])
 }
+loader.add('miniMapBackground', miniMapBackground)
 
 loader.load((loader, resources) => {
     textures.buttons = {
@@ -73,6 +76,7 @@ loader.load((loader, resources) => {
         Volcano: resources.Volcano.texture,
         Void: resources.Void.texture
     }
+    textures.miniMapBackground = resources.miniMapBackground.texture
 })
 
 loader.onComplete.add(() => {
