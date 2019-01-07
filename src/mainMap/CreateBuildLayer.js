@@ -14,6 +14,9 @@ export default function CreateBuildLayer (conn, MapData, building) {
         // create background
         var background = await backgroundCreate(window.mainMapWidth, window.mainMapHeight)
         layer.addChild(background)
+        // create border
+        var border = await borderCreate()
+        layer.addChild(border)
         // select space create
         layer.selectSpace = await selectSpaceCreate(building, spaceSize)
 
@@ -72,6 +75,40 @@ export default function CreateBuildLayer (conn, MapData, building) {
         resolve(layer)
     })
 }
+
+/**
+ * The function creating stage border
+ *
+ * @function
+ *
+ * @returns {Promise<PIXI.Graphics>} a promise contains border PIXI.Graphics object
+ * @resolve {PIXI.Graphics} border PIXI.Graphics object
+ */
+function borderCreate() {
+    return new Promise(resolve => {
+        let border = new PIXI.Graphics(),
+            chunkSize = Math.min(window.mainMapWidth, window.mainMapHeight) / Math.min(config.chunkCoorX, config.chunkCoorY),
+            spaceSize = chunkSize / config.spaceCoor
+
+        // draw pos border
+        border.nativeLines = true
+        border.lineStyle(1, 0x000000, 0.3)
+        // draw horizontal lines
+        for (let i = 0; i < config.spaceCoor * config.chunkCoorY; ++i) {
+            border.moveTo(0, spaceSize * i)
+            border.lineTo(chunkSize * config.chunkCoorX, spaceSize * i)
+        }
+        // draw vertical lines
+        for (let i = 0; i < config.spaceCoor * config.chunkCoorX; ++i) {
+            border.moveTo(spaceSize * i, 0)
+            border.lineTo(spaceSize * i, chunkSize * config.chunkCoorY)
+        }
+
+        resolve(border)
+    })
+}
+
+
 
 function backgroundCreate(width, height) {
     return new Promise(resolve => {

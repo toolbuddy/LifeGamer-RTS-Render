@@ -101,21 +101,9 @@ function BorderCreate() {
         let border = new PIXI.Graphics(),
             chunkSize = Math.min(window.mainMapWidth, window.mainMapHeight) / Math.min(config.chunkCoorX, config.chunkCoorY),
             spaceSize = chunkSize / config.spaceCoor
-        // draw pos border
-        border.nativeLines = true
-        border.lineStyle(1, 0x000000, 0.5)
-        // draw horizontal lines
-        for (let i = 0; i < config.spaceCoor * config.chunkCoorY; ++i) {
-            border.moveTo(0, spaceSize * i)
-            border.lineTo(chunkSize * config.chunkCoorX, spaceSize * i)
-        }
-        // draw vertical lines
-        for (let i = 0; i < config.spaceCoor * config.chunkCoorX; ++i) {
-            border.moveTo(spaceSize * i, 0)
-            border.lineTo(spaceSize * i, chunkSize * config.chunkCoorY)
-        }
+
         // draw chunk border
-        border.lineStyle(3, 0x000000, 0.7)
+        border.lineStyle(3, 0x000000, 0.3)
         border.nativeLines = false
         // draw horizontal lines
         for (let i = 0; i <= config.chunkCoorY; ++i) {
@@ -127,6 +115,7 @@ function BorderCreate() {
             border.moveTo(chunkSize * i, 0)
             border.lineTo(chunkSize * i, chunkSize * config.chunkCoorY)
         }
+
         // set zindex
         border.zIndex = 1
 
