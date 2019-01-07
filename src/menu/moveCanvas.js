@@ -1,8 +1,7 @@
 import * as PIXI from 'pixi.js'
 import MiniMap from '../miniMap/miniMap'
 
-var totalChunks = 2500,
-    moveMiniMap = null
+var totalChunks = 2500;
 var moveCanvas = document.querySelector('#left > canvas'),
     moveCanvasApp = new PIXI.Application({
         width: 300,
@@ -17,22 +16,30 @@ var moveCanvas = document.querySelector('#left > canvas'),
 moveCanvasApp.render.autoResize = true
 
 function createCanvas() {
-    console.log(moveMiniMap)
-    if (!moveMiniMap) {
-        moveMiniMap = new MiniMap(
+    if (!window.moveMiniMap) {
+        window.moveMiniMap = new MiniMap(
             300,
             300,
             totalChunks
         )
 
-        moveMiniMap.init()
-        moveMiniMap.mode = 'populationMove'
-        moveCanvasApp.stage.addChild(moveMiniMap)
+        window.moveMiniMap.init()
+        window.moveMiniMap.mode = 'populationMove'
+        moveCanvasApp.stage.addChild(window.moveMiniMap)
 
-        moveMiniMap.mapDataUpdate(window.miniMap._data.data)
-        moveMiniMap.initName(window.playerData.Username)
+        window.moveMiniMap.mapDataUpdate(window.miniMap._data.data)
+        window.moveMiniMap.addBackGround(window.textures.miniMapBackground)
+        window.moveMiniMap.initName(window.playerData.Username)
     }
-    moveMiniMap.setDspCenter(window.playerData.data.Home.X, window.playerData.data.Home.Y)
+    // init
+    window.moveMiniMap.moveType = null
+    window.moveMiniMap.moveFrom = null
+    window.moveMiniMap.moveTo = null
+
+    window.moveMiniMap.removeChild(window.moveMiniMap.focusMoveRectFrom)
+    window.moveMiniMap.removeChild(window.moveMiniMap.focusMoveRectTo)
+
+    window.moveMiniMap.setDspCenter(window.playerData.data.Home.X, window.playerData.data.Home.Y)
 }
 
 export default createCanvas

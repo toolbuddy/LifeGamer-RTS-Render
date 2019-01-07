@@ -116,6 +116,11 @@ function home_click(){
 }
 
 function move_submit(){
+    window.conn.msgSender('OccupyRequest', window.playerData.Username, {
+        'From': window.moveMiniMap.moveFrom,
+        'To': window.moveMiniMap.moveTo,
+        'Amount': total
+    })
     console.log(total);
 }
 
@@ -251,6 +256,15 @@ for(let i = 0; i < 4; i++){
         total = count_num('up', i, total);
     }
 }
+
+function moveModeSelect(node) {
+    let mode = node.innerHTML.toLowerCase()
+    window.moveMiniMap.moveType = mode;
+}
+
+document.querySelector('#left > div.buttonList > div:nth-child(1)').onclick = function() { moveModeSelect(this); }
+document.querySelector('#left > div.buttonList > div:nth-child(2)').onclick = function() { moveModeSelect(this); }
+
 
 document.body.appendChild(document.getElementById('build_items'))
 load_items(img_list);

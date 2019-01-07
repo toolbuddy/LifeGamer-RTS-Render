@@ -112,6 +112,7 @@ class WebsocketConnection {
             case MsgType['MinimapDataResponse']:
                 await window.miniMap._data.updateData(msg)
                 window.miniMap.mapDataUpdate(window.miniMap._data.data)
+                if (window.moveMiniMap) window.moveMiniMap.mapDataUpdate(window.miniMap._data.data)
                 break
             case MsgType['Message']:
                 writeMsg({
@@ -154,6 +155,12 @@ class WebsocketConnection {
                     Chunk: param.structureChunk,
                     Pos: param.structurePos
                 }
+                this.connection.send(JSON.stringify(data))
+                break
+            case 'OccupyRequest':
+                data['From'] = param.From
+                data['To'] = param.To
+                data['Amount'] = param.Amount
                 this.connection.send(JSON.stringify(data))
                 break
             case 'Message':

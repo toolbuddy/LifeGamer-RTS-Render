@@ -196,6 +196,8 @@ class MiniMap extends PIXI.Container {
      * These are object for miniMap render.
      */
     this.focusRect = new PIXI.Graphics();
+    this.focusMoveRectFrom = new PIXI.Graphics();
+    this.focusMoveRectTo = new PIXI.Graphics();
     this.miniMapGraphics = new PIXI.Graphics();
     this.miniMapBackground = new PIXI.Sprite();
 
@@ -297,14 +299,25 @@ class MiniMap extends PIXI.Container {
   addMoveRect(x, y) {
     var tempX = x + mapLong / 2;
     var tempY = y + mapLong / 2;
-    this.removeChild(this.focusRect);
-    this.focusRect = new PIXI.Graphics();
-    this.focusRect.interactive = true;
-    this.focusRect.lineStyle(focusRectLineWidth, 0x0000FF, 0.6, 0.5);
-    this.focusRect.beginFill(0x0000FF, 0);
-    this.focusRect.drawRect(chunkWidth * tempX, chunkHeight * tempY, chunkWidth, chunkHeight);
-    this.focusRect.endFill();
-    this.addChild(this.focusRect);
+    if (this.moveType == 'from') {
+        this.removeChild(this.focusMoveRectFrom);
+        this.focusMoveRectFrom = new PIXI.Graphics();
+        this.focusMoveRectFrom.interactive = true;
+        this.focusMoveRectFrom.lineStyle(focusRectLineWidth, 0x0000FF, 0.6, 0.5);
+        this.focusMoveRectFrom.beginFill(0x0000FF, 0);
+        this.focusMoveRectFrom.drawRect(chunkWidth * tempX, chunkHeight * tempY, chunkWidth, chunkHeight);
+        this.focusMoveRectFrom.endFill();
+        this.addChild(this.focusMoveRectFrom);
+    } else if(this.moveType == 'to') {
+        this.removeChild(this.focusMoveRectTo);
+        this.focusMoveRectTo = new PIXI.Graphics();
+        this.focusMoveRectTo.interactive = true;
+        this.focusMoveRectTo.lineStyle(focusRectLineWidth, 0xFF0000, 0.6, 0.5);
+        this.focusMoveRectTo.beginFill(0xFF0000, 0);
+        this.focusMoveRectTo.drawRect(chunkWidth * tempX, chunkHeight * tempY, chunkWidth, chunkHeight);
+        this.focusMoveRectTo.endFill();
+        this.addChild(this.focusMoveRectTo);
+    }
   }
 
   getChunkInfo(x, y) {
@@ -312,22 +325,8 @@ class MiniMap extends PIXI.Container {
     {
       if (this.mapData[i].x == x && this.mapData[i].y == y)
       {
-        if (this.mode == "homeSelect")
-        {
-          return {
-            "x": this.mapData[i].x,
-            "y": this.mapData[i].y,
-            "terrain": this.mapData[i].terrain,
-            "owner": this.mapData[i].owner
-          };
-        }
-        else if (this.mode == "populationMove")
-        {
-          return {
-            "x": this.mapData[i].x,
-            "y": this.mapData[i].y
-          };
-        }
+        if (this.moveType == 'from') this.moveFrom = { "X": this.mapData[i].x, "Y": this.mapData[i].y };
+        else if (this.moveType == 'to') this.moveTo = { "X": this.mapData[i].x, "Y": this.mapData[i].y };
       }
     }
   }
@@ -389,11 +388,6 @@ class MiniMap extends PIXI.Container {
           {
             API.miniMap.ViewRangeMapdataRequest(window.conn, { 'X': this.dspX, 'Y': this.dspY })
             this.addFocusRect(this.dspX, this.dspY);
-          }
-          else if (this.mode == "homeSelect")
-          {
-            this.addMoveRect(this.dspX, this.dspY);
-            this.getChunkInfo(this.dspX, this.dspY);
           }
           else if (this.mode == "populationMove")
           {
