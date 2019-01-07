@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js'
 import MiniMap from './miniMap'
 
+import miniMapBackground from '../source/img/map.png'
+
 let type = "WebGL";
 if (!PIXI.utils.isWebGLSupported())
 {
@@ -51,10 +53,13 @@ app.stage.addChild(miniMap);
 
 // initialize player name
 // miniMap.initName(playerName);
+miniMap.initName("Andy");
+
 
 // add background image
-// miniMap.addBackGround("./images/miniMapBackGround.jpg");
+miniMap.addBackGround(miniMapBackground);
 
+// var mapData = MapData;
 // Update the map data
 // miniMap.mapDataUpdate(mapData);
 
