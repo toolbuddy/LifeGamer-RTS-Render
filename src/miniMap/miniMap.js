@@ -1,5 +1,5 @@
-// import * as PIXI from 'pixi.js'
-// import * as API from '../API'
+import * as PIXI from 'pixi.js'
+import * as API from '../API'
 
 /**
  * This part is basis display setting.
