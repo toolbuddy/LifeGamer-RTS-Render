@@ -82,9 +82,7 @@ class WebsocketConnection {
                 break
             // first play, ask for selecting one chunk to become home point
             case MsgType['HomePointRequest']:
-                var X = Math.floor(Math.random() * 50 - 26),
-                    Y = Math.floor(Math.random() * 50 - 26)
-                API.HomePointRegister(this.parent, {'X': X, 'Y': Y})
+                API.HomePointRegister(this.parent)
                 break
             case MsgType['LoginResponse']:
                 console.log(`Welcome, ${msg.Username}`)
@@ -140,8 +138,7 @@ class WebsocketConnection {
             'Username': username
         }
         switch (Msg_type) {
-            case 'HomePointResponse': // send home point response to backend server, home.x, home.y needed
-                data['Pos'] = param.home
+            case 'HomePointResponse':
                 this.connection.send(JSON.stringify(data))
                 break
             case 'MapDataRequest':

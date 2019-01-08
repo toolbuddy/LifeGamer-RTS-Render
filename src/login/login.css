@@ -3,6 +3,8 @@
     src: url('../source/fonts/misaki_mincho.ttf')
 }
 
+body { letter-spacing: 0.1rem; }
+
 #bg_div {
   position: absolute;
   top: 0;

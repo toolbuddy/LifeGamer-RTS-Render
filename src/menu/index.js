@@ -14,34 +14,40 @@ import Pasture from '../source/img/mainMap/building/Pasture.png'
 import Sawmill from '../source/img/mainMap/building/Sawmill.png'
 import MilitaryCamp from '../source/img/mainMap/building/MilitaryCamp.png'
 import Residence from '../source/img/mainMap/building/Residence.png'
+import Hotspring from '../source/img/mainMap/building/Hotspring.png'
+import ICFab from '../source/img/mainMap/building/ICFab.png'
 
 var img_list = {
-    cat0:{
-        img:[BitCoinMiner, FishFarm, MilitaryCamp, MilitaryCamp, Residence, Residence],
-        tag:['BitCoinMiner', 'FishFarm', 'MilitaryCamp', 'LargeMilitaryCamp', 'Residence', 'LargeResidence'],
+    Energy:{
+        img:[ThermalPowerPlant, GeoThermalPowerPlant, WindPowerPlant, SolarPowerPlant],
+        tag:['ThermalPowerPlant', 'GeoThermalPowerPlant', 'WindPowerPlant', 'SolarPowerPlant'],
         description:[
-            'bit coin miner ajioe eiojsadj awidsoje oijeasjieo ejialdjk eiads ljie',
-            'fish farm jasdiajlejilakdjsoijmkvlweiojwlkjdlsjoiek',
-            'tmp',
-            'tmp',
-            'tmp',
-            'tmp'
+            'Cost: 10000\nPower: 1000\nPopulation: -10\nMoney: -1500\nPopulationCap: 0\nSize: 4\nMaxLevel: 5\nBuildTime: 10',
+            'Cost: 20000\nPower: 500\nPopulation: -1\nMoney: -300\nPopulationCap: 0\nSize: 4\nMaxLevel: 5\nBuildTime: 10',
+            'Cost: 15000\nPower: 250\nPopulation: -1\nMoney: -300\nPopulationCap: 0\nSize: 4\nMaxLevel: 5\nBuildTime: 10',
+            'Cost: 20000\nPower: 500\nPopulation: -1\nMoney: -200\nPopulationCap: 0\nSize: 4\nMaxLevel: 5\nBuildTime: 10'
         ]
     },
-    cat1:{
-        img:[GeoThermalPowerPlant, SolarPowerPlant],
-        tag:['GeoThermalPowerPlant', 'SolarPowerPlant'],
+    Money:{
+        img:[BitCoinMiner, FishFarm, Pasture, Sawmill, Hotspring, ICFab],
+        tag:['BitCoinMiner', 'FishFarm', 'Pasture', 'Sawmill', 'Hotspring', 'ICFab'],
         description:[
-            'geo thermal power plant',
-            'solar poer plant'
+            'Cost: 5000\nPower: -2000\nPopulation: -1\nMoney: 5000\nPopulationCap: 0\nSize: 4\nMaxLevel: 5\nBuildTime: 10',
+            'Cost: 12000\nPower: -200\nPopulation: -5\nMoney: 2000\nPopulationCap: 0\nSize: 4\nMaxLevel: 5\nBuildTime: 10',
+            'Cost: 8000\nPower: -100\nPopulation: -30\nMoney: 2000\nPopulationCap: 0\nSize: 4\nMaxLevel: 5\nBuildTime: 10',
+            'Cost: 8000\nPower: -500\nPopulation: -10\nMoney: 2000\nPopulationCap: 0\nSize: 4\nMaxLevel: 5\nBuildTime: 10',
+            'Cost: 0\nPower: 0\nPopulation: -2\nMoney: 1000\nPopulationCap: 0\nSize: 4\nMaxLevel: 5\nBuildTime: 10',
+            'Cost: 60000\nPower: -2500\nPopulation: -20\nMoney: 7000\nPopulationCap: 0\nSize: 4\nMaxLevel: 5\nBuildTime: 10'
         ]
     },
-    cat2:{
-        img:[ThermalPowerPlant, WindPowerPlant],
-        tag:['ThermalPowerPlant', 'WindPowerPlant'],
+    Population:{
+        img:[MilitaryCamp, MilitaryCamp, Residence, Residence],
+        tag:['MilitaryCamp', 'LargeMilitaryCamp', 'Residence', 'LargeResidence'],
         description:[
-            'thermal power plant',
-            'wind power plant'
+            'Cost: 25000\nPower: -400\nPopulation: 2\nMoney: 0\nPopulationCap: 0\nSize: 4\nMaxLevel: 1\nBuildTime: 10',
+            'Cost: 60000\nPower: -500\nPopulation: 4\nMoney: 0\nPopulationCap: 0\nSize: 8\nMaxLevel: 1\nBuildTime: 10',
+            'Cost: 10000\nPower: -200\nPopulation: 0\nMoney: 0\nPopulationCap: 10\nSize: 4\nMaxLevel: 1\nBuildTime: 10',
+            'Cost: 10000\nPower: -200\nPopulation: 0\nMoney: 0\nPopulationCap: 5\nSize: 8\nMaxLevel: 5\nBuildTime: 10'
         ]
     }
 }
@@ -175,11 +181,11 @@ function load_items(img_list){
             var h = document.createElement('H1')
             h.appendChild(document.createTextNode(`${tag_name}`))
             content.appendChild(h);
-            var p = document.createElement('P')
-            p.appendChild(document.createTextNode(`${img_list[cls].description[i]}`));
-            content.appendChild(p);
+            var pre = document.createElement('PRE')
+            pre.appendChild(document.createTextNode(`${img_list[cls].description[i]}`));
+            content.appendChild(pre);
             h.className = 'wordsInDescription';
-            p.className = 'wordsInDescription';
+            pre.className = 'wordsInDescription';
 
             content.className = 'description';
             description.appendChild(content);
