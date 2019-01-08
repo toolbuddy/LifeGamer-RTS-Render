@@ -65,11 +65,13 @@ function ListInit(MapData, sprites) {
                         chunk.push(new Building.FishFarm(building, chunkIndex))
                         break
                     case structures['ICFab'].ID:
+                        chunk.push(new Building.ICFab(building, chunkIndex))
                         break
                     case structures['Pasture'].ID:
                         chunk.push(new Building.Pasture(building, chunkIndex))
                         break
                     case structures['Hotspring'].ID:
+                        chunk.push(new Building.Hotspring(building, chunkIndex))
                         break
                     case structures['Residence'].ID:
                         chunk.push(new Building.Residence(building, chunkIndex))

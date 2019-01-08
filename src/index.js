@@ -63,7 +63,9 @@ loader.load((loader, resources) => {
         Sawmill: resources.Sawmill.texture,
         Pasture: resources.Pasture.texture,
         MilitaryCamp: resources.MilitaryCamp.texture,
-        Residence: resources.Residence.texture
+        Residence: resources.Residence.texture,
+        Hotspring: resources.Hotspring.texture,
+        ICFab: resources.ICFab.texture
     }
     textures.environment = {
         Forest: resources.Forest.texture,
