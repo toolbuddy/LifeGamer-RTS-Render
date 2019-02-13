@@ -6,28 +6,25 @@ Using [pixijs](http://www.pixijs.com/) to render the whole RTS game appearance.
 
 Divide main page into multi sections.
 
-![](https://i.imgur.com/aQyDEXa.jpg)
+![](https://i.imgur.com/vkQJ5vc.png)
 
 - Main Map Render
 - Mini Map Render
-- Options (a,b)
-    - (a) button for changing room to chat room
-    - (b) button for changing room to server message room
-- Chat/Server message room
+- Room
 - User status
-- Menu: contains **build**, **destory**, **move**, **home** four buttons
+- Menu: contains **build**, **move**, **home** four buttons
     - build: using for building a building
-    - destory: using for destorying a building
-    - move: using for moving people from one chunk to another chunk
+    - move: using for moving population from one chunk to another chunk
     - home: using for moving field of version to user's home chunk
 
 ## Usage
 
 ### Main Map Render
 
-- Render 3*3 chunks
+- Render 4*2 chunks
 > One chunk contains 16*16 space
-- Rerender 9 chunks if getting map data from backend server
+- Rerender 8 chunks if getting map data from backend server
+- **Press Q can show map info**
 
 ### User status
 
@@ -38,26 +35,21 @@ Divide main page into multi sections.
 
 - Render all data but with mask, user can only see part of them
 - The color of block shows its environment
-- The color of block's border shows its belongs
-    - none, yours, others, limited
-- User can using mouse to move mini map mask position
-    - moving speed and direction according to mouse position
+- The upper block color shows the belonger
+    - none: no color
+    - yours: green
+    - others: red
+- User can drag and drop to move mini map mask position
 
-### Chat/Server Message Room
+### Room
 
-#### Chat Room
-
-- Showing message when getting data from server
+- Showing message/server message when getting data from server
 - Click enter or send button to transfer message to server
-
-#### Server Message Room
-
-- Showing server message when getting data from server
 - server message would save in server
 
 ### Menu
 
-Contains build, destory, move, and home button
+Contains build, move, and home button
 
 #### Build
 
@@ -68,22 +60,18 @@ Contains build, destory, move, and home button
         - red means user cannot build
     - sending request to server asking for updating
 
-#### Destroy
-
-- Steps:
-    - click button
-    - click the building on the main map to destory
-        - when hover the building, it'll render the border let user seeing
-    - sending request to server asking for updating
-
 #### Move
 
 - Steps:
     - click button
+    - click from button
     - click chunk in mini map to select where the user moving solider from
-    - using scroll bar to change number
+    - click to button
     - click chunk in mini map to select where the user moving solider to
-    - sending request to server asking for updating
+    - click -, + button to set the amount of population to move
+    - click go button sending request to server asking for updating
+
+> user can drag and drop minimap to see other space
 
 #### Home
 
@@ -91,14 +79,17 @@ Contains build, destory, move, and home button
 
 ## Directory
 
-- /src - putting front-end file here
+- /src
     - /source
         - /img
         - /media
+        - /fonts
     - /mainMap
     - /miniMap
+    - /GameData
     - /status
+    - /comm
+    - /building
     - /room
     - /menu
-- /backend - putting back-end file here
 - app.js - server enter point
