@@ -22,7 +22,6 @@ export default function CalcAllowBuildPoint(userName, MapData, building) {
         for (let chunk of MapData) {
             var ChunkAllowPoint = new Array(spaceNum).fill(0)
             // check own this chunk or not
-            console.log(chunk)
             if (userName === chunk.Owner) {
                 for (let y = 0; y <= config.spaceCoor - structures[building].Size; ++y) {
                     for (let x = 0; x <= config.spaceCoor - structures[building].Size; ++x) {
@@ -32,12 +31,13 @@ export default function CalcAllowBuildPoint(userName, MapData, building) {
                             let blockY = Math.floor(y / config.chunkCoorX),
                                 blockX = x % config.chunkCoorX
                             // if cur env not exists in allow terrain, means it cannot build, otherwise, continue
-                            if (structures[building].Terrain.indexOf(chunk.Blocks[blockY][blockX].Terrain) === -1) {
+                            let terrain = chunk.Blocks[blockY][blockX].Terrain - ((chunk.Blocks[blockY][blockX].Terrain & Coast) + (chunk.Blocks[blockY][blockX].Terrain & Bank))
+                            if (structures[building].Terrain.indexOf(terrain) === -1) {
                                 // check coast and bank env type
                                 let AllowCoast = structures[building].Terrain.indexOf(Coast) === -1,
                                     AllowBank = structures[building].Terrain.indexOf(Bank) === -1
-                                if (!(chunk.Blocks[blockY][blockX] & Coast == Coast && AllowCoast)) {   // check coast
-                                    if (!(chunk.Blocks[blockY][blockX] & Bank == Bank && AllowBank)) {  // check bank
+                                if (!(chunk.Blocks[blockY][blockX].Terrain & Coast == Coast && AllowCoast)) {   // check coast
+                                    if (!(chunk.Blocks[blockY][blockX].Terrain & Bank == Bank && AllowBank)) {  // check bank
                                         TerrainAllow = false
                                         break
                                     }

@@ -104,6 +104,18 @@ function borderCreate() {
             border.lineTo(spaceSize * i, chunkSize * config.chunkCoorY)
         }
 
+        border.lineStyle(3, 0x000000, 0.5)
+        border.nativeLines = false
+        for (let i = 0; i <= config.chunkCoorY; ++i) {
+            border.moveTo(0, chunkSize * i)
+            border.lineTo(chunkSize * config.chunkCoorX, chunkSize * i)
+        }
+
+        for (let i = 0; i <= config.chunkCoorX; ++i) {
+            border.moveTo(chunkSize * i, 0)
+            border.lineTo(chunkSize * i, chunkSize * config.chunkCoorY)
+        }
+
         resolve(border)
     })
 }

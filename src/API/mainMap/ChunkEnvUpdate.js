@@ -82,8 +82,8 @@ function ObjectInit(container, environmentList) {
         for (let env of environmentList) {
             container.addChild(env.object)
         }
-        let border = await BorderCreate()
-        container.addChild(border)
+        // let border = await BorderCreate()
+        // container.addChild(border)
         resolve()
     })
 }
