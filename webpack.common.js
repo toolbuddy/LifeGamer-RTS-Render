@@ -9,20 +9,12 @@ module.exports = {
 		'room': './src/room/chatRoom.js',
 		'status': './src/status/status.js',
         'menu': './src/menu/index.js',
-        'login': './src/login/login.js'
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
             template: './src/index.pug',
             filename: 'index.html',
-            excludeChunks: ['login']
-        }),
-        new HtmlWebpackPlugin({
-            template: './src/login/login.html',
-            filename: 'login.html',
-            minify: true,
-            excludeChunks: ['app', 'room', 'status', 'menu']
         })
     ],
     optimization: {
@@ -31,8 +23,7 @@ module.exports = {
     },
     output: {
         filename: 'js/[name].[chunkhash:8].js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/game'
+        path: path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [

@@ -82,13 +82,13 @@ loader.load((loader, resources) => {
 })
 
 loader.onComplete.add(() => {
-    var token = getCookie('token')
+    var parsedUrl = new URL(window.location.href)
+    var token = parsedUrl.searchParams.get('token')
+    // var token = getCookie('token')
     // var token = prompt('please input your private token')
     if (token && token !== '') {
         var connect = new WebsocketConnection('wss://pd2a.imslab.org/gamews', token)
         Init(connect, MainMap.container, textures)
-    } else {
-        window.location.href = 'https://pd2a.imslab.org/game/login'
     }
 })
 
