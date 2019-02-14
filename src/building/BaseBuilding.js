@@ -66,8 +66,8 @@ class BaseBuilding {
 
         // mouse over function setting
         this.object.mouseover = function(mouseData) {
-            this._parent.isHover = true
-            if (!this._parent.isClicked) {
+            if (!this._parent.isClicked && window.mainMap._data.data[this._parent.chunkIndex].Owner === window.playerData.Username) {
+                this._parent.isHover = true
                 let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
                 this.parent.addChild(this._parent.tooltip)
                 this._parent.tooltip.x = ((mouseData.data.global.x + this._parent.tooltip.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.tooltip.width) * scale
@@ -77,7 +77,7 @@ class BaseBuilding {
 
         // mouse move function setting
         this.object.mousemove = function(mouseData) {
-            if (this._parent.isHover && !this._parent.isClicked) {
+            if (this._parent.isHover && !this._parent.isClicked && window.mainMap._data.data[this._parent.chunkIndex].Owner === window.playerData.Username) {
                 let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
                 this._parent.tooltip.x = ((mouseData.data.global.x + this._parent.tooltip.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.tooltip.width) * scale
                 this._parent.tooltip.y = ((mouseData.data.global.y + this._parent.tooltip.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.tooltip.height) * scale
@@ -86,8 +86,8 @@ class BaseBuilding {
 
         // mouse out function setting
         this.object.mouseout = function(mouseData) {
-            this._parent.isHover = false
             if (!this._parent.isClicked) {
+                this._parent.isHover = false
                 this.parent.removeChild(this._parent.tooltip)
             }
         }
@@ -98,10 +98,12 @@ class BaseBuilding {
             if (this._parent.isHover) {
                 this.parent.removeChild(this._parent.tooltip)
             }
-            let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
-            this.parent.addChild(this._parent.buttonList)
-            this._parent.buttonList.x = ((mouseData.data.global.x + this._parent.buttonList.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.buttonList.width) * scale
-            this._parent.buttonList.y = ((mouseData.data.global.y + this._parent.buttonList.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.buttonList.height) * scale
+            if (window.mainMap._data.data[this._parent.chunkIndex].Owner === window.playerData.Username) {
+                let scale = Math.min(window.mainMapWidth / window.innerWidth, window.mainMapHeight / window.innerHeight)
+                this.parent.addChild(this._parent.buttonList)
+                this._parent.buttonList.x = ((mouseData.data.global.x + this._parent.buttonList.width < window.innerWidth) ? mouseData.data.global.x : mouseData.data.global.x - this._parent.buttonList.width) * scale
+                this._parent.buttonList.y = ((mouseData.data.global.y + this._parent.buttonList.height < window.innerHeight) ? mouseData.data.global.y : mouseData.data.global.y - this._parent.buttonList.height) * scale
+            }
         })
 
     }
